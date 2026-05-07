@@ -1,0 +1,32 @@
+# macOS
+.DS_Store
+
+# Xcode — 사용자별 상태/빌드 산출물
+build/
+DerivedData/
+*.xcuserstate
+*.xcscmblueprint
+*.xccheckout
+*.moved-aside
+xcuserdata/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+
+# Swift Package Manager
+.build/
+.swiftpm/
+Packages/
+Package.resolved
+
+# CocoaPods / Carthage (안 쓰면 무시되는 패턴)
+Pods/
+Carthage/Build/
+
+# Claude Code 로컬 메모리 — repo 에 올릴 필요 없음
+.claude/
