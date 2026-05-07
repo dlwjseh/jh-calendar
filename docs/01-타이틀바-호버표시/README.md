@@ -10,8 +10,8 @@ macOS 의 기본 타이틀바("JHCalendar" 글자가 박힌 회색 줄) 를 숨�
 ## 단계 체크리스트
 - [x] 01 - 기본 타이틀바 숨기기
 - [x] 02 - 트래픽라이트 버튼 직접 제어
-- [ ] 03 - 호버 영역과 상태 관리
-- [ ] 03-A - content view 를 타이틀바 영역까지 확장 *(03 진행 중 발견 — 단계 1 보강)*
+- [x] 03 - 호버 영역과 상태 관리
+- [x] 03-A - content view 를 타이틀바 영역까지 확장 *(03 진행 중 발견 — 단계 1 보강)*
 - [ ] 04 - 페이드 인/아웃 애니메이션
 
 ## 이 기능에서 학습할 Swift / SwiftUI 개념
@@ -21,6 +21,7 @@ macOS 의 기본 타이틀바("JHCalendar" 글자가 박힌 회색 줄) 를 숨�
 - `@State` 와 `.onHover { }` modifier
 - `ZStack` 과 `alignment` 로 레이어/배치
 - `OptionSet` 과 `NSWindow.styleMask` (`.fullSizeContentView`)
+- SwiftUI 의 safe area 와 `.ignoresSafeArea()` — AppKit/SwiftUI 두 레이어의 inset 정렬
 - `withAnimation { }` 과 `Animation.easeInOut`
 - AppKit 뷰의 애니메이션 (`.animator()`, `NSAnimationContext`)
 
