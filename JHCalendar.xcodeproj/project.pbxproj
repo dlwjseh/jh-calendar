@@ -14,11 +14,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		6958483F2FAC2D7C00244971 /* 01-기본 타이틀바 숨기기.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "01-기본 타이틀바 숨기기.md"; sourceTree = "<group>"; };
-		695848402FAC2D7C00244971 /* 02-트래픽라이트 버튼 직접 제어.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "02-트래픽라이트 버튼 직접 제어.md"; sourceTree = "<group>"; };
-		695848412FAC2D7C00244971 /* 03-호버 영역과 상태 관리.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "03-호버 영역과 상태 관리.md"; sourceTree = "<group>"; };
-		695848422FAC2D7C00244971 /* 04-페이드 인 아웃 애니메이션.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "04-페이드 인 아웃 애니메이션.md"; sourceTree = "<group>"; };
-		695848432FAC2D7C00244971 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D1D1D1D1D1D1D1D1D1D1D1D1 /* JHCalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JHCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2D2D2D2D2D2D2D2D2D2D2D2 /* JHCalendarApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JHCalendarApp.swift; sourceTree = "<group>"; };
 		D3D3D3D3D3D3D3D3D3D3D3D3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -38,30 +33,9 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		695848442FAC2D7C00244971 /* 01-타이틀바-호버표시 */ = {
-			isa = PBXGroup;
-			children = (
-				6958483F2FAC2D7C00244971 /* 01-기본 타이틀바 숨기기.md */,
-				695848402FAC2D7C00244971 /* 02-트래픽라이트 버튼 직접 제어.md */,
-				695848412FAC2D7C00244971 /* 03-호버 영역과 상태 관리.md */,
-				695848422FAC2D7C00244971 /* 04-페이드 인 아웃 애니메이션.md */,
-				695848432FAC2D7C00244971 /* README.md */,
-			);
-			path = "01-타이틀바-호버표시";
-			sourceTree = "<group>";
-		};
-		695848452FAC2D7C00244971 /* docs */ = {
-			isa = PBXGroup;
-			children = (
-				695848442FAC2D7C00244971 /* 01-타이틀바-호버표시 */,
-			);
-			path = docs;
-			sourceTree = "<group>";
-		};
 		C1C1C1C1C1C1C1C1C1C1C1C1 = {
 			isa = PBXGroup;
 			children = (
-				695848452FAC2D7C00244971 /* docs */,
 				C3C3C3C3C3C3C3C3C3C3C3C3 /* JHCalendar */,
 				C2C2C2C2C2C2C2C2C2C2C2C2 /* Products */,
 			);

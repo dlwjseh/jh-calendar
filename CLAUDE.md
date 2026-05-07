@@ -12,9 +12,11 @@
 
 ## 사용자 배경
 
-- 다른 프로그래밍 언어 경험 있음
+- **메인 스택**: Java, Spring Boot (백엔드 개발자)
+- **부가 경험**: Vue.js, JavaScript 약간
+- **그 외 언어/프레임워크는 잘 모름** — TypeScript, React, Rust, Kotlin, C#, Go 등은 비유에 쓰지 않는다
 - Swift / SwiftUI / macOS / Xcode 는 처음
-- → 설명 시 **다른 언어와의 비교/대조** 를 활용해 직관 형성
+- → 설명 시 **Java / Spring Boot / Vue.js / JavaScript** 와의 비교/대조를 활용해 직관 형성
 
 ## 기술 스택
 
