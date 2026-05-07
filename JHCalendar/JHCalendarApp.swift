@@ -6,5 +6,6 @@ struct JHCalendarApp: App {
         WindowGroup {
             ContentView()
         }
+        .windowStyle(.hiddenTitleBar)
     }
 }
