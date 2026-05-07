@@ -11,6 +11,7 @@
 - [x] 01 - 플로팅 컨테이너 만들기 (HStack + 배경 + 모서리 + 그림자)
 - [ ] 02 - 버튼과 SF Symbols
 - [ ] 03 - Material 배경으로 vibrancy 적용
+- [ ] 04 - 버튼 호버 시 손모양 커서
 
 ## 이 기능에서 학습할 Swift / SwiftUI 개념
 - `HStack` 으로 가로 layout 구성
@@ -21,10 +22,13 @@
 - `.buttonStyle(.plain)` — macOS 기본 button chrome 벗기기
 - `Material` (`.regularMaterial` 등) — vibrancy/blur 효과와 다크/라이트 자동 대응
 - 기존 `ZStack(alignment: .topLeading)` 위에 floating 레이어 한 층 더 얹기
+- `.onHover` + AppKit `NSCursor` 로 macOS 전용 커서 제어
+- View extension 으로 재사용 가능한 modifier 만들기 (`some View` opaque return type)
 
 ## 결과물 (이 기능 완료 후)
 - 윈도우 좌상단에 **캡슐(pill) 모양 + 가벼운 그림자** 가 있는 floating 영역이 떠 있다.
 - 그 안에 사이드바 모양 아이콘 1개 + '+' 아이콘 1개가 가로로 배치된다.
 - 클릭은 가능하지만 아직 실제 동작은 없다 (액션은 빈 클로저 / print 정도).
+- 버튼 위에 마우스를 올리면 커서가 손모양(pointing hand)으로 바뀌고, 빠지면 다시 화살표로 돌아온다.
 - 트래픽라이트가 호버로 나타날 때, floating 영역과 시각적으로 겹치지 않는다.
 - 시스템 외관(다크/라이트)을 바꿔도 카드 톤이 자연스럽게 적응한다.
