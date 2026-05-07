@@ -7,6 +7,8 @@ struct ContentView: View {
                 .frame(minWidth: 900, minHeight: 600)
 
             TrafficLightHoverArea()
+
+            FloatingToolbar()
         }
         .ignoresSafeArea()
     }
