@@ -11,6 +11,8 @@
 		E3E3E3E3E3E3E3E3E3E3E3E3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D3D3D3D3D3D3D3D3D3D3D3 /* ContentView.swift */; };
 		E4E4E4E4E4E4E4E4E4E4E4E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4D4D4D4D4D4D4D4D4D4D4D4 /* Assets.xcassets */; };
 		E5E5E5E5E5E5E5E5E5E5E5E5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D5D5D5D5D5D5D5D5D5D5D5D5 /* Preview Assets.xcassets */; };
+		F1F1F1F1F1F1F1F1F1F1F1F1 /* TrafficLightController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F3F3F3F3F3F3F3F3F3F3F3 /* TrafficLightController.swift */; };
+		F2F2F2F2F2F2F2F2F2F2F2F2 /* TrafficLightHoverArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F4F4F4F4F4F4F4F4F4F4F4 /* TrafficLightHoverArea.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +22,8 @@
 		D4D4D4D4D4D4D4D4D4D4D4D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D5D5D5D5D5D5D5D5D5D5D5D5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D6D6D6D6D6D6D6D6D6D6D6D6 /* JHCalendar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = JHCalendar.entitlements; sourceTree = "<group>"; };
+		F3F3F3F3F3F3F3F3F3F3F3F3 /* TrafficLightController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrafficLightController.swift; sourceTree = "<group>"; };
+		F4F4F4F4F4F4F4F4F4F4F4F4 /* TrafficLightHoverArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrafficLightHoverArea.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +58,7 @@
 			children = (
 				D2D2D2D2D2D2D2D2D2D2D2D2 /* JHCalendarApp.swift */,
 				D3D3D3D3D3D3D3D3D3D3D3D3 /* ContentView.swift */,
+				F5F5F5F5F5F5F5F5F5F5F5F5 /* Features */,
 				D4D4D4D4D4D4D4D4D4D4D4D4 /* Assets.xcassets */,
 				D6D6D6D6D6D6D6D6D6D6D6D6 /* JHCalendar.entitlements */,
 				C4C4C4C4C4C4C4C4C4C4C4C4 /* Preview Content */,
@@ -67,6 +72,23 @@
 				D5D5D5D5D5D5D5D5D5D5D5D5 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		F5F5F5F5F5F5F5F5F5F5F5F5 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				F6F6F6F6F6F6F6F6F6F6F6F6 /* TitleBar */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		F6F6F6F6F6F6F6F6F6F6F6F6 /* TitleBar */ = {
+			isa = PBXGroup;
+			children = (
+				F4F4F4F4F4F4F4F4F4F4F4F4 /* TrafficLightHoverArea.swift */,
+				F3F3F3F3F3F3F3F3F3F3F3F3 /* TrafficLightController.swift */,
+			);
+			path = TitleBar;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -141,6 +163,8 @@
 			files = (
 				E3E3E3E3E3E3E3E3E3E3E3E3 /* ContentView.swift in Sources */,
 				E2E2E2E2E2E2E2E2E2E2E2E2 /* JHCalendarApp.swift in Sources */,
+				F1F1F1F1F1F1F1F1F1F1F1F1 /* TrafficLightController.swift in Sources */,
+				F2F2F2F2F2F2F2F2F2F2F2F2 /* TrafficLightHoverArea.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

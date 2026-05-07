@@ -160,24 +160,38 @@ Claude 는 다음 순서로 수행한다:
 
 ---
 
-## 디렉토리 구조 (예시)
+## 디렉토리 구조
 
 ```
 JH-CALENDAR/
 ├── CLAUDE.md                          ← 본 파일
 ├── JHCalendar.xcodeproj/
 ├── JHCalendar/                        ← 실제 소스
-│   ├── JHCalendarApp.swift
-│   ├── ContentView.swift
-│   └── ...
+│   ├── JHCalendarApp.swift            ← 앱 진입점
+│   ├── ContentView.swift              ← 루트 뷰 조합 (작게 유지)
+│   ├── Features/                      ← 기능별 모듈
+│   │   ├── TitleBar/
+│   │   │   ├── TrafficLightHoverArea.swift   (호버 영역 + onHover 상태)
+│   │   │   └── TrafficLightController.swift  (AppKit 트래픽라이트 제어)
+│   │   └── <FeatureName>/             ← 새 기능은 이 아래에 폴더 신설
+│   ├── Assets.xcassets/
+│   ├── JHCalendar.entitlements
+│   └── Preview Content/
 └── docs/                              ← 학습 문서 루트
-    ├── 01-사이드바/
+    ├── 01-타이틀바-호버표시/
     │   ├── README.md                  ← 기능 요약 + 체크리스트
-    │   ├── 01-NSSplitView로 컨테이너 만들기.md
-    │   ├── 02-사이드바 너비 고정.md
+    │   ├── 01-기본 타이틀바 숨기기.md
     │   └── ...
     └── 02-...
 ```
+
+### 새 기능을 추가할 때
+
+- `JHCalendar/Features/<FeatureName>/` 폴더를 새로 만들고 그 안에 Swift 파일을 둔다.
+- 파일을 만든 뒤 **`JHCalendar.xcodeproj/project.pbxproj`** 에도 등록해야 빌드된다 (PBXFileReference + PBXBuildFile + 해당 그룹 children + PBXSourcesBuildPhase 4 군데).
+  - 새 기능 폴더라면 PBXGroup 도 새로 만들어 `Features` 그룹의 children 에 추가.
+- 등록 후 `xcodebuild -project JHCalendar.xcodeproj -scheme JHCalendar -configuration Debug build` 로 빌드 통과 확인.
+- **루트 `ContentView` 는 가능한 작게 유지** — 컴포넌트 조합만 하고, 상태/AppKit 호출은 각 Feature 안으로.
 
 ---
 
