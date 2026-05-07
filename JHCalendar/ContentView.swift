@@ -11,21 +11,30 @@ struct ContentView: View {
             
             Color.clear
                 .frame(width: 100, height: 40)
-                .onHover { hovering in
-                    isHovered = hovering
-                    print("hover: ", hovering)
-                }
+                .onHover { isHovered = $0 }
         }
         .ignoresSafeArea()
         .onAppear {
-            if let window = NSApplication.shared.windows.first {
-                window.styleMask.insert(.fullSizeContentView)
-                
-                let buttonTypes: [NSWindow.ButtonType] = [.closeButton, .miniaturizeButton, .zoomButton]
-                for buttonType in buttonTypes {
-                    window.standardWindowButton(buttonType)?.alphaValue = 0
-                }
+            setTrafficLightAlpha(0, animated: false)
+        }
+        .onChange(of: isHovered) { _, hovering in
+            setTrafficLightAlpha(hovering ? 1 : 0, animated: true)
+        }
+    }
+    
+    private func setTrafficLightAlpha(_ value: CGFloat, animated: Bool) {
+        guard let window = NSApplication.shared.windows.first else { return }
+        let buttons: [NSButton] = [.closeButton, .miniaturizeButton, .zoomButton]
+            .compactMap { window.standardWindowButton($0) }
+        
+        if animated {
+            NSAnimationContext.runAnimationGroup { ctx in
+                ctx.duration = 0.2
+                ctx.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+                buttons.forEach { $0.animator().alphaValue = value }
             }
+        } else {
+            buttons.forEach { $0.alphaValue = value }
         }
     }
 }
