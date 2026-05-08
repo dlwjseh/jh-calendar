@@ -23,8 +23,7 @@
 - `.buttonStyle(.plain)` — macOS 기본 button chrome 벗기기
 - `Material` (`.regularMaterial` 등) — vibrancy/blur 효과와 다크/라이트 자동 대응
 - 기존 `ZStack(alignment: .topLeading)` 위에 floating 레이어 한 층 더 얹기
-- `.onHover` + AppKit `NSCursor` 로 macOS 전용 커서 제어
-- View extension 으로 재사용 가능한 modifier 만들기 (`some View` opaque return type)
+- `.pointerStyle(.link)` — macOS 15+ 의 SwiftUI 표준 cursor modifier 와 `PointerStyle` enum
 - 작은 View 로 분리 + 멤버 변수로 파라미터 받기 (memberwise initializer)
 - `@State` 로 뷰 인스턴스의 UI 상태 (hover 여부) 관리
 - default 파라미터 값으로 호출 측 짧게 유지 (Java 오버로딩 흉내 → Swift 한 줄)

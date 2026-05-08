@@ -20,7 +20,7 @@
 
 ## 기술 스택
 
-- macOS 14+ / SwiftUI / Swift 5
+- macOS 15+ / SwiftUI / Swift 5
 - Xcode 26.4.1 (`JHCalendar.xcodeproj`)
 - Bundle ID: `com.jh.JHCalendar`
 

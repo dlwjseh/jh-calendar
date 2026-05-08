@@ -4,12 +4,12 @@
 - 반복되는 Button 패턴을 작은 **재사용 뷰** (`IconButton`) 로 뽑아낸다.
 - `@State` 로 뷰 인스턴스의 UI 상태(hover 여부) 를 관리한다.
 - default 파라미터 + `Color.primary.opacity(...)` 조합으로, **호출 측은 짧고 / 다양한 케이스(어두워지기·밝아지기) 는 자동 대응** 되는 구조를 만든다.
-- 그 안에 단계 4 의 `pointerCursor()` 를 끼워, 손모양 커서 + hover 배경이 한 컴포넌트에서 같이 따라오게 한다.
+- 그 안에 단계 4 의 `.pointerStyle(.link)` 를 끼워, 손모양 커서 + hover 배경이 한 컴포넌트에서 같이 따라오게 한다.
 
 ## 사전 지식
-- 단계 4 완료: `pointerCursor()` modifier 가 동작하고, 두 Button 위에서 손모양 커서가 뜬다.
+- 단계 4 완료: 두 Button 에 `.pointerStyle(.link)` 가 붙어 손모양 커서가 뜬다.
 - 단계 3 까지의 floating 카드(Material 배경 + Capsule + 그림자) 가 그대로 있다.
-- AppKit 호출은 단계 4 의 `pointerCursor()` 안에 캡슐화돼 있어, 이 단계에서는 SwiftUI 만 쓰면 된다.
+- 이 단계도 SwiftUI 만으로 가능 — AppKit 호출 없음.
 
 ## Swift / SwiftUI 개념
 
@@ -149,10 +149,10 @@ struct IconButton: View {
                 // TODO: 여기 뒤에 background + clipShape
         }
         .buttonStyle(.plain)
+        .pointerStyle(.link)
         .onHover { hovering in
             // TODO: isHovered 갱신
         }
-        .pointerCursor()
     }
 }
 ```
@@ -165,12 +165,12 @@ struct IconButton: View {
 ### 수정할 파일
 
 `JHCalendar/Features/FloatingToolbar/FloatingToolbar.swift`
-- 두 `Button { ... } label: { ... } .buttonStyle(.plain) .pointerCursor()` 블록을 각각 `IconButton(systemName: "...") { ... }` 한 줄로 대체.
-- `IconButton` 안에서 이미 `pointerCursor()` 와 hover 배경을 다 처리하므로, FloatingToolbar 의 HStack 자체는 훨씬 짧아진다.
+- 두 `Button { ... } label: { ... } .buttonStyle(.plain) .pointerStyle(.link)` 블록을 각각 `IconButton(systemName: "...") { ... }` 한 줄로 대체.
+- `IconButton` 안에서 이미 cursor 와 hover 배경을 다 처리하므로, FloatingToolbar 의 HStack 자체는 훨씬 짧아진다.
 
 ### project.pbxproj 등록
 
-새 파일이라 4군데 등록 필요 (PBXFileReference + PBXBuildFile + `FloatingToolbar` 그룹 children + PBXSourcesBuildPhase). 단계 4 의 `PointerCursor.swift` 등록할 때와 똑같은 패턴이라 그때 패치 diff 를 참고하면 빠르다.
+새 파일이라 4군데 등록 필요 (PBXFileReference + PBXBuildFile + `FloatingToolbar` 그룹 children + PBXSourcesBuildPhase). `CLAUDE.md` 의 "새 기능을 추가할 때" 항목 참조.
 
 ### 힌트
 
@@ -184,7 +184,7 @@ struct IconButton: View {
 - [ ] 멤버 변수 정의 (`systemName`, `hoverFill` (default), `action`) + `@State private var isHovered`
 - [ ] body 에 Button + Image label + frame + 조건부 background + clipShape
 - [ ] `.onHover` 에서 `isHovered` 갱신
-- [ ] `.buttonStyle(.plain)` + `.pointerCursor()` 적용
+- [ ] `.buttonStyle(.plain)` + `.pointerStyle(.link)` 적용
 - [ ] `project.pbxproj` 4군데 등록
 - [ ] `FloatingToolbar.swift` 의 두 Button 블록을 `IconButton(...) { ... }` 로 교체
 - [ ] ⌘B 빌드 통과 / ⌘R 실행
@@ -208,7 +208,7 @@ struct IconButton: View {
 - [ ] `@State isHovered` 가 IconButton **내부**에 있고 부모로 새지 않는다
 - [ ] `hoverFill` 에 default 값이 있어 호출 측이 한 줄에 머문다
 - [ ] hover 색은 시스템 적응형 (`Color.primary.opacity(...)` 또는 그에 준하는 적응형 색) — 하드코딩된 `.gray` 등이 아님
-- [ ] cursor 처리는 단계 4 의 `pointerCursor()` 재사용 — IconButton 안에서 다시 `.onHover` + `NSCursor` 를 박지 않음
+- [ ] cursor 처리는 `.pointerStyle(.link)` 한 줄 — `.onHover` + AppKit 우회를 새로 만들지 않음
 - [ ] `FloatingToolbar.swift` 가 짧아졌고, 거기서 직접 hover 상태를 갖지 않음
 - [ ] 새 파일이 `project.pbxproj` 4군데에 등록되어 빌드 통과
 
