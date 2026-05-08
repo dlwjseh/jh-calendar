@@ -72,11 +72,11 @@ Material 도 `.clipShape` 로 둥글게 잘린다. 단계 1 에서 이미 깔아
 - 다크모드 전환 후 카드가 너무 어두워 보이면 `.thinMaterial` 로 한 단계 얇게.
 
 ## 직접 구현하기
-- [ ] `.background` 의 단색 인자를 Material 로 교체 (`.regularMaterial` 또는 `.thinMaterial`)
-- [ ] ⌘B 빌드 → ⌘R 실행
-- [ ] 데스크톱 배경 색이 살짝 비치는지 확인 (윈도우를 사진/컬러풀한 배경 위로 옮겨서 비교)
-- [ ] 시스템 설정에서 라이트 ↔ 다크 모드 전환 → 카드가 자동으로 톤이 바뀌는지 확인
-- [ ] (선택) 그림자 강도 미세 조정
+- [x] `.background` 의 단색 인자를 Material 로 교체 (`.regularMaterial` 또는 `.thinMaterial`)
+- [x] ⌘B 빌드 → ⌘R 실행
+- [x] 데스크톱 배경 색이 살짝 비치는지 확인 (윈도우를 사진/컬러풀한 배경 위로 옮겨서 비교)
+- [x] 시스템 설정에서 라이트 ↔ 다크 모드 전환 → 카드가 자동으로 톤이 바뀌는지 확인
+- [x] (선택) 그림자 강도 미세 조정
 - [ ] (선택) `.regularMaterial` ↔ `.thinMaterial` ↔ `.ultraThinMaterial` 비교
 
 > 다 끝나면 "다 했어" 라고 알려줘. 리뷰할게.
@@ -90,11 +90,11 @@ Material 도 `.clipShape` 로 둥글게 잘린다. 단계 1 에서 이미 깔아
 
 ## Claude 리뷰 체크리스트
 *(Claude 가 리뷰 시 사용)*
-- [ ] `.background(.regularMaterial)` 또는 `.thinMaterial` 로 교체됨
-- [ ] `.clipShape` 가 여전히 동작 (Material 도 잘림)
-- [ ] 다크/라이트 모드 모두 자연스러움
-- [ ] 그림자 강도가 Material 의 가벼움과 어울림
-- [ ] modifier 순서가 단계 1 에서 정한 흐름을 깨지 않음 (background 위치만 바뀜)
+- [x] `.background(.regularMaterial)` 또는 `.thinMaterial` 로 교체됨
+- [x] `.clipShape` 가 여전히 동작 (Material 도 잘림)
+- [x] 다크/라이트 모드 모두 자연스러움
+- [x] 그림자 강도가 Material 의 가벼움과 어울림
+- [x] modifier 순서가 단계 1 에서 정한 흐름을 깨지 않음 (background 위치만 바뀜)
 
 ## 회고
 - 막혔던 부분?

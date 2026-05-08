@@ -24,9 +24,9 @@ struct FloatingToolbar: View {
         }
         .padding(.horizontal, 11)
         .padding(.vertical, 4)
-        .background(.white)
+        .background(.regularMaterial)
         .clipShape(.capsule)
-        .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 2)
+        .shadow(color: .black.opacity(0.1), radius: 7, x: 0, y: 2)
         .padding(.top, 10)
         .padding(.leading, 80)
     }
