@@ -3,8 +3,24 @@ import SwiftUI
 struct FloatingToolbar: View {
     var body: some View {
         HStack(spacing: 4) {
-            Color.gray.opacity(0.3).frame(width: 25, height: 25)
-            Color.gray.opacity(0.3).frame(width: 25, height: 25)
+            Button {
+                print("Sidebar 버튼 클릭")
+            } label: {
+                Image(systemName: "rectangle.leadinghalf.inset.filled")
+                    .font(.system(size: 14, weight: .medium))
+                    .foregroundStyle(.primary)
+                    .frame(width: 25, height: 25)
+            }
+            .buttonStyle(.plain)
+            Button {
+                print("Plus 버튼 클릭")
+            } label: {
+                Image(systemName: "plus")
+                    .font(.system(size: 14, weight: .medium))
+                    .foregroundStyle(.primary)
+                    .frame(width: 25, height: 25)
+            }
+            .buttonStyle(.plain)
         }
         .padding(.horizontal, 11)
         .padding(.vertical, 4)

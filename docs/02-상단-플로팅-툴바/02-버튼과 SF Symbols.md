@@ -133,14 +133,14 @@ HStack(spacing: 4) {
 - 두 버튼 사이 spacing 은 0~6pt 사이가 자연스럽다 (단계 1 의 HStack `spacing` 값).
 
 ## 직접 구현하기
-- [ ] HStack 안의 placeholder 2개를 `Button` 2개로 교체
-- [ ] 첫 버튼: 사이드바 아이콘 (예: `sidebar.left`)
-- [ ] 두 번째 버튼: `plus` 아이콘
-- [ ] 두 버튼 모두 `.buttonStyle(.plain)`
-- [ ] 액션 클로저는 빈 채로 두거나 `print(...)` 정도
-- [ ] 각 버튼 label 의 `.frame(width: 28, height: 28)` 으로 hit area 확보
-- [ ] ⌘B 빌드 → ⌘R 실행 → floating 카드 안에 아이콘 두 개가 보이는지 확인
-- [ ] 클릭 시 print 가 콘솔에 찍히는지 확인 (print 를 넣었다면)
+- [x] HStack 안의 placeholder 2개를 `Button` 2개로 교체
+- [x] 첫 버튼: 사이드바 아이콘 (예: `sidebar.left`)
+- [x] 두 번째 버튼: `plus` 아이콘
+- [x] 두 버튼 모두 `.buttonStyle(.plain)`
+- [x] 액션 클로저는 빈 채로 두거나 `print(...)` 정도
+- [x] 각 버튼 label 의 `.frame(width: 28, height: 28)` 으로 hit area 확보 — 사용자는 25×25 선택
+- [x] ⌘B 빌드 → ⌘R 실행 → floating 카드 안에 아이콘 두 개가 보이는지 확인
+- [x] 클릭 시 print 가 콘솔에 찍히는지 확인 (print 를 넣었다면)
 - [ ] (선택) `.buttonStyle(.plain)` 을 잠깐 빼보고 차이 비교
 
 > 다 끝나면 "다 했어" 라고 알려줘. 리뷰할게.
@@ -154,12 +154,12 @@ HStack(spacing: 4) {
 
 ## Claude 리뷰 체크리스트
 *(Claude 가 리뷰 시 사용)*
-- [ ] `Button { } label: { }` 패턴이 정확히 쓰임 (action 자리에 view 가 들어가지 않았는지 등)
-- [ ] 액션 클로저는 비어 있거나 print 만 (아직 실제 기능 X)
-- [ ] `.buttonStyle(.plain)` 적용
-- [ ] hit area 가 충분 (label 의 frame ≥ 24×24)
-- [ ] 아이콘 크기/색이 floating 카드 톤과 어울림 (`.secondary` 정도)
-- [ ] 두 버튼 spacing 이 단계 1 HStack 의 `spacing:` 인자 한 곳에서 일관되게 관리됨
+- [x] `Button { } label: { }` 패턴이 정확히 쓰임 (action 자리에 view 가 들어가지 않았는지 등)
+- [x] 액션 클로저는 비어 있거나 print 만 (아직 실제 기능 X)
+- [x] `.buttonStyle(.plain)` 적용
+- [x] hit area 가 충분 (label 의 frame ≥ 24×24) — 25×25
+- [~] 아이콘 크기/색이 floating 카드 톤과 어울림 — `.primary` 선택, 단계 3(Material) 적용 후 재평가
+- [x] 두 버튼 spacing 이 단계 1 HStack 의 `spacing:` 인자 한 곳에서 일관되게 관리됨
 
 ## 회고
 - 막혔던 부분?
