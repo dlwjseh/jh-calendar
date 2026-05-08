@@ -198,18 +198,18 @@ HStack(spacing: 0) {
 - 라이트/다크 모드 양쪽에서 자연스러운지.
 
 ## 직접 구현하기
-- [ ] `Features/Sidebar/Sidebar.swift` 생성 (placeholder 배경 + 폭)
-- [ ] `project.pbxproj` 4군데 등록 — 새 폴더라 `Sidebar` PBXGroup 도 신설
-- [ ] `ContentView` 를 HStack-기반 + overlay 구조로 재구성
-- [ ] HStack 안에 `if isSidebarVisible { Sidebar() }` 조건부 자식
-- [ ] 메인 영역은 `ZStack(alignment: .topLeading) { Color.clear; FloatingToolbar(...) }`
-- [ ] `.frame(minWidth: 900, minHeight: 600)` 을 HStack 에 적용
-- [ ] `.overlay(alignment: .topLeading) { TrafficLightHoverArea() }` 적용
-- [ ] `.ignoresSafeArea()` 유지
-- [ ] ⌘B 빌드 통과 / ⌘R 실행
-- [ ] 사이드바 버튼 클릭 시 즉시 push 토글 동작
-- [ ] 트래픽라이트 위치가 사이드바와 무관하게 좌상단 고정
-- [ ] 라이트/다크 모드 시각 확인
+- [x] `Features/Sidebar/Sidebar.swift` 생성 (placeholder 배경 + 폭)
+- [x] `project.pbxproj` 등록 — Xcode 16+ 의 `PBXFileSystemSynchronizedRootGroup` 방식으로 `Sidebar` 폴더 그룹 신설 (FloatingToolbar 와 동일 패턴)
+- [x] `ContentView` 를 HStack-기반 + overlay 구조로 재구성
+- [x] HStack 안에 `if isSidebarVisible { Sidebar() }` 조건부 자식
+- [x] 메인 영역은 `Color.clear` 만 (FloatingToolbar 는 별도 overlay 로 분리 — 회고 참조)
+- [x] `.frame(minWidth: 900, minHeight: 600)` 을 HStack 에 적용
+- [x] `.overlay(alignment: .topLeading) { TrafficLightHoverArea() }` + `.overlay(alignment: .topLeading) { FloatingToolbar(...) }` chain
+- [x] `.ignoresSafeArea()` 유지
+- [x] ⌘B 빌드 통과 / ⌘R 실행
+- [x] 사이드바 버튼 클릭 시 즉시 push 토글 동작
+- [x] 트래픽라이트 위치가 사이드바와 무관하게 좌상단 고정
+- [x] 라이트/다크 모드 시각 확인
 
 > 다 끝나면 "다 했어" 라고 알려줘.
 
@@ -222,20 +222,33 @@ HStack(spacing: 0) {
 
 ## Claude 리뷰 체크리스트
 *(Claude 가 리뷰 시 사용)*
-- [ ] `Features/Sidebar/Sidebar.swift` 가 별도 파일로 분리됨
-- [ ] `project.pbxproj` 4군데 등록 + 새 PBXGroup `Sidebar` 추가됨 (빌드 통과)
-- [ ] ContentView 가 HStack-기반 push 레이아웃으로 재구성됨
-- [ ] 사이드바가 `if isSidebarVisible { Sidebar() }` 로 조건부 표시됨
-- [ ] 메인 영역의 FloatingToolbar 가 사이드바와 함께 우측으로 밀림
-- [ ] TrafficLightHoverArea 가 `.overlay(alignment: .topLeading)` 으로 분리되어 사이드바와 무관하게 고정
-- [ ] minWidth/minHeight 이 적절한 위치 (HStack) 에 옮겨짐
-- [ ] 토글이 즉시 (애니메이션 없이) 동작 — 다음 단계 여백을 둠
-- [ ] FloatingToolbar 의 leading padding 이 사이드바 push 와 모순되지 않는지 검토 (필요시 줄이거나 제거)
+- [x] `Features/Sidebar/Sidebar.swift` 가 별도 파일로 분리됨
+- [x] `project.pbxproj` 등록 — Xcode 16+ `PBXFileSystemSynchronizedRootGroup` 방식 (빌드 통과)
+- [x] ContentView 가 HStack-기반 push 레이아웃으로 재구성됨
+- [x] 사이드바가 `if isSidebarVisible { Sidebar() }` 로 조건부 표시됨
+- [x] **사용자 디자인 결정**: FloatingToolbar 는 사이드바와 함께 밀리지 않고 윈도우 고정 (overlay 로 분리). 트래픽라이트와 동일 카테고리.
+- [x] TrafficLightHoverArea 가 `.overlay(alignment: .topLeading)` 으로 분리되어 사이드바와 무관하게 고정
+- [x] minWidth/minHeight 이 적절한 위치 (HStack) 에 옮겨짐
+- [x] 토글이 즉시 (애니메이션 없이) 동작 — 다음 단계 여백을 둠
+- [x] overlay 두 개 chain 으로 z-order 명시 (트래픽라이트 → FloatingToolbar 순)
 
 ## 회고
+- **디자인 결정**: 가이드 의사 코드는 FloatingToolbar 를 메인 영역 안에 두어 사이드바와 함께 밀리는 형태였지만, 직접 써보니 툴바가 항상 같은 자리에 있는 편이 더 자연스러워서 트래픽라이트와 같은 overlay 액세서리 카테고리로 분리.
+  - 결과 구조:
+    ```swift
+    HStack(spacing: 0) {
+        if isSidebarVisible { Sidebar() }
+        Color.clear
+    }
+    .frame(minWidth: 900, minHeight: 600)
+    .overlay(alignment: .topLeading) { TrafficLightHoverArea() }
+    .overlay(alignment: .topLeading) { FloatingToolbar(isSidebarVisible: $isSidebarVisible) }
+    .ignoresSafeArea()
+    ```
+  - overlay 를 두 번 chain 한 이유: 두 액세서리가 서로 다른 책임이라는 점 + 그리는 순서(z-order) 가 chain 순으로 명시됨 — 뒤에 chain 한 게 위로 올라옴.
 - 막혔던 부분?
 - 추가로 궁금했던 점?
-> *(직접 채우는 영역)*
+> *(사용자가 추가로 채우는 영역)*
 
 ## 조금 더 (선택)
 - **NavigationSplitView**: macOS 의 표준 사이드바 패턴은 사실 `NavigationSplitView` 다 (Apple 캘린더/메일이 쓰는 그것). toolbar 는 SwiftUI 의 표준 toolbar API 와 맞물려 동작. 다만 우리 앱은 floating 한 커스텀 툴바를 이미 만들어서, NavigationSplitView 를 같이 쓰면 두 toolbar 영역이 충돌한다. 학습 트레이드오프: NavigationSplitView 는 macOS 관용에 정확히 맞지만 black-box 가 많고, 커스텀 HStack 은 SwiftUI 의 일반 개념(state/binding/animation/transition) 학습이 더 잘 된다. 우리는 후자 선택.

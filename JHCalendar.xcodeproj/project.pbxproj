@@ -27,6 +27,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		690C949A2FADA37A00C335BD /* Sidebar */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Sidebar; sourceTree = "<group>"; };
 		694B4D4E2FAC85B9006371CB /* FloatingToolbar */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = FloatingToolbar; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
@@ -81,6 +82,7 @@
 		F5F5F5F5F5F5F5F5F5F5F5F5 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				690C949A2FADA37A00C335BD /* Sidebar */,
 				694B4D4E2FAC85B9006371CB /* FloatingToolbar */,
 				F6F6F6F6F6F6F6F6F6F6F6F6 /* TitleBar */,
 			);
@@ -112,6 +114,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				690C949A2FADA37A00C335BD /* Sidebar */,
 				694B4D4E2FAC85B9006371CB /* FloatingToolbar */,
 			);
 			name = JHCalendar;

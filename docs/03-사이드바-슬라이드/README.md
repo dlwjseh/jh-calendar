@@ -9,7 +9,7 @@
 
 ## 단계 체크리스트
 - [x] 01 - 상태 끌어올리기 + `@Binding`
-- [ ] 02 - Sidebar 뷰 + 조건부 레이아웃 (push)
+- [x] 02 - Sidebar 뷰 + 조건부 레이아웃 (push)
 - [ ] 03 - slide-in/out 애니메이션 + transition
 
 ## 이 기능에서 학습할 Swift / SwiftUI 개념

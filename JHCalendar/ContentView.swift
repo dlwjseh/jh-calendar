@@ -4,14 +4,15 @@ struct ContentView: View {
     @State private var isSidebarVisible = false
     
     var body: some View {
-        ZStack(alignment: .topLeading) {
+        HStack(spacing: 0) {
+            if isSidebarVisible {
+                Sidebar()
+            }
             Color.clear
-                .frame(minWidth: 900, minHeight: 600)
-
-            TrafficLightHoverArea()
-
-            FloatingToolbar(isSidebarVisible: $isSidebarVisible)
         }
+        .frame(minWidth: 900, minHeight: 600)
+        .overlay(alignment: .topLeading) { TrafficLightHoverArea() }
+        .overlay(alignment: .topLeading) { FloatingToolbar(isSidebarVisible: $isSidebarVisible) }
         .ignoresSafeArea()
     }
 }
