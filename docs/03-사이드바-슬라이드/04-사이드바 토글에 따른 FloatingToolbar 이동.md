@@ -136,14 +136,14 @@ private var leadingInset: CGFloat {
 - `.offset(x: ...)` 로 같은 시각 효과를 흉내내보고 padding 분기와 비교 — offset 은 layout 시스템 밖이라 다른 자식의 reflow 를 trigger 안 함, padding 은 layout 시스템 안. 의미가 다르다는 걸 손으로 확인.
 
 ## 직접 구현하기
-- [ ] `FloatingToolbar.swift` 의 `.padding(.leading, 80)` 을 `isSidebarVisible` 에 따라 분기
-- [ ] 열림 padding 값 결정 (시도 → 시각 확인 → 본인 취향)
-- [ ] ⌘B 빌드 통과 / ⌘R 실행
-- [ ] 사이드바 닫힘: 트래픽라이트 우측 80pt 위치 유지
-- [ ] 사이드바 열림: 메인 영역 좌상단 코너 느낌
-- [ ] 토글 시 사이드바 + 메인 push + 플로팅 툴바 padding 변화가 **같은 곡선** 으로 동시 보간
-- [ ] 빠른 연속 토글 시 jitter 없음
-- [ ] 라이트/다크 모드 양쪽 시각 확인
+- [x] `FloatingToolbar.swift` 의 `.padding(.leading, 80)` 을 `isSidebarVisible` 에 따라 분기
+- [x] 열림 padding 값 결정 (시도 → 시각 확인 → 본인 취향)
+- [x] ⌘B 빌드 통과 / ⌘R 실행
+- [x] 사이드바 닫힘: 트래픽라이트 우측 80pt 위치 유지
+- [x] 사이드바 열림: 메인 영역 좌상단 코너 느낌
+- [x] 토글 시 사이드바 + 메인 push + 플로팅 툴바 padding 변화가 **같은 곡선** 으로 동시 보간
+- [x] 빠른 연속 토글 시 jitter 없음
+- [x] 라이트/다크 모드 양쪽 시각 확인
 
 > 다 끝나면 "다 했어" 라고 알려줘.
 
@@ -156,12 +156,12 @@ private var leadingInset: CGFloat {
 
 ## Claude 리뷰 체크리스트
 *(Claude 가 리뷰 시 사용)*
-- [ ] `FloatingToolbar.swift` 의 leading padding 이 `isSidebarVisible` 에 따라 분기
-- [ ] 분기 값이 합리적인 범위 (열림: 10~16 / 닫힘: 80)
-- [ ] 분기 표현이 ternary 또는 computed property — 어느 쪽이든 의도가 명확
-- [ ] 단계 3 의 `withAnimation` 컨텍스트와 짝지어 padding 도 같은 곡선으로 보간됨 (별도 애니메이션 추가 없이)
-- [ ] FloatingToolbar 가 사이드바 두 상태에서 적절한 위치
-- [ ] 트래픽라이트가 두 상태 모두에서 시각적으로 어색하지 않음
+- [x] `FloatingToolbar.swift` 의 leading padding 이 `isSidebarVisible` 에 따라 분기
+- [x] 분기 값이 합리적인 범위 (열림: 10~16 / 닫힘: 80)
+- [x] 분기 표현이 ternary 또는 computed property — 어느 쪽이든 의도가 명확
+- [x] 단계 3 의 `withAnimation` 컨텍스트와 짝지어 padding 도 같은 곡선으로 보간됨 (별도 애니메이션 추가 없이)
+- [x] FloatingToolbar 가 사이드바 두 상태에서 적절한 위치
+- [x] 트래픽라이트가 두 상태 모두에서 시각적으로 어색하지 않음
 
 ## 회고
 - 막혔던 부분?

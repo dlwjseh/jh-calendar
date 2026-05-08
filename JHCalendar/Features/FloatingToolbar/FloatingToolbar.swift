@@ -30,6 +30,6 @@ struct FloatingToolbar: View {
         .clipShape(.capsule)
         .shadow(color: .black.opacity(0.1), radius: 7, x: 0, y: 2)
         .padding(.top, 10)
-        .padding(.leading, 80)
+        .padding(.leading, isSidebarVisible ? 12 : 80)
     }
 }
