@@ -12,7 +12,7 @@
 - [x] 02 - 버튼과 SF Symbols
 - [x] 03 - Material 배경으로 vibrancy 적용
 - [x] 04 - 버튼 호버 시 손모양 커서
-- [ ] 05 - IconButton 뷰로 분리 + hover 배경
+- [ ] 05 - HoverButton 뷰로 분리 + hover 배경 (범용 label)
 
 ## 이 기능에서 학습할 Swift / SwiftUI 개념
 - `HStack` 으로 가로 layout 구성
@@ -25,10 +25,13 @@
 - 기존 `ZStack(alignment: .topLeading)` 위에 floating 레이어 한 층 더 얹기
 - `.pointerStyle(.link)` — macOS 15+ 의 SwiftUI 표준 cursor modifier 와 `PointerStyle` enum
 - 작은 View 로 분리 + 멤버 변수로 파라미터 받기 (memberwise initializer)
+- **제네릭 (`struct HoverButton<Label: View>`)** — Java generics 와 같은 발상, 임의 자식 View 타입 받기
+- **`@ViewBuilder`** — Vue `<slot>` 에 대응되는 SwiftUI 의 자식 콘텐츠 주입 메커니즘
 - `@State` 로 뷰 인스턴스의 UI 상태 (hover 여부) 관리
 - default 파라미터 값으로 호출 측 짧게 유지 (Java 오버로딩 흉내 → Swift 한 줄)
 - `Color.primary.opacity(...)` 로 다크/라이트 자동 대응되는 hover 톤
 - 조건부 modifier 값 (state 에 따라 `.background` 색 바꾸기)
+- `Button(action:label:)` 과 같은 trailing closure 두 개 시그니처
 
 ## 결과물 (이 기능 완료 후)
 - 윈도우 좌상단에 **캡슐(pill) 모양 + 가벼운 그림자** 가 있는 floating 영역이 떠 있다.
