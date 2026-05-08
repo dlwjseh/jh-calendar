@@ -9,11 +9,13 @@ struct ContentView: View {
                 Sidebar()
                     .transition(.move(edge: .leading))
             }
-            Color.clear
+            ZStack(alignment: .topLeading) {
+                Color.clear
+                FloatingToolbar(isSidebarVisible: $isSidebarVisible)
+            }
         }
         .frame(minWidth: 900, minHeight: 600)
         .overlay(alignment: .topLeading) { TrafficLightHoverArea() }
-        .overlay(alignment: .topLeading) { FloatingToolbar(isSidebarVisible: $isSidebarVisible) }
         .ignoresSafeArea()
     }
 }

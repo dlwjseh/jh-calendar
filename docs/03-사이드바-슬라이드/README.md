@@ -11,6 +11,7 @@
 - [x] 01 - 상태 끌어올리기 + `@Binding`
 - [x] 02 - Sidebar 뷰 + 조건부 레이아웃 (push)
 - [x] 03 - slide-in/out 애니메이션 + transition
+- [ ] 04 - 사이드바 토글에 따른 FloatingToolbar 이동
 
 ## 이 기능에서 학습할 Swift / SwiftUI 개념
 - **State lifting** — 여러 뷰가 공유하는 상태는 가장 가까운 공통 부모에 둔다는 원칙
@@ -24,6 +25,8 @@
 - **`withAnimation { ... }` (명시) vs `.animation(_:value:)` (암시)** — 둘 다 있는 이유
 - **`.transition(...)`** — 뷰가 추가/제거될 때의 등장/퇴장 효과 (`.move(edge: .leading)`)
 - **Spring animation** (`.spring`, `.smooth`, `.snappy`, `.bouncy`) — Apple 이 macOS 14+ 에서 정리한 시맨틱 spring presets
+- **Animatable layout 값** — `padding`/`offset` 같은 `CGFloat` 인자가 `withAnimation` 컨텍스트 안에서 자동으로 보간되는 원리
+- **ZStack alignment 와 부모 frame 변화의 협동** — 부모가 줄어들면 자식 좌표가 자동 추적
 - 매끄러운 사이드바 toggle 의 macOS 표준 UX
 
 ## 결과물 (이 기능 완료 후)
