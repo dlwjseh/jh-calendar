@@ -11,7 +11,7 @@
 - [x] 01 - 플로팅 컨테이너 만들기 (HStack + 배경 + 모서리 + 그림자)
 - [x] 02 - 버튼과 SF Symbols
 - [x] 03 - Material 배경으로 vibrancy 적용
-- [ ] 04 - 버튼 호버 시 손모양 커서
+- [x] 04 - 버튼 호버 시 손모양 커서
 - [ ] 05 - IconButton 뷰로 분리 + hover 배경
 
 ## 이 기능에서 학습할 Swift / SwiftUI 개념

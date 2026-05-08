@@ -12,6 +12,7 @@ struct FloatingToolbar: View {
                     .frame(width: 25, height: 25)
             }
             .buttonStyle(.plain)
+            .pointerStyle(.link)
             Button {
                 print("Plus 버튼 클릭")
             } label: {
@@ -21,6 +22,7 @@ struct FloatingToolbar: View {
                     .frame(width: 25, height: 25)
             }
             .buttonStyle(.plain)
+            .pointerStyle(.link)
         }
         .padding(.horizontal, 11)
         .padding(.vertical, 4)
