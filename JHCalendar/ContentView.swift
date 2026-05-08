@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var isSidebarVisible = false
+    
     var body: some View {
         ZStack(alignment: .topLeading) {
             Color.clear
@@ -8,7 +10,7 @@ struct ContentView: View {
 
             TrafficLightHoverArea()
 
-            FloatingToolbar()
+            FloatingToolbar(isSidebarVisible: $isSidebarVisible)
         }
         .ignoresSafeArea()
     }

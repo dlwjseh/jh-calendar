@@ -144,14 +144,14 @@ struct FloatingToolbar: View {
 - `@State` 옆 `private` 는 SwiftUI 관용 — 외부 노출이 의미 없음. 자식은 `@State` 를 직접 못 읽고 `@Binding` 으로만 받는다.
 
 ## 직접 구현하기
-- [ ] `ContentView` 에 `@State private var isSidebarVisible = false` 추가
-- [ ] `FloatingToolbar(isSidebarVisible: $isSidebarVisible)` 로 호출 갱신
-- [ ] `FloatingToolbar` 에 `@Binding var isSidebarVisible: Bool` 멤버 추가
-- [ ] 사이드바 버튼 액션을 `isSidebarVisible.toggle()` 로 변경
-- [ ] print 또는 임시 Text 로 toggle 동작 확인
-- [ ] ⌘B 빌드 통과 / ⌘R 실행
-- [ ] 사이드바 버튼 누를 때마다 값이 true ↔ false 로 바뀌는지 확인
-- [ ] (확인 끝나면) print / 임시 Text 제거 — 다음 단계는 진짜 사이드바 뷰
+- [x] `ContentView` 에 `@State private var isSidebarVisible = false` 추가
+- [x] `FloatingToolbar(isSidebarVisible: $isSidebarVisible)` 로 호출 갱신
+- [x] `FloatingToolbar` 에 `@Binding var isSidebarVisible: Bool` 멤버 추가
+- [x] 사이드바 버튼 액션을 `isSidebarVisible.toggle()` 로 변경
+- [x] print 또는 임시 Text 로 toggle 동작 확인
+- [x] ⌘B 빌드 통과 / ⌘R 실행
+- [x] 사이드바 버튼 누를 때마다 값이 true ↔ false 로 바뀌는지 확인
+- [x] (확인 끝나면) print / 임시 Text 제거 — 다음 단계는 진짜 사이드바 뷰
 
 > 다 끝나면 "다 했어" / "이렇게 했어" 라고 알리면 Claude 가 리뷰.
 
@@ -165,12 +165,12 @@ struct FloatingToolbar: View {
 
 ## Claude 리뷰 체크리스트
 *(Claude 가 리뷰 시 사용)*
-- [ ] `ContentView` 에 `@State private var isSidebarVisible = false` 가 있다 (private 포함)
-- [ ] `FloatingToolbar` 가 `@Binding var isSidebarVisible: Bool` 멤버 (default 값 없음) 를 받는다
-- [ ] ContentView 호출부가 `$isSidebarVisible` 으로 binding 을 전달
-- [ ] 사이드바 버튼 액션이 `isSidebarVisible.toggle()` (또는 그에 준하는 갱신)
-- [ ] 토글 동작이 콘솔/임시 Text 로 검증 가능
-- [ ] 임시 디버그 코드 (print/Text) 가 단계 종료 후 제거되거나 주석으로 남았는지
+- [x] `ContentView` 에 `@State private var isSidebarVisible = false` 가 있다 (private 포함)
+- [x] `FloatingToolbar` 가 `@Binding var isSidebarVisible: Bool` 멤버 (default 값 없음) 를 받는다
+- [x] ContentView 호출부가 `$isSidebarVisible` 으로 binding 을 전달
+- [x] 사이드바 버튼 액션이 `isSidebarVisible.toggle()` (또는 그에 준하는 갱신)
+- [x] 토글 동작이 콘솔/임시 Text 로 검증 가능
+- [x] 임시 디버그 코드 (print/Text) 가 단계 종료 후 제거되거나 주석으로 남았는지
 
 ## 회고
 - 막혔던 부분?

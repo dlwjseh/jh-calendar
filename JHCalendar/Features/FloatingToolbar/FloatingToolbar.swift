@@ -1,10 +1,12 @@
 import SwiftUI
 
 struct FloatingToolbar: View {
+    @Binding var isSidebarVisible: Bool
+    
     var body: some View {
         HStack(spacing: 0) {
             HoverButton {
-                print("Sidebar 버튼 클릭")
+                isSidebarVisible.toggle()
             } label: {
                 Image(systemName: "rectangle.leadinghalf.inset.filled")
                     .font(.system(size: 14, weight: .medium))
