@@ -171,15 +171,15 @@ if isSidebarVisible {
 - `.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .leading))` — 의도를 명시적으로 적되 동작은 같음. 등장/퇴장이 달라질 때 진가.
 
 ## 직접 구현하기
-- [ ] FloatingToolbar 의 사이드바 버튼 액션을 `withAnimation(...) { isSidebarVisible.toggle() }` 로 감싸기
-- [ ] ContentView 의 `if isSidebarVisible { Sidebar() }` 안의 Sidebar 에 `.transition(.move(edge: .leading))` 부여
-- [ ] spring preset 을 `.smooth` / `.snappy` / `.spring(duration: 0.3, bounce: 0.1)` 중 하나로 선택
-- [ ] ⌘B 빌드 통과 / ⌘R 실행
-- [ ] 사이드바 슬라이드 인/아웃이 부드럽게 동작
-- [ ] 메인 영역 + 플로팅 툴바가 같은 곡선으로 함께 밀림
-- [ ] 빠른 연속 클릭 시 도중 반전이 자연스러움
-- [ ] 라이트/다크 모드 양쪽 시각 확인
-- [ ] 트래픽라이트는 애니메이션과 무관하게 고정
+- [x] FloatingToolbar 의 사이드바 버튼 액션을 `withAnimation(...) { isSidebarVisible.toggle() }` 로 감싸기
+- [x] ContentView 의 `if isSidebarVisible { Sidebar() }` 안의 Sidebar 에 `.transition(.move(edge: .leading))` 부여
+- [x] spring preset 을 `.smooth` / `.snappy` / `.spring(duration: 0.3, bounce: 0.1)` 중 하나로 선택
+- [x] ⌘B 빌드 통과 / ⌘R 실행
+- [x] 사이드바 슬라이드 인/아웃이 부드럽게 동작
+- [x] 메인 영역 + 플로팅 툴바가 같은 곡선으로 함께 밀림
+- [x] 빠른 연속 클릭 시 도중 반전이 자연스러움
+- [x] 라이트/다크 모드 양쪽 시각 확인
+- [x] 트래픽라이트는 애니메이션과 무관하게 고정
 - [ ] (선택) `.animation(_:value:)` 버전도 만들어 비교 후 본인 취향으로 합치기
 
 > 다 끝나면 "다 했어" 라고 알려줘.
@@ -194,13 +194,13 @@ if isSidebarVisible {
 
 ## Claude 리뷰 체크리스트
 *(Claude 가 리뷰 시 사용)*
-- [ ] 사이드바 toggle 이 `withAnimation` 또는 `.animation(_:value:)` 컨텍스트 안에서 일어남
-- [ ] Sidebar 에 `.transition(.move(edge: .leading))` (또는 동등한 transition) 이 직접 부여됨
-- [ ] spring preset 이 macOS 14+ 시맨틱 이름 사용 (`.smooth` / `.snappy` / `.spring(duration:bounce:)`) — 매직 넘버 (`response:dampingFraction:`) 는 가급적 피함
-- [ ] Sidebar 가 슬라이드인/아웃 되며 메인 영역도 같은 곡선으로 push
-- [ ] 빠른 연속 토글 시 jitter 없이 자연스러운 반전
-- [ ] 트래픽라이트가 애니메이션 영향 안 받음
-- [ ] FloatingToolbar 의 leading padding 이 사이드바 push 와 시각적으로 부조리하지 않음 (단계 2 메모 후속)
+- [x] 사이드바 toggle 이 `withAnimation` 또는 `.animation(_:value:)` 컨텍스트 안에서 일어남
+- [x] Sidebar 에 `.transition(.move(edge: .leading))` (또는 동등한 transition) 이 직접 부여됨
+- [x] spring preset 이 macOS 14+ 시맨틱 이름 사용 (`.smooth` / `.snappy` / `.spring(duration:bounce:)`) — 매직 넘버 (`response:dampingFraction:`) 는 가급적 피함
+- [x] Sidebar 가 슬라이드인/아웃 되며 메인 영역도 같은 곡선으로 push
+- [x] 빠른 연속 토글 시 jitter 없이 자연스러운 반전
+- [x] 트래픽라이트가 애니메이션 영향 안 받음
+- [x] FloatingToolbar 의 leading padding 이 사이드바 push 와 시각적으로 부조리하지 않음 (단계 2 메모 후속)
 
 ## 회고
 - 막혔던 부분?

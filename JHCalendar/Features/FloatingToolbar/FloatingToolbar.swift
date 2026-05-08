@@ -6,7 +6,9 @@ struct FloatingToolbar: View {
     var body: some View {
         HStack(spacing: 0) {
             HoverButton {
-                isSidebarVisible.toggle()
+                withAnimation(.smooth) {
+                    isSidebarVisible.toggle()
+                }
             } label: {
                 Image(systemName: "rectangle.leadinghalf.inset.filled")
                     .font(.system(size: 14, weight: .medium))

@@ -7,6 +7,7 @@ struct ContentView: View {
         HStack(spacing: 0) {
             if isSidebarVisible {
                 Sidebar()
+                    .transition(.move(edge: .leading))
             }
             Color.clear
         }

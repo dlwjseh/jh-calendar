@@ -10,7 +10,7 @@
 ## 단계 체크리스트
 - [x] 01 - 상태 끌어올리기 + `@Binding`
 - [x] 02 - Sidebar 뷰 + 조건부 레이아웃 (push)
-- [ ] 03 - slide-in/out 애니메이션 + transition
+- [x] 03 - slide-in/out 애니메이션 + transition
 
 ## 이 기능에서 학습할 Swift / SwiftUI 개념
 - **State lifting** — 여러 뷰가 공유하는 상태는 가장 가까운 공통 부모에 둔다는 원칙
