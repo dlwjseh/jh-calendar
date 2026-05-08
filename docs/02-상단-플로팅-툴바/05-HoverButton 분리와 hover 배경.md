@@ -277,20 +277,20 @@ HoverButton {
 - 텍스트 버튼이 잘 받아지는지 mental check: `HoverButton { print("hi") } label: { Text("저장") }` 도 자연스럽게 컴파일 통과해야 한다 (지금 화면엔 안 넣지만, 머릿속으로 시그니처 확인).
 
 ## 직접 구현하기
-- [ ] `Features/FloatingToolbar/HoverButton.swift` 생성
-- [ ] 타입 파라미터 `<Label: View>` 선언
-- [ ] 멤버 변수 정의: `hoverFill` (default), `cornerRadius` (default), `action`, `@ViewBuilder label`
-- [ ] `@State private var isHovered`
-- [ ] body 에 Button + label() + padding + 조건부 background + clipShape
-- [ ] `.onHover` 에서 `isHovered` 갱신
-- [ ] `.buttonStyle(.plain)` + `.pointerStyle(.link)` 적용
-- [ ] `project.pbxproj` 4군데 등록
-- [ ] `FloatingToolbar.swift` 의 두 Button 블록을 `HoverButton { ... } label: { ... }` 로 교체
-- [ ] ⌘B 빌드 통과 / ⌘R 실행
-- [ ] hover 시 배경이 살짝 어두워지고, 빠지면 원상복귀
-- [ ] 두 버튼이 **각자** hover 동작 (한쪽만 어두워짐)
-- [ ] 다크 모드로 바꿔도 자연스러운지 (System Settings → Appearance)
-- [ ] 손모양 커서도 그대로 작동하는지 (단계 4 회귀 없는지)
+- [x] `Features/FloatingToolbar/HoverButton.swift` 생성
+- [x] 타입 파라미터 `<Label: View>` 선언
+- [x] 멤버 변수 정의: `hoverFill` (default), `cornerRadius` (default), `action`, `@ViewBuilder label`
+- [x] `@State private var isHovered`
+- [x] body 에 Button + label() + padding + 조건부 background + clipShape
+- [x] `.onHover` 에서 `isHovered` 갱신
+- [x] `.buttonStyle(.plain)` + `.pointerStyle(.link)` 적용
+- [x] `project.pbxproj` 4군데 등록
+- [x] `FloatingToolbar.swift` 의 두 Button 블록을 `HoverButton { ... } label: { ... }` 로 교체
+- [x] ⌘B 빌드 통과 / ⌘R 실행
+- [x] hover 시 배경이 살짝 어두워지고, 빠지면 원상복귀
+- [x] 두 버튼이 **각자** hover 동작 (한쪽만 어두워짐)
+- [x] 다크 모드로 바꿔도 자연스러운지 (System Settings → Appearance)
+- [x] 손모양 커서도 그대로 작동하는지 (단계 4 회귀 없는지)
 
 > 다 끝나면 "다 했어" 라고 알려줘. 리뷰할게.
 
@@ -305,17 +305,17 @@ HoverButton {
 
 ## Claude 리뷰 체크리스트
 *(Claude 가 리뷰 시 사용)*
-- [ ] `HoverButton` 이 단일 책임만 갖는다 (인터랙션 묶음: hover 배경 + 손모양 커서 + plain style)
-- [ ] 제네릭 타입 파라미터 `<Label: View>` 와 `@ViewBuilder label` 로 임의 콘텐츠 받음
-- [ ] `Button(action:label:)` 과 같은 trailing closure 두 개 시그니처 (호출 측 일관성)
-- [ ] `@State isHovered` 가 HoverButton **내부**에 있고 부모로 새지 않는다
-- [ ] `hoverFill`, `cornerRadius` 에 default 값이 있어 호출 측이 한 줄에 머문다
-- [ ] hover 색은 시스템 적응형 (`Color.primary.opacity(...)` 또는 그에 준하는 적응형 색) — 하드코딩된 `.gray` 등이 아님
-- [ ] cursor 처리는 `.pointerStyle(.link)` 한 줄 — `.onHover` + AppKit 우회를 새로 만들지 않음
-- [ ] padding 은 컴포넌트 책임, label 의 폰트/크기는 호출 측 책임으로 분리됨
-- [ ] `FloatingToolbar.swift` 가 짧아졌고, 거기서 직접 hover 상태를 갖지 않음
-- [ ] 새 파일이 `project.pbxproj` 4군데에 등록되어 빌드 통과
-- [ ] mental check: 텍스트 label (`HoverButton { ... } label: { Text("...") }`) 도 컴파일·실행에 무리 없는 형태
+- [x] `HoverButton` 이 단일 책임만 갖는다 (인터랙션 묶음: hover 배경 + 손모양 커서 + plain style)
+- [x] 제네릭 타입 파라미터 `<Label: View>` 와 `@ViewBuilder label` 로 임의 콘텐츠 받음
+- [x] `Button(action:label:)` 과 같은 trailing closure 두 개 시그니처 (호출 측 일관성)
+- [x] `@State isHovered` 가 HoverButton **내부**에 있고 부모로 새지 않는다
+- [x] `hoverFill`, `cornerRadius` 에 default 값이 있어 호출 측이 한 줄에 머문다 *(현재 구현은 `hoverfill` — Swift 관용 camelCase 로 정정 권장)*
+- [x] hover 색은 시스템 적응형 (`Color.primary.opacity(...)` 또는 그에 준하는 적응형 색) — 하드코딩된 `.gray` 등이 아님
+- [x] cursor 처리는 `.pointerStyle(.link)` 한 줄 — `.onHover` + AppKit 우회를 새로 만들지 않음
+- [x] padding 은 컴포넌트 책임, label 의 폰트/크기는 호출 측 책임으로 분리됨
+- [x] `FloatingToolbar.swift` 가 짧아졌고, 거기서 직접 hover 상태를 갖지 않음
+- [x] 새 파일이 `project.pbxproj` 4군데에 등록되어 빌드 통과
+- [x] mental check: 텍스트 label (`HoverButton { ... } label: { Text("...") }`) 도 컴파일·실행에 무리 없는 형태
 
 ## 회고
 - 막혔던 부분?

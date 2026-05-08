@@ -12,7 +12,7 @@
 - [x] 02 - 버튼과 SF Symbols
 - [x] 03 - Material 배경으로 vibrancy 적용
 - [x] 04 - 버튼 호버 시 손모양 커서
-- [ ] 05 - HoverButton 뷰로 분리 + hover 배경 (범용 label)
+- [x] 05 - HoverButton 뷰로 분리 + hover 배경 (범용 label)
 
 ## 이 기능에서 학습할 Swift / SwiftUI 개념
 - `HStack` 으로 가로 layout 구성
