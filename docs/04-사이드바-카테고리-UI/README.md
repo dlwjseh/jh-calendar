@@ -13,7 +13,7 @@
 - 이후 영향: 후속 기능에서 실제 데이터 (Reminders/EventKit, 또는 자체 저장소) 로 더미 배열을 대체
 
 ## 단계 체크리스트
-- [ ] 01 - Folder/Category 모델 + 더미 데이터셋
+- [x] 01 - Folder/Category 모델 + 더미 데이터셋
 - [ ] 02 - ForEach 로 사이드바 채우기 (정적 렌더링)
 - [ ] 03 - 체크박스 토글 + Row 컴포넌트 분리 + `@Binding<Category>`
 

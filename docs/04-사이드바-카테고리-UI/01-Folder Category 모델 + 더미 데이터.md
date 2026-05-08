@@ -178,12 +178,12 @@ xcodebuild -project JHCalendar.xcodeproj -scheme JHCalendar -configuration Debug
 - 처음엔 `var isChecked: Bool` 로 `var` 임을 잊지 말 것 — `let` 이면 단계 03 에서 toggle 못 함. (Swift 컴파일러가 mutation 시점에 친절히 알려주긴 함.)
 
 ## 직접 구현하기
-- [ ] `JHCalendar/Features/Sidebar/SidebarModels.swift` 생성
-- [ ] `Category` struct 정의 (Identifiable, name/color/isChecked)
-- [ ] `Folder` struct 정의 (Identifiable, name/categories)
-- [ ] 이미지에 맞춰 `sampleFolders` 또는 `Folder.sample` 더미 데이터 작성
-- [ ] `JHCalendar.xcodeproj/project.pbxproj` 의 4 군데에 새 파일 등록
-- [ ] ⌘B 빌드 통과
+- [x] `JHCalendar/Features/Sidebar/SidebarModels.swift` 생성
+- [x] `Category` struct 정의 (Identifiable, name/color/isChecked)
+- [x] `Folder` struct 정의 (Identifiable, name/categories) — 본 구현은 `CategoryFolder` 로 명명
+- [x] 이미지에 맞춰 `sampleFolders` 또는 `Folder.sample` 더미 데이터 작성
+- [x] ~~`JHCalendar.xcodeproj/project.pbxproj` 의 4 군데에 새 파일 등록~~ — `Sidebar/` 가 `PBXFileSystemSynchronizedRootGroup` 이라 자동 포함
+- [x] ⌘B 빌드 통과
 
 > 다 끝나면 "다 했어" 라고 알려줘. 이번 단계는 시각 변화 없음 — 단계 02 에서 그릴 것.
 
@@ -196,17 +196,22 @@ xcodebuild -project JHCalendar.xcodeproj -scheme JHCalendar -configuration Debug
 
 ## Claude 리뷰 체크리스트
 *(Claude 가 리뷰 시 사용)*
-- [ ] `Category` / `Folder` 모두 `struct` (class 아님)
-- [ ] `Identifiable` 채택 + `let id = UUID()`
-- [ ] `Category.isChecked` 가 `var` (단계 03 의 toggle 위해)
-- [ ] 더미 데이터가 이미지의 색/이름과 매칭
-- [ ] 새 파일이 xcodeproj 의 4 군데 (PBXFileReference, PBXBuildFile, group children, PBXSourcesBuildPhase) 모두 등록
-- [ ] 빌드 통과
+- [x] `Category` / `Folder` 모두 `struct` (class 아님)
+- [x] `Identifiable` 채택 + `let id = UUID()`
+- [x] `Category.isChecked` 가 `var` (단계 03 의 toggle 위해)
+- [x] 더미 데이터가 이미지의 색/이름과 매칭 (일부 색·체크 상태는 학습 편의로 변형)
+- [x] ~~새 파일이 xcodeproj 의 4 군데 (PBXFileReference, PBXBuildFile, group children, PBXSourcesBuildPhase) 모두 등록~~ — `Sidebar/` 가 PBXFileSystemSynchronizedRootGroup 으로 등록돼 있어 폴더 동기화. 일반 그룹과 다르게 수동 등록 불필요
+- [x] 빌드 통과
 
 ## 회고
 - 막혔던 부분?
 - 추가로 궁금했던 점?
 > *(직접 채우는 영역)*
+
+## 실제 구현 메모
+- `Folder` → `CategoryFolder` 로 명명. 도메인 명확성 우선.
+- `Sidebar/` 폴더가 Xcode 의 **PBXFileSystemSynchronizedRootGroup** (= 폴더 동기화) 으로 등록돼 있어 새 Swift 파일을 만들면 자동으로 빌드 대상에 포함됨. 일반 PBXGroup 일 때 필요한 `pbxproj` 4 군데 수동 등록은 이 폴더에선 불필요.
+- 더미 데이터에서 `isChecked` 일부를 `false` 로 두어, 단계 02 의 시각 검증 시 체크/미체크 차이가 보이게 함.
 
 ## 조금 더 (선택)
 - **`Hashable` 채택**: `Color` 가 Hashable 이 아니라서 자동 합성이 안 됨. 직접 `func hash(into:)` 구현하거나 `id` 만 비교하는 식으로 우회. 학습 후순위.
