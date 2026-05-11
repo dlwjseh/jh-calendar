@@ -19,13 +19,15 @@
 ## 단계 체크리스트
 - [x] 01 - 데이터 모델: 표시할 날짜 배열 만들기
 - [x] 02 - 년월 헤더 + 요일 헤더 (정적 텍스트 영역)
-- [ ] 03 - 날짜 그리드 (LazyVGrid + 셀 + 회색 구분선)
+- [ ] 03 - 날짜 그리드 (셀 + 회색 구분선)
 
 ## 이 기능에서 학습할 Swift / SwiftUI 개념
 - **Foundation `Date` / `Calendar` / `DateComponents`** — Swift 의 날짜 3종 세트. Java 의 `Instant` / `Calendar` / `LocalDate(Time)` 셋이 한 묶음으로 묶인다고 보면 됨.
 - **`Calendar.current` + `Locale`** — 시스템/사용자 로케일 기반 달력 연산 (요일 시작 요일, 한 달의 길이 등).
 - **`DateFormatter`** — `Date` ↔ `String` 변환. Java 의 `DateTimeFormatter` 와 비슷.
-- **`LazyVGrid` + `GridItem`** — 2차원 그리드 레이아웃. 컬럼 정의 배열을 넘기고 자식을 1D 로 흘려보내면 자동 줄바꿈.
+- **`stride` + Array slice** — 1차원 배열을 7개씩 잘라 행 배열로 변환. `ArraySlice` 의 인덱스 함정과 `Array(...)` 승격.
+- **`VStack` 의 세로 균등 분배** — 자식에 `.frame(maxHeight: .infinity)` 를 걸면 남는 세로 공간을 균등 분배. 가로 균등 분할 (`maxWidth: .infinity`) 의 짝.
+- **`ForEach(_:id:)` 키 패스 지정** — `Identifiable` 이 아닌 배열의 배열 (`[[DayCell]]`) 에 `\.first?.id` 같은 keyPath 로 id 부여.
 - **`overlay` / `border` / `Divider`** — 셀 경계선 그리기 옵션 비교.
 - **셀 컴포넌트 분리** — Day 1칸을 별도 view 로 빼서 재사용 (04 의 Row 분리와 같은 패턴).
 - **`frame(maxWidth: .infinity)` 균등 분할** — HStack 안에서 자식이 동일 폭을 차지하게 하는 표준 트릭.
