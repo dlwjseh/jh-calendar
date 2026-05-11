@@ -117,11 +117,11 @@ Sidebar()
 - `ContentView.body` 끝의 orphan `let _: [DayCell] = makeDayCells(for: Date())` — 죽은 코드. 제거 권장.
 
 ## 직접 구현하기
-- [ ] ContentView 에 frame 두 겹 트릭 적용 — 외부 frame `alignment: .leading` 확인
-- [ ] Sidebar 내부 `.frame(width: 240, ...)` 유지, 무의미한 빈 frame 제거
-- [ ] 토글 → 사이드바가 왼쪽에서 펼쳐지면서 일 그리드가 부드럽게 좁아짐
-- [ ] 닫을 때 페이드 없이 너비만 줄어듦 (단, **일 그리드 자체의 페이드는 이 단계에선 아직 남아있을 수 있음** — 단계 02 의 영역)
-- [ ] orphan 코드 / 무관 import 정리
+- [x] ContentView 에 frame 두 겹 트릭 적용 — 외부 frame `alignment: .leading` 확인
+- [x] Sidebar 내부 `.frame(width: 240, ...)` 유지, 무의미한 빈 frame 제거
+- [x] 토글 → 사이드바가 왼쪽에서 펼쳐지면서 일 그리드가 부드럽게 좁아짐
+- [x] 닫을 때 페이드 없이 너비만 줄어듦 (단, **일 그리드 자체의 페이드는 이 단계에선 아직 남아있을 수 있음** — 단계 02 의 영역)
+- [x] orphan 코드 / 무관 import 정리
 
 ## 자가 점검
 - 빌드 통과? (⌘B)
@@ -134,11 +134,11 @@ Sidebar()
 
 ## Claude 리뷰 체크리스트
 *(Claude 가 리뷰 시 사용)*
-- [ ] ContentView 의 `if` 가 frame width 애니메이션으로 대체됨
-- [ ] 외부 frame 에 `alignment: .leading` 명시
-- [ ] `.clipped()` 가 frame 뒤에 위치
-- [ ] Sidebar 내부 `.frame(width: 240, ...)` 유지로 내부 layout 흐트러지지 않음
-- [ ] 잡정리 (orphan 코드, 무의미한 빈 frame) 반영
+- [x] ContentView 의 `if` 가 frame width 애니메이션으로 대체됨
+- [x] 외부 frame 에 `alignment: .leading` 명시
+- [x] `.clipped()` 가 frame 뒤에 위치
+- [x] Sidebar 내부 `.frame(width: 240, ...)` 유지로 내부 layout 흐트러지지 않음
+- [x] 잡정리 (orphan 코드, 무의미한 빈 frame) 반영
 
 ## 회고
 - 막혔던 부분?

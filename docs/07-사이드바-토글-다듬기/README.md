@@ -20,7 +20,7 @@
 - 더 깊이는 **`makeDayCells` 가 매번 호출되는 구조** — View struct 의 init 에 무거운 일이 쌓이면 앞으로 이벤트/공휴일 fetch 가 추가될 때 부하가 누적.
 
 ## 단계 체크리스트
-- [ ] 01 - 펼침 애니메이션: frame 너비 + .clipped()
+- [x] 01 - 펼침 애니메이션: frame 너비 + .clipped()
 - [ ] 02 - DayCell id 안정화: 자연키 패턴
 - [ ] 03 - CalendarStore 도입: ObservableObject + @StateObject
 
