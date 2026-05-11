@@ -18,6 +18,14 @@ struct MonthlyCalendarView: View {
         return f
     }()
     
+    private func headerColor(at i: Int) -> Color {
+        switch i {
+            case 0:  return .red
+            case 6:  return .blue
+            default: return .secondary
+        }
+    }
+    
     private let weekdayLabels = ["일", "월", "화", "수", "목", "금", "토"]
     
     var body: some View {
@@ -29,10 +37,10 @@ struct MonthlyCalendarView: View {
             
             // 요일 헤더
             HStack(spacing: 0) {
-                ForEach(weekdayLabels, id: \.self) { label in
-                    Text(label)
+                ForEach(weekdayLabels.indices, id: \.self) { i in
+                    Text(weekdayLabels[i])
+                        .foregroundStyle(headerColor(at: i))
                         .frame(maxWidth: .infinity)
-                        .foregroundStyle(.secondary)
                 }
             }
             .padding(.top, 40)

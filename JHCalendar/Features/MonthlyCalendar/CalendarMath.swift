@@ -1,10 +1,11 @@
-import Foundation
+import SwiftUI
 
 
 struct DayCell: Identifiable {
     let id = UUID()
     let date: Date
     let day: Int
+    let weekday: Int
     let isInCurrentMonth: Bool
 }
 
@@ -34,8 +35,9 @@ func makeDayCells(for referenceDate: Date) -> [DayCell] {
     for offset in 0..<total {
         let date = cal.date(byAdding: .day, value: offset, to: gridStart)!
         let day = cal.component(.day, from: date)
+        let weekday = cal.component(.weekday, from: date)
         let inThisMonth = cal.isDate(date, equalTo: firstOfMonth, toGranularity: .month)
-        cells.append(DayCell(date: date, day: day, isInCurrentMonth: inThisMonth))
+        cells.append(DayCell(date: date, day: day, weekday: weekday, isInCurrentMonth: inThisMonth))
     }
     return cells
 }

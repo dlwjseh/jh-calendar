@@ -3,11 +3,20 @@ import SwiftUI
 struct DayCellView: View {
     let cell: DayCell
     
+    private var textColor: Color {
+        if !cell.isInCurrentMonth { return .secondary }
+        switch cell.weekday {
+            case 1:  return .red
+            case 7:  return .blue
+            default: return .primary
+        }
+    }
+    
     var body: some View {
         VStack(spacing: 0) {
             Text("\(cell.day)")
-                .font(.caption)
-                .foregroundStyle(cell.isInCurrentMonth ? .primary : .tertiary)
+                .font(.system(size: 12))
+                .foregroundStyle(textColor)
             
             Spacer(minLength: 0)
         }
