@@ -19,7 +19,7 @@ struct Sidebar: View {
         .frame(width: 240, alignment: .leading)
         .frame(maxHeight: .infinity, alignment: .top)
         .padding(.leading, 15)
-        .padding(.top, 30)
+        .padding(.top, 40)
         .background(.gray.opacity(0.08))
     }
 }
