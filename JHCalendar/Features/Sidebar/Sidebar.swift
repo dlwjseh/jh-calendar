@@ -1,27 +1,17 @@
 import SwiftUI
 
 struct Sidebar: View {
+    @State private var folders: [Folder] = Folder.sample
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 30) {
-            ForEach(Folder.sample) { folder in
+            ForEach($folders) { $folder in
                 VStack(alignment: .leading, spacing: 12) {
                     Text(folder.name)
                         .font(.caption)
                         .foregroundStyle(.secondary)
-                    ForEach(folder.categories) { category in
-                        HStack(spacing: 8) {
-                            RoundedRectangle(cornerRadius: 4)
-                                .fill(category.color)
-                                .frame(width: 16, height: 16)
-                                .overlay {
-                                    if category.isChecked {
-                                        Image(systemName: "checkmark")
-                                            .font(.system(size: 12, weight: .bold))
-                                            .foregroundStyle(.white)
-                                    }
-                                }
-                            Text(category.name)
-                        }
+                    ForEach($folder.categories) { $category in
+                        CategoryRow(category: $category)
                     }
                 }
             }

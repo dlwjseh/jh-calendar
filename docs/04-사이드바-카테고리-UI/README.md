@@ -15,7 +15,7 @@
 ## 단계 체크리스트
 - [x] 01 - Folder/Category 모델 + 더미 데이터셋
 - [x] 02 - ForEach 로 사이드바 채우기 (정적 렌더링)
-- [ ] 03 - 체크박스 토글 + Row 컴포넌트 분리 + `@Binding<Category>`
+- [x] 03 - 체크박스 토글 + Row 컴포넌트 분리 + `@Binding<Category>`
 
 ## 이 기능에서 학습할 Swift / SwiftUI 개념
 - **`struct` 데이터 모델** — Java record 와 비슷한 값 타입. 자동 memberwise init.

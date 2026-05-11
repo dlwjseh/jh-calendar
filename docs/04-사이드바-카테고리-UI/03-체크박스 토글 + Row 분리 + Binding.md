@@ -223,17 +223,17 @@ struct Sidebar: View {
 - 이미지에서 보이는 unchecked 색 흐림을 `.opacity(category.isChecked ? 1.0 : 0.4)` 로 적용 (단계 02 의 선택 항목과 같음).
 
 ## 직접 구현하기
-- [ ] `JHCalendar/Features/Sidebar/CategoryRow.swift` 생성
-- [ ] `@Binding var category: Category` 받아 색깔 네모 (Button) + Text 구성
-- [ ] Button action: `category.isChecked.toggle()` + `.buttonStyle(.plain)`
-- [ ] `#Preview` 에서 `.constant(...)` 로 binding 우회
-- [ ] `Sidebar.swift` 의 `let sampleFolders` 사용을 `@State var folders` 로 전환
-- [ ] ForEach 를 `ForEach($folders) { $folder in ... ForEach($folder.categories) { $category in CategoryRow(category: $category) } }` 패턴으로 수정
-- [ ] xcodeproj 의 4 군데에 `CategoryRow.swift` 등록
-- [ ] ⌘B 빌드 통과 / ⌘R 실행
-- [ ] 색깔 네모 클릭 시 해당 카테고리만 체크 토글
-- [ ] 빠른 연속 클릭 jitter 없음
-- [ ] 라이트/다크 모드 양쪽 시각 OK
+- [x] `JHCalendar/Features/Sidebar/CategoryRow.swift` 생성
+- [x] `@Binding var category: Category` 받아 색깔 네모 (Button) + Text 구성
+- [x] Button action: `category.isChecked.toggle()` + `.buttonStyle(.plain)`
+- [x] `#Preview` 에서 `.constant(...)` 로 binding 우회
+- [x] `Sidebar.swift` 의 `let sampleFolders` 사용을 `@State var folders` 로 전환
+- [x] ForEach 를 `ForEach($folders) { $folder in ... ForEach($folder.categories) { $category in CategoryRow(category: $category) } }` 패턴으로 수정
+- [x] ~~xcodeproj 의 4 군데에 `CategoryRow.swift` 등록~~ → `Sidebar` 그룹이 `PBXFileSystemSynchronizedRootGroup` 이라 자동 인식 (Xcode 16+)
+- [x] ⌘B 빌드 통과 / ⌘R 실행
+- [x] 색깔 네모 클릭 시 해당 카테고리만 체크 토글
+- [x] 빠른 연속 클릭 jitter 없음
+- [x] 라이트/다크 모드 양쪽 시각 OK
 - [ ] (선택) `withAnimation(.snappy)` 로 토글 보간
 
 > 다 끝나면 "다 했어" 라고 알려줘.
@@ -248,15 +248,15 @@ struct Sidebar: View {
 
 ## Claude 리뷰 체크리스트
 *(Claude 가 리뷰 시 사용)*
-- [ ] `CategoryRow` 가 `@Binding var category: Category` 받음
-- [ ] Row 의 클릭 영역이 `Button` + `.buttonStyle(.plain)` 으로 시스템 스타일 제거
-- [ ] Button action 이 `category.isChecked.toggle()` 한 줄
-- [ ] `Sidebar` 가 `@State var folders: [Folder]` 소유
-- [ ] `ForEach($folders) { $folder in ... }` + nested `ForEach($folder.categories) { $category in CategoryRow(category: $category) }` 패턴
-- [ ] preview 가 `.constant(...)` 로 binding 우회
-- [ ] 토글 시 해당 카테고리만 변화 (다른 카테고리에 영향 없음)
-- [ ] xcodeproj 등록 + 빌드 통과
-- [ ] 라이트/다크 모드 양쪽 OK
+- [x] `CategoryRow` 가 `@Binding var category: Category` 받음
+- [x] Row 의 클릭 영역이 `Button` + `.buttonStyle(.plain)` 으로 시스템 스타일 제거
+- [x] Button action 이 `category.isChecked.toggle()` 한 줄
+- [x] `Sidebar` 가 `@State var folders: [Folder]` 소유
+- [x] `ForEach($folders) { $folder in ... }` + nested `ForEach($folder.categories) { $category in CategoryRow(category: $category) }` 패턴
+- [x] preview 가 `.constant(...)` 로 binding 우회
+- [x] 토글 시 해당 카테고리만 변화 (다른 카테고리에 영향 없음)
+- [x] xcodeproj 등록 + 빌드 통과
+- [x] 라이트/다크 모드 양쪽 OK
 
 ## 회고
 - 막혔던 부분?
