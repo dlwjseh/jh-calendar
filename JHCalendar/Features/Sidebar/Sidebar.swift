@@ -6,7 +6,7 @@ struct Sidebar: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 30) {
             ForEach($folders) { $folder in
-                VStack(alignment: .leading, spacing: 12) {
+                VStack(alignment: .leading, spacing: 14) {
                     Text(folder.name)
                         .font(.caption)
                         .foregroundStyle(.secondary)
