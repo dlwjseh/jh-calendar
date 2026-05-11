@@ -14,11 +14,11 @@ struct Sidebar: View {
                         CategoryRow(category: $category)
                     }
                 }
+                .padding(.leading, 20)
             }
         }
         .frame(width: 240, alignment: .leading)
-        .frame(maxHeight: .infinity, alignment: .top)
-        .padding(.leading, 15)
+        .frame(maxHeight: .infinity, alignment: .topLeading)
         .padding(.top, 40)
         .background(.gray.opacity(0.08))
     }

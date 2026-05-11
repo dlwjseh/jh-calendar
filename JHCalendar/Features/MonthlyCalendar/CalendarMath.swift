@@ -1,4 +1,4 @@
-import SwiftUI
+import Foundation
 
 
 struct DayCell: Identifiable {
@@ -13,22 +13,16 @@ func makeDayCells(for referenceDate: Date) -> [DayCell] {
     let cal = Calendar.current
     
     let firstOfMonth: Date = cal.dateInterval(of: .month, for: referenceDate)!.start
-    print("이번달 첫날: ", firstOfMonth.formatted(date: .complete, time: .shortened))
     
     let leadingDays: Int = cal.component(.weekday, from: firstOfMonth) - 1
-    print("앞쪽에 채울 이전 달 일 수: ", leadingDays)
     
     let daysInMonth: Int = cal.range(of: .day, in: .month, for: firstOfMonth)!.count
-    print("이번달 일 수: ", daysInMonth)
     
     let lastOfMonth: Date = cal.date(byAdding: .day, value: daysInMonth-1, to: firstOfMonth)!
-    print("이번달 마지막날: ", lastOfMonth.formatted(date: .complete, time: .shortened))
     
     let trailingDays: Int = 7 - cal.component(.weekday, from: lastOfMonth)
-    print("뒤쪽에 채울 다음 달 일 수: ", trailingDays)
     
     let gridStart: Date = cal.date(byAdding: .day, value: -leadingDays, to: firstOfMonth)!
-    print("시작 날짜: ", gridStart.formatted(date: .complete, time: .shortened))
     
     let total = leadingDays + daysInMonth + trailingDays
     var cells: [DayCell] = []

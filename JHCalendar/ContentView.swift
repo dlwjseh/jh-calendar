@@ -5,10 +5,9 @@ struct ContentView: View {
     
     var body: some View {
         HStack(spacing: 0) {
-            if isSidebarVisible {
-                Sidebar()
-                    .transition(.move(edge: .leading))
-            }
+            Sidebar()
+                .frame(width: isSidebarVisible ? 240 : 0, alignment: .leading)
+                .clipped()
             ZStack(alignment: .topLeading) {
                 Color.clear
                 MonthlyCalendarView()
@@ -18,8 +17,6 @@ struct ContentView: View {
         .frame(minWidth: 900, minHeight: 600)
         .overlay(alignment: .topLeading) { TrafficLightHoverArea() }
         .ignoresSafeArea()
-        
-        let _: [DayCell] = makeDayCells(for: Date())
     }
 }
 
