@@ -29,6 +29,7 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		690C949A2FADA37A00C335BD /* Sidebar */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Sidebar; sourceTree = "<group>"; };
 		694B4D4E2FAC85B9006371CB /* FloatingToolbar */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = FloatingToolbar; sourceTree = "<group>"; };
+		69CE3B642FB190D800B7CF9E /* MonthlyCalendar */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = MonthlyCalendar; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +83,7 @@
 		F5F5F5F5F5F5F5F5F5F5F5F5 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				69CE3B642FB190D800B7CF9E /* MonthlyCalendar */,
 				690C949A2FADA37A00C335BD /* Sidebar */,
 				694B4D4E2FAC85B9006371CB /* FloatingToolbar */,
 				F6F6F6F6F6F6F6F6F6F6F6F6 /* TitleBar */,
@@ -116,6 +118,7 @@
 			fileSystemSynchronizedGroups = (
 				690C949A2FADA37A00C335BD /* Sidebar */,
 				694B4D4E2FAC85B9006371CB /* FloatingToolbar */,
+				69CE3B642FB190D800B7CF9E /* MonthlyCalendar */,
 			);
 			name = JHCalendar;
 			productName = JHCalendar;

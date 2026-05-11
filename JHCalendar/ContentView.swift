@@ -17,6 +17,8 @@ struct ContentView: View {
         .frame(minWidth: 900, minHeight: 600)
         .overlay(alignment: .topLeading) { TrafficLightHoverArea() }
         .ignoresSafeArea()
+        
+        let _: [DayCell] = makeDayCells(for: Date())
     }
 }
 
