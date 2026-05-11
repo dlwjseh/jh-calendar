@@ -2,7 +2,7 @@ import Foundation
 
 
 struct DayCell: Identifiable {
-    let id = UUID()
+    var id: Date { date }
     let date: Date
     let day: Int
     let weekday: Int
