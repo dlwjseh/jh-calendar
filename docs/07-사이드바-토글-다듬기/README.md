@@ -21,7 +21,7 @@
 
 ## 단계 체크리스트
 - [x] 01 - 펼침 애니메이션: frame 너비 + .clipped()
-- [ ] 02 - DayCell id 안정화: 자연키 패턴
+- [x] 02 - DayCell id 안정화: 자연키 패턴
 - [ ] 03 - CalendarStore 도입: ObservableObject + @StateObject
 
 ## 이 기능에서 학습할 Swift / SwiftUI 개념

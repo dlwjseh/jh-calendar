@@ -89,9 +89,9 @@ struct DayCell: Identifiable {
 - `let` (stored) → `var` (computed) 차이 주의. computed 는 `var` 만 가능.
 
 ## 직접 구현하기
-- [ ] `DayCell.id` 를 `var id: Date { date }` 로 교체
-- [ ] 빌드 통과 (⌘B)
-- [ ] 사이드바 토글 → 일 그리드가 더 이상 페이드되지 않음
+- [x] `DayCell.id` 를 `var id: Date { date }` 로 교체
+- [x] 빌드 통과 (⌘B)
+- [x] 사이드바 토글 → 일 그리드가 더 이상 페이드되지 않음
 
 ## 자가 점검
 - 빌드 통과?
@@ -104,8 +104,8 @@ struct DayCell: Identifiable {
   > 도메인상 자연키가 없는 경우 — 예: 사용자가 임의로 만든 메모. 단, 한 번 만든 UUID 를 다시 init 마다 새로 발급하면 안 됨. 보통 상위 (DB / Store) 에서 1회 발급 후 유지.
 
 ## Claude 리뷰 체크리스트
-- [ ] `DayCell.id` 가 computed property 로 `date` 를 반환
-- [ ] 토글 시 일 그리드 페이드 사라짐
+- [x] `DayCell.id` 가 computed property 로 `date` 를 반환
+- [x] 토글 시 일 그리드 페이드 사라짐
 - [ ] (선택) 자연키 패턴의 의미를 본인 말로 설명 가능한가
 
 ## 회고
