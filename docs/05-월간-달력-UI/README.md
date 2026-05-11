@@ -19,7 +19,7 @@
 ## 단계 체크리스트
 - [x] 01 - 데이터 모델: 표시할 날짜 배열 만들기
 - [x] 02 - 년월 헤더 + 요일 헤더 (정적 텍스트 영역)
-- [ ] 03 - 날짜 그리드 (셀 + 회색 구분선)
+- [x] 03 - 날짜 그리드 (셀 + 회색 구분선)
 
 ## 이 기능에서 학습할 Swift / SwiftUI 개념
 - **Foundation `Date` / `Calendar` / `DateComponents`** — Swift 의 날짜 3종 세트. Java 의 `Instant` / `Calendar` / `LocalDate(Time)` 셋이 한 묶음으로 묶인다고 보면 됨.

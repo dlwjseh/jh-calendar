@@ -205,8 +205,9 @@ JH-CALENDAR/
 ### 새 기능을 추가할 때
 
 - `JHCalendar/Features/<FeatureName>/` 폴더를 새로 만들고 그 안에 Swift 파일을 둔다.
-- 파일을 만든 뒤 **`JHCalendar.xcodeproj/project.pbxproj`** 에도 등록해야 빌드된다 (PBXFileReference + PBXBuildFile + 해당 그룹 children + PBXSourcesBuildPhase 4 군데).
-  - 새 기능 폴더라면 PBXGroup 도 새로 만들어 `Features` 그룹의 children 에 추가.
+- **기존 폴더에 파일 추가** — `Sidebar` / `FloatingToolbar` / `MonthlyCalendar` 폴더는 `PBXFileSystemSynchronizedRootGroup` 으로 등록돼 있어 폴더에 파일을 두면 **자동 인식**. pbxproj 편집 불필요. (구식 `TitleBar` 폴더만 수동 등록 필요.)
+- **새 폴더를 만드는 경우** — sync group 으로 등록하는 게 권장. `project.pbxproj` 의 `PBXFileSystemSynchronizedRootGroup section` 에 새 항목 추가 + 부모 그룹 children 에 참조 추가. 그러면 이후 파일 추가가 자유로움.
+- 구식 방식 (PBXFileReference + PBXBuildFile + 그룹 children + PBXSourcesBuildPhase 4곳 수동 편집) 은 `TitleBar` 같은 기존 구식 폴더에 파일을 추가할 때만 필요.
 - 등록 후 `xcodebuild -project JHCalendar.xcodeproj -scheme JHCalendar -configuration Debug build` 로 빌드 통과 확인.
 - **루트 `ContentView` 는 가능한 작게 유지** — 컴포넌트 조합만 하고, 상태/AppKit 호출은 각 Feature 안으로.
 
@@ -220,4 +221,4 @@ JH-CALENDAR/
 | 02 | 상단 플로팅 툴바 | 완료 | `docs/02-상단-플로팅-툴바/` |
 | 03 | 사이드바 슬라이드 | 완료 | `docs/03-사이드바-슬라이드/` |
 | 04 | 사이드바 카테고리 UI | 완료 | `docs/04-사이드바-카테고리-UI/` |
-| 05 | 월간 달력 UI | 진행중 | `docs/05-월간-달력-UI/` |
+| 05 | 월간 달력 UI | 완료 | `docs/05-월간-달력-UI/` |
