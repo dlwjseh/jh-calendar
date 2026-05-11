@@ -163,15 +163,15 @@ struct Sidebar: View {
 - `RoundedRectangle` 대신 `Image(systemName: "checkmark.square.fill")` 같은 single SF Symbol 로 체크박스를 표현 — 색 일관성 (`.foregroundStyle(category.color)`) 으로 코드가 짧아질 수도 있음. 단 이미지의 둥근 사각형 톤과는 약간 다름.
 
 ## 직접 구현하기
-- [ ] `Sidebar.swift` 의 placeholder 를 VStack + ForEach 구조로 대체
-- [ ] 폴더 헤더 텍스트 (`.font(.caption)` + `.foregroundStyle(.secondary)`)
-- [ ] 카테고리 행 (HStack { RoundedRectangle 색깔 네모 + Text })
-- [ ] 색깔 네모 안에 `isChecked` 일 때만 체크 표시 (`.overlay { if ... }`)
-- [ ] `frame(width: 240, alignment: .leading)` 등 사이드바 폭/정렬 유지
-- [ ] padding 으로 윗쪽 (트래픽라이트 영역) 과 좌우 여백 확보
-- [ ] ⌘B 빌드 통과 / ⌘R 실행
-- [ ] 사이드바 토글 시 자연스럽게 슬라이드 + 안의 컨텐츠 표시
-- [ ] 라이트/다크 모드 양쪽에서 텍스트 가독성 OK
+- [x] `Sidebar.swift` 의 placeholder 를 VStack + ForEach 구조로 대체
+- [x] 폴더 헤더 텍스트 (`.font(.caption)` + `.foregroundStyle(.secondary)`)
+- [x] 카테고리 행 (HStack { RoundedRectangle 색깔 네모 + Text })
+- [x] 색깔 네모 안에 `isChecked` 일 때만 체크 표시 (`.overlay { if ... }`)
+- [x] `frame(width: 240, alignment: .leading)` 등 사이드바 폭/정렬 유지
+- [x] padding 으로 윗쪽 (트래픽라이트 영역) 과 좌우 여백 확보
+- [x] ⌘B 빌드 통과 / ⌘R 실행
+- [x] 사이드바 토글 시 자연스럽게 슬라이드 + 안의 컨텐츠 표시
+- [x] 라이트/다크 모드 양쪽에서 텍스트 가독성 OK
 - [ ] (선택) unchecked 색 opacity 흐릿하게
 
 > 다 끝나면 "다 했어" 라고 알려줘.
@@ -186,14 +186,18 @@ struct Sidebar: View {
 
 ## Claude 리뷰 체크리스트
 *(Claude 가 리뷰 시 사용)*
-- [ ] `Sidebar.swift` 가 VStack + nested ForEach 로 폴더/카테고리를 그림
-- [ ] `ForEach` 가 `Identifiable` 자동 식별 사용 (별도 `id:` 인자 없음)
-- [ ] 폴더 헤더와 카테고리 행의 시각 위계가 구분됨 (font/color)
-- [ ] 색깔 네모 + 체크 표시가 `RoundedRectangle` + `.fill` + `.overlay { if isChecked }` 패턴
-- [ ] `.foregroundStyle(.secondary)` 등 시맨틱 색 사용 (매직 색 코드 피함)
-- [ ] 사이드바 폭 240 이 유지되고 정렬은 leading
-- [ ] 라이트/다크 모드 양쪽에서 어색함 없음
-- [ ] 단계 03 의 슬라이드 + push 와 어울림
+- [x] `Sidebar.swift` 가 VStack + nested ForEach 로 폴더/카테고리를 그림
+- [x] `ForEach` 가 `Identifiable` 자동 식별 사용 (별도 `id:` 인자 없음)
+- [x] 폴더 헤더와 카테고리 행의 시각 위계가 구분됨 (font/color)
+- [x] 색깔 네모 + 체크 표시가 `RoundedRectangle` + `.fill` + `.overlay { if isChecked }` 패턴
+- [x] `.foregroundStyle(.secondary)` 등 시맨틱 색 사용 (매직 색 코드 피함)
+- [x] 사이드바 폭 240 이 유지되고 정렬은 leading
+- [x] 라이트/다크 모드 양쪽에서 어색함 없음
+- [x] 단계 03 의 슬라이드 + push 와 어울림
+
+### 리뷰 메모 (2026-05-11)
+- `.frame` 을 두 번 호출 → `.frame(width: 240, maxHeight: .infinity, alignment: .topLeading)` 한 줄로 합칠 수 있음. 동작 동일, 가독성↑. (단계 03 진입 전 또는 그 안에서 정리)
+- `Folder.sample` 직접 참조는 단계 03 에서 `@State` 로 끌어올릴 예정이라 지금은 OK.
 
 ## 회고
 - 막혔던 부분?
