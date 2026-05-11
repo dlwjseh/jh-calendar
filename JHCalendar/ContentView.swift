@@ -11,6 +11,7 @@ struct ContentView: View {
             }
             ZStack(alignment: .topLeading) {
                 Color.clear
+                MonthlyCalendarView()
                 FloatingToolbar(isSidebarVisible: $isSidebarVisible)
             }
         }
