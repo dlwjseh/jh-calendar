@@ -9,11 +9,15 @@ struct AddMenuPopover: View {
         VStack(alignment: .leading, spacing: 4) {
             menuItem(title: "폴더", systemImage: "folder") {
                 isAddMenuPresented = false
-                isAddFolderPresented = true
+                withAnimation(.smooth(duration: 0.3)) {
+                    isAddFolderPresented = true
+                }
             }
             menuItem(title: "카테고리", systemImage: "tag") {
                 isAddMenuPresented = false
-                isAddCategoryPresented = true
+                withAnimation(.smooth(duration: 0.3)) {
+                    isAddCategoryPresented = true
+                }
             }
         }
         .padding(8)

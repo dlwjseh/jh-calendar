@@ -6,27 +6,36 @@ struct ContentView: View {
     @State private var isAddCategoryPresented = false
     
     var body: some View {
-        HStack(spacing: 0) {
-            Sidebar(
-                isAddFolderPresented: $isAddFolderPresented,
-                isAddCategoryPresented: $isAddCategoryPresented
-            )
-                .frame(width: isSidebarVisible ? 240 : 0, alignment: .leading)
-                .clipped()
-            ZStack(alignment: .topLeading) {
-                Color.clear
-                MonthlyCalendarView()
-                FloatingToolbar(isSidebarVisible: $isSidebarVisible)
+        ZStack {
+            HStack(spacing: 0) {
+                Sidebar(
+                    isAddFolderPresented: $isAddFolderPresented,
+                    isAddCategoryPresented: $isAddCategoryPresented
+                )
+                    .frame(width: isSidebarVisible ? 240 : 0, alignment: .leading)
+                    .clipped()
+                ZStack(alignment: .topLeading) {
+                    Color.clear
+                    MonthlyCalendarView()
+                    FloatingToolbar(isSidebarVisible: $isSidebarVisible)
+                }
+            }
+            .overlay(alignment: .topLeading) { TrafficLightHoverArea() }
+            
+            if isAddFolderPresented {
+                DialogBackdrop(isPresented: $isAddFolderPresented)
+                    .transition(.opacity)
+                AddFolderDialog(isPresented: $isAddFolderPresented)
+                    .transition(.opacity.combined(with: .scale(scale: 0.96)))
+            }
+            if isAddCategoryPresented {
+                DialogBackdrop(isPresented: $isAddCategoryPresented)
+                    .transition(.opacity)
+                AddCategoryDialog(isPresented: $isAddCategoryPresented)
+                    .transition(.opacity.combined(with: .scale(scale: 0.96)))
             }
         }
-        .onChange(of: isAddFolderPresented) { _, new in
-            print("isAddFolderPresented = \(new)")
-        }
-        .onChange(of: isAddCategoryPresented) { _, new in
-            print("isAddCategoryPresented = \(new)")
-        }
         .frame(minWidth: 900, minHeight: 600)
-        .overlay(alignment: .topLeading) { TrafficLightHoverArea() }
         .ignoresSafeArea()
     }
 }
