@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 
 @main
 struct JHCalendarApp: App {
@@ -7,5 +8,6 @@ struct JHCalendarApp: App {
             ContentView()
         }
         .windowStyle(.hiddenTitleBar)
+        .modelContainer(for: Folder.self)
     }
 }

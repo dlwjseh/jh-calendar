@@ -1,7 +1,8 @@
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
-    @State private var folders = Folder.sample
+    @Query private var folders: [Folder]
     @State private var isSidebarVisible = false
     @State private var isAddFolderPresented = false
     @State private var isAddCategoryPresented = false
@@ -12,7 +13,7 @@ struct ContentView: View {
                 Sidebar(
                     isAddFolderPresented: $isAddFolderPresented,
                     isAddCategoryPresented: $isAddCategoryPresented,
-                    folders: $folders
+                    folders: folders
                 )
                     .frame(width: isSidebarVisible ? 240 : 0, alignment: .leading)
                     .clipped()

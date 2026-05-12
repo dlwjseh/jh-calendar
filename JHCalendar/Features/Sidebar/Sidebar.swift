@@ -4,7 +4,7 @@ struct Sidebar: View {
     @State private var isAddMenuPresented: Bool = false
     @Binding var isAddFolderPresented: Bool
     @Binding var isAddCategoryPresented: Bool
-    @Binding var folders: [Folder]
+    var folders: [Folder]
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -34,14 +34,14 @@ struct Sidebar: View {
             .padding(.top, 12)
             
             VStack(alignment: .leading, spacing: 30) {
-                ForEach($folders) { $folder in
+                ForEach(folders) { folder in
                     VStack(alignment: .leading, spacing: 14) {
                         Text(folder.name)
                             .font(.caption)
                             .foregroundStyle(.secondary)
-                        ForEach($folder.categories) { $category in
-                            CategoryRow(category: $category)
-                        }
+//                        ForEach(folder.categories) { $category in
+//                            CategoryRow(category: $category)
+//                        }
                     }
                     .padding(.leading, 20)
                 }

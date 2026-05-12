@@ -2,18 +2,15 @@ import SwiftUI
 
 struct AddCategoryDialog: View {
     @Binding var isPresented: Bool
-    @State private var selectedFolderID: UUID? = nil
+    @State private var selectedFolder: Folder? = nil
     @State private var name = ""
     @State private var selectedColor: Color = CategoryColorPalette.all.first ?? .blue
     
     let folders: [Folder]
     let columns: [GridItem] = Array(repeating: GridItem(.flexible(), spacing: 12), count: 4)
     
-    private var selectedFolder: Folder? {
-        folders.first(where: { $0.id == selectedFolderID })
-    }
     private var isSaveEnabled: Bool {
-          selectedFolderID != nil &&
+          selectedFolder != nil &&
           !name.trimmingCharacters(in: .whitespaces).isEmpty
       }
     
@@ -36,7 +33,7 @@ struct AddCategoryDialog: View {
                     
                     Menu {
                         ForEach(folders) { folder in
-                            Button(folder.name) { selectedFolderID = folder.id }
+                            Button(folder.name) { selectedFolder = folder }
                         }
                     } label: {
                         HStack {

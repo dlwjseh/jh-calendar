@@ -187,11 +187,11 @@ Cannot assign value of type 'PersistentIdentifier' to type 'UUID'
 > struct 시대엔 "값 복사" 때문에 id 로 추적하는 게 안전 패턴이었고, class/@Model 시대엔 "참조 공유" 라서 객체를 직접 들고 있는 게 자연스럽다 — 이번 단계에서 챙겨갈 직관.
 
 ## 직접 구현하기
-- [ ] `Folder` 를 `@Model final class` 로 전환 (`categories` 는 일단 제외)
-- [ ] `Folder.sample` 주석 처리 또는 삭제
-- [ ] `JHCalendarApp` 에 `.modelContainer(for: Folder.self)` 부착
-- [ ] `ContentView` 의 `folders` 를 `@Query` 로 교체
-- [ ] 빌드 통과 + 실행 시 사이드바가 **비어 있는 채로** 정상 표시되는지 확인
+- [x] `Folder` 를 `@Model final class` 로 전환 (`categories` 는 일단 제외)
+- [x] `Folder.sample` 주석 처리 또는 삭제
+- [x] `JHCalendarApp` 에 `.modelContainer(for: Folder.self)` 부착
+- [x] `ContentView` 의 `folders` 를 `@Query` 로 교체
+- [x] 빌드 통과 + 실행 시 사이드바가 **비어 있는 채로** 정상 표시되는지 확인
 
 ## 자가 점검 (구현 후)
 - 빌드 통과? (`xcodebuild -project JHCalendar.xcodeproj -scheme JHCalendar -configuration Debug build` 또는 ⌘B)
@@ -201,10 +201,11 @@ Cannot assign value of type 'PersistentIdentifier' to type 'UUID'
   2. `@Query` 가 `@State` 와 가장 다른 점 하나를 말해보라.
 
 ## Claude 리뷰 체크리스트
-- [ ] `Folder` 가 `@Model final class` 로 선언되었고 `init` 이 작성됨
-- [ ] `ModelContainer` 가 앱 진입점에 정확히 한 번 부착됨
-- [ ] `ContentView` 가 `@Query` 로 폴더를 읽고 있음 (메모리 샘플 의존 제거)
-- [ ] 빌드 통과 / 런타임 크래시 없음
+- [x] `Folder` 가 `@Model final class` 로 선언되었고 `init` 이 작성됨
+- [x] `ModelContainer` 가 앱 진입점에 정확히 한 번 부착됨
+- [x] `ContentView` 가 `@Query` 로 폴더를 읽고 있음 (메모리 샘플 의존 제거)
+- [x] 빌드 통과 / 런타임 크래시 없음
+- [x] 값→참조 전환에 따라 `Sidebar` 의 `$folders` 와 `AddCategoryDialog` 의 `selectedFolderID` 도 같이 정리됨
 
 ## 회고
 - 막혔던 부분?
