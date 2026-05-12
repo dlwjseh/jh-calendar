@@ -63,7 +63,8 @@ Swift `Color` 는 그대로는 SwiftData 가 저장 못 한다. **3단계에서 
   - `color` 는 잠시 보류 — 이 단계에서는 `// TODO: 3단계에서 colorHex 로 영속화` 주석만 남기거나, 임시로 빨강 고정 computed property 를 두자
   - `isChecked: Bool` 는 그대로 살린다 (체크박스 상태도 영속화 대상)
 - `JHCalendarApp.swift` — `.modelContainer(for: Folder.self)` 에 `Category.self` 도 같이 등록할지 결정 (보통 Folder 만 등록해도 관계로 같이 잡히지만, 명시적으로 `[Folder.self, Category.self]` 로 적는 게 안전)
-- `Sidebar.swift` / `CategoryRow.swift` — `@Binding` 으로 받던 카테고리·폴더가 이제 **참조 타입** 이라 binding 패턴이 달라진다. 자세한 건 막힐 만한 지점 참고.
+- `Sidebar.swift` — 1단계에서 주석 처리해둔 안쪽 `ForEach(folder.categories)` 복원. `Category` 가 이제 class 라 `$` 바인딩 없이 인스턴스로 넘긴다 — `ForEach(folder.categories) { category in CategoryRow(category: category) }`.
+- `CategoryRow.swift` — `@Binding var category: Category` 가 이제 안 맞는다. 참조 타입이라 binding 의미가 달라짐 — `@Bindable` 또는 인스턴스 직접 받기로 전환. 막힐 만한 지점 참고.
 
 ### 핵심 골격
 
@@ -109,14 +110,15 @@ final class Category {
   ```
 
 - **양방향 관계의 inverse 는 한 쪽에만** — Folder 쪽에 `inverse: \Category.folder` 한 번만 적으면 된다. 양쪽에 적으면 컴파일 에러.
-- **Sidebar 의 `@Binding var folders: [Folder]`** — `[Folder]` 가 class 배열이라 binding 의 의미가 약해진다. ContentView 에서 `@Query` 결과를 **그냥 값으로** 넘기는 형태로 정리하자 (`folders: [Folder]`). `ForEach($folders) { $folder in ... }` 부분은 `ForEach(folders) { folder in ... }` 으로 단순화 — `folder.categories` 가 이미 class 라 binding 없이도 변경이 반영된다.
+- **`Sidebar` 바깥쪽 폴더 ForEach 는 이미 1단계에서 정리됨** — 1단계에서 `var folders: [Folder]` + `ForEach(folders) { folder in ... }` 로 바꿔뒀다. 이번 단계에선 **안쪽 `ForEach(folder.categories)`** 만 주석 해제하면 됨. `Category` 도 class 라 `$` 없이 인스턴스로 넘긴다.
 - **빌드는 통과하지만 사이드바가 여전히 빈 상태** — 정상. 다음 단계 + 4단계까지 가야 시드 데이터가 들어온다.
 
 ## 직접 구현하기
 - [ ] `Category` 를 `@Model final class` 로 전환 + `var folder: Folder?` 추가
 - [ ] `Folder` 에 `@Relationship(deleteRule: .cascade, inverse: \Category.folder) var categories: [Category] = []` 추가
 - [ ] `ModelContainer` 등록 모델 목록에 `Category.self` 도 명시
-- [ ] `Sidebar`, `CategoryRow` 등에서 `@Binding` → 인스턴스/`@Bindable` 로 다듬기
+- [ ] `Sidebar` 의 주석 처리된 안쪽 `ForEach(folder.categories)` 복원 (`$` 없이 인스턴스로)
+- [ ] `CategoryRow` 의 `@Binding var category` → `@Bindable` 또는 인스턴스로 전환
 - [ ] 빌드 통과, 사이드바가 깨지지 않고 빈 상태로 떠야 함
 
 ## 자가 점검
