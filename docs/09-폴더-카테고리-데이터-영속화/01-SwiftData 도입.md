@@ -142,7 +142,49 @@ struct ContentView: View {
 - **`final class` 키워드** — `@Model` 은 보통 `final class` 로 쓴다. 상속하지 않을 거란 신호이자 컴파일러 최적화에도 유리.
 - **`@Query` 는 `View` 안에서만 쓴다** — `@State` 와 같은 위치(뷰의 저장 프로퍼티)에서 선언. 변수 안에 옮기거나 함수 안에서 만들면 동작 안 함.
 - **사이드바가 비어 보이는 것이 정상** — 아직 시드/추가가 없으니 빈 상태가 맞다. 4단계에서 채운다.
-- **`Sidebar` 의 `@Binding var folders` 가 거슬릴 수 있음** — 일단 ContentView 에서 `.constant(folders)` 로 넘겨두면 빌드는 된다. 진짜 다듬는 건 5단계쯤에서 한다.
+
+#### 값 타입 → 참조 타입 전환에 따라 같이 손봐야 하는 두 곳
+
+`Folder` 가 `struct` → `@Model class` 가 되면서 "값 복사" 가 "참조 공유" 로 바뀐다. 이 차이가 다음 두 곳에서 빌드 에러로 드러난다.
+
+**(1) `Sidebar` 의 `ForEach($folders) { $folder in ... }` 가 안 컴파일된다**
+
+증상:
+```
+No exact matches in call to initializer
+Inferred projection type 'Int' is not a property wrapper
+```
+
+원인: `$`(바인딩 프로젝션) 은 값 타입 배열에서만 동작한다. `@Model class` 는 참조 타입이라 같은 인스턴스를 공유하므로 `Binding` 자체가 필요 없다 — `folder.name = "X"` 한 줄이면 SwiftUI 가 자동으로 다시 그린다 (`@Model` 이 `@Observable` 까지 깔아주기 때문).
+
+수정:
+- `Sidebar` 의 `@Binding var folders: [Folder]` → `var folders: [Folder]`
+- `ContentView` 에서 `folders: .constant(folders)` → `folders: folders`
+- `ForEach($folders) { $folder in ... }` → `ForEach(folders) { folder in ... }`
+- 안쪽 `ForEach($folder.categories) { ... }` 는 이번 단계에서 `Folder.categories` 를 뺐으니 임시로 주석 처리하거나 placeholder 로 둔다 (02 단계에서 `@Relationship` 으로 복원).
+
+**(2) `AddCategoryDialog` 에서 `selectedFolderID: UUID?` 가 안 맞는다**
+
+증상:
+```
+Cannot convert value of type 'UUID?' to expected argument type 'PersistentIdentifier'
+Cannot assign value of type 'PersistentIdentifier' to type 'UUID'
+```
+
+원인: `@Model` 매크로가 `PersistentModel` 프로토콜을 자동 채택시키는데, 거기서 정의된 `var id: PersistentIdentifier` 가 너의 `let id = UUID()` 를 가린다. 그래서 `folder.id` 의 타입이 `UUID` 가 아니라 `PersistentIdentifier` 로 바뀜.
+
+수정 — **id 가 아니라 `Folder` 객체 자체를 들고 있는 게 자연스럽다**:
+
+- `@State private var selectedFolderID: UUID? = nil` → `@State private var selectedFolder: Folder? = nil`
+- 계산 프로퍼티 `selectedFolder` (folders.first(where:) ...) 삭제 — 이제 `selectedFolder` 가 곧 상태
+- `Button(folder.name) { selectedFolderID = folder.id }` → `{ selectedFolder = folder }`
+- `isSaveEnabled` 의 `selectedFolderID != nil` → `selectedFolder != nil`
+
+이유:
+- `Folder` 가 참조 타입이라 어디서 잡든 같은 인스턴스. 굳이 id 로 우회할 필요가 없음 — 객체를 직접 들면 됨.
+- 저장 시점에 `category.folder = selectedFolder` 처럼 **관계 연결** 도 자연스럽다 (02 단계 `@Relationship` 으로 바로 이어짐).
+
+> struct 시대엔 "값 복사" 때문에 id 로 추적하는 게 안전 패턴이었고, class/@Model 시대엔 "참조 공유" 라서 객체를 직접 들고 있는 게 자연스럽다 — 이번 단계에서 챙겨갈 직관.
 
 ## 직접 구현하기
 - [ ] `Folder` 를 `@Model final class` 로 전환 (`categories` 는 일단 제외)
