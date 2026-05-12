@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var folders = Folder.sample
     @State private var isSidebarVisible = false
     @State private var isAddFolderPresented = false
     @State private var isAddCategoryPresented = false
@@ -10,7 +11,8 @@ struct ContentView: View {
             HStack(spacing: 0) {
                 Sidebar(
                     isAddFolderPresented: $isAddFolderPresented,
-                    isAddCategoryPresented: $isAddCategoryPresented
+                    isAddCategoryPresented: $isAddCategoryPresented,
+                    folders: $folders
                 )
                     .frame(width: isSidebarVisible ? 240 : 0, alignment: .leading)
                     .clipped()
@@ -31,7 +33,7 @@ struct ContentView: View {
             if isAddCategoryPresented {
                 DialogBackdrop(isPresented: $isAddCategoryPresented)
                     .transition(.opacity)
-                AddCategoryDialog(isPresented: $isAddCategoryPresented)
+                AddCategoryDialog(isPresented: $isAddCategoryPresented, folders: folders)
                     .transition(.opacity.combined(with: .scale(scale: 0.96)))
             }
         }

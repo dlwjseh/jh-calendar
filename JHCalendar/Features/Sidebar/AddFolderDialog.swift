@@ -60,7 +60,7 @@ struct AddFolderDialog: View {
         }
         .padding(.vertical, 20)
         .padding(.horizontal, 25)
-        .frame(width: 320)
+        .frame(width: 290)
         .background(.background)
         .clipShape(.rect(cornerRadius: 12))
         .shadow(color: .black.opacity(0.3), radius: 20, y:8)

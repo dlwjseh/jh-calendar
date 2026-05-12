@@ -1,10 +1,10 @@
 import SwiftUI
 
 struct Sidebar: View {
-    @State private var folders: [Folder] = Folder.sample
     @State private var isAddMenuPresented: Bool = false
     @Binding var isAddFolderPresented: Bool
     @Binding var isAddCategoryPresented: Bool
+    @Binding var folders: [Folder]
     
     var body: some View {
         VStack(alignment: .leading) {
