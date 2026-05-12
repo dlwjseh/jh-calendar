@@ -10,12 +10,13 @@ struct AddFolderDialog: View {
     }
     
     var body: some View {
-        VStack(spacing: 22) {
-            HStack() {
+        VStack(spacing: 25) {
+            HStack(spacing: 5) {
+                Image(systemName: "folder")
                 Text("폴더 추가")
-                    .font(.system(size: 14, weight: .bold))
-                    .padding(.leading, 8)
             }
+            .font(.system(size: 14, weight: .bold))
+            .padding(.leading, 4)
             .frame(maxWidth: .infinity, alignment: .leading)
             
             TextField("폴더 이름", text: $name)
