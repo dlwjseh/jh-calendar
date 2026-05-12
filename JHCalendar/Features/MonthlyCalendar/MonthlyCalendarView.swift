@@ -1,15 +1,7 @@
 import SwiftUI
 
 struct MonthlyCalendarView: View {
-    private let referenceDate = Date()
-    private let rows: [[DayCell]]
-    
-    init() {
-        let cells = makeDayCells(for: Date())
-        self.rows = stride(from: 0, to: cells.count, by: 7).map { start in
-            Array(cells[start..<start + 7])
-        }
-    }
+    @StateObject private var store = CalendarStore()
 
     private static let yearMonthFormatter: DateFormatter = {
         let f = DateFormatter()
@@ -31,7 +23,7 @@ struct MonthlyCalendarView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             // 년월 헤더
-            Text(Self.yearMonthFormatter.string(from: referenceDate))
+            Text(Self.yearMonthFormatter.string(from: store.referenceDate))
                 .font(.title)
                 .padding(.leading, 50)
             
@@ -51,7 +43,7 @@ struct MonthlyCalendarView: View {
             
             // 일 그리드
             VStack(spacing: 0) {
-                ForEach(rows, id: \.first?.id) { row in
+                ForEach(store.rows, id: \.first?.id) { row in
                     HStack(spacing: 0) {
                         ForEach(row) { cell in
                             DayCellView(cell: cell)
