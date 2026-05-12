@@ -3,6 +3,8 @@ import SwiftUI
 struct Sidebar: View {
     @State private var folders: [Folder] = Folder.sample
     @State private var isAddMenuPresented: Bool = false
+    @Binding var isAddFolderPresented: Bool
+    @Binding var isAddCategoryPresented: Bool
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -10,12 +12,22 @@ struct Sidebar: View {
                 Spacer()
                 HoverButton {
                     isAddMenuPresented.toggle()
-                    print("+ 클릭, isAddMenuPresented = \(isAddMenuPresented)")
                 } label: {
                     Image(systemName: "plus")
                         .font(.system(size: 14, weight: .medium))
                         .foregroundStyle(.primary)
                         .frame(width: 20, height: 20)
+                }
+                .popover(
+                    isPresented: $isAddMenuPresented,
+                    attachmentAnchor: .rect(.bounds),
+                    arrowEdge: .trailing
+                ) {
+                    AddMenuPopover(
+                        isAddMenuPresented: $isAddMenuPresented,
+                        isAddFolderPresented: $isAddFolderPresented,
+                        isAddCategoryPresented: $isAddCategoryPresented
+                    )
                 }
             }
             .padding(.horizontal, 12)
