@@ -22,7 +22,7 @@
 ## 단계 체크리스트
 - [x] 01 - 펼침 애니메이션: frame 너비 + .clipped()
 - [x] 02 - DayCell id 안정화: 자연키 패턴
-- [ ] 03 - CalendarStore 도입: ObservableObject + @StateObject
+- [x] 03 - CalendarStore 도입: ObservableObject + @StateObject
 
 ## 이 기능에서 학습할 Swift / SwiftUI 개념
 - `.clipped()` 와 frame 두 겹 트릭 (외부 frame 으로 reported width, 내부 frame 으로 layout 고정)

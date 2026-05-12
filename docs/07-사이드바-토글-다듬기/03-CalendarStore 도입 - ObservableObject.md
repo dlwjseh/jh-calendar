@@ -184,14 +184,16 @@ init() {
 > 검증 후 `print` 들은 정리하든 그대로 두든 자유 — 다음 기능에서 거슬리면 그때 정리.
 
 ## 직접 구현하기
-- [ ] `CalendarStore.swift` 새 파일 (`@MainActor` + `final` + `ObservableObject` + `@Published private(set) var rows`)
-- [ ] init 에서 `makeDayCells` 호출 후 `rows` 채우기
-- [ ] `MonthlyCalendarView` 의 init / referenceDate / rows 프로퍼티 제거
-- [ ] `@StateObject private var store = CalendarStore()` 추가
-- [ ] body 안 ForEach 의 데이터 소스를 `store.rows` 로 변경
-- [ ] 빌드 통과 (⌘B)
-- [ ] 앱 실행 시 `makeDayCells` 의 `print` 가 1회만 출력
-- [ ] 사이드바 토글 → 일 그리드 그대로, 페이드 없음, `print` 추가 출력 없음
+- [x] `CalendarStore.swift` 새 파일 (`@MainActor` + `final` + `ObservableObject` + `@Published private(set) var rows`)
+- [x] init 에서 `makeDayCells` 호출 후 `rows` 채우기
+- [x] `MonthlyCalendarView` 의 init / referenceDate / rows 프로퍼티 제거
+- [x] `@StateObject private var store = CalendarStore()` 추가
+- [x] body 안 ForEach 의 데이터 소스를 `store.rows` 로 변경
+- [x] 빌드 통과 (⌘B)
+- [x] 앱 실행 시 `makeDayCells` 의 `print` 가 1회만 출력
+- [x] 사이드바 토글 → 일 그리드 그대로, 페이드 없음, `print` 추가 출력 없음
+
+> 추가 작업: 1차 리뷰에서 `CalendarStore.init` 이 파라미터 `referenceDate` 를 무시하고 `Date()` 를 직접 호출하던 버그 + `MonthlyCalendarView` 에 `referenceDate` 프로퍼티가 잔존하는 문제 발견 → store 에 `let referenceDate: Date` 를 추가하고 view 가 `store.referenceDate` 를 읽도록 통합. "기준 시점" 의 single source of truth 가 store 로 일원화됨.
 
 ## 자가 점검
 - 자문자답: `@StateObject` 와 `@ObservedObject` 의 차이?
@@ -204,11 +206,11 @@ init() {
   > SwiftUI 는 View 만 struct 강제. 상태 보유체는 보통 class — 그게 ObservableObject 의 디자인 의도. View 의 diff 모델과 별개 트랙.
 
 ## Claude 리뷰 체크리스트
-- [ ] `CalendarStore.swift` 가 `@MainActor final class` + `ObservableObject` 채택
-- [ ] `rows` 가 `@Published private(set)`
-- [ ] `MonthlyCalendarView` 에 `@StateObject` 사용 (ObservedObject 아님)
-- [ ] init 안에서 `makeDayCells` 단 1회 호출 보장 (`print` 로 확인)
-- [ ] body 가 `store.rows` 를 읽음
+- [x] `CalendarStore.swift` 가 `@MainActor final class` + `ObservableObject` 채택
+- [x] `rows` 가 `@Published private(set)`
+- [x] `MonthlyCalendarView` 에 `@StateObject` 사용 (ObservedObject 아님)
+- [x] init 안에서 `makeDayCells` 단 1회 호출 보장 (`print` 로 확인)
+- [x] body 가 `store.rows` 를 읽음
 
 ## 회고
 - 막혔던 부분?
