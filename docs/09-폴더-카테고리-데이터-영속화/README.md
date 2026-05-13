@@ -16,7 +16,7 @@
 
 ## 단계 체크리스트
 - [x] 01 - SwiftData 도입 (Folder 를 @Model 로)
-- [ ] 02 - Category 도 @Model + Relationship
+- [x] 02 - Category 도 @Model + Relationship
 - [ ] 03 - Color 영속화 (hex 변환)
 - [ ] 04 - 폴더 추가 저장 + 첫 실행 시드
 - [ ] 05 - 카테고리 추가 저장

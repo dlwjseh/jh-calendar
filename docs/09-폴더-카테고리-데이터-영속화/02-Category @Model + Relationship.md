@@ -114,12 +114,12 @@ final class Category {
 - **빌드는 통과하지만 사이드바가 여전히 빈 상태** — 정상. 다음 단계 + 4단계까지 가야 시드 데이터가 들어온다.
 
 ## 직접 구현하기
-- [ ] `Category` 를 `@Model final class` 로 전환 + `var folder: Folder?` 추가
-- [ ] `Folder` 에 `@Relationship(deleteRule: .cascade, inverse: \Category.folder) var categories: [Category] = []` 추가
-- [ ] `ModelContainer` 등록 모델 목록에 `Category.self` 도 명시
-- [ ] `Sidebar` 의 주석 처리된 안쪽 `ForEach(folder.categories)` 복원 (`$` 없이 인스턴스로)
-- [ ] `CategoryRow` 의 `@Binding var category` → `@Bindable` 또는 인스턴스로 전환
-- [ ] 빌드 통과, 사이드바가 깨지지 않고 빈 상태로 떠야 함
+- [x] `Category` 를 `@Model final class` 로 전환 + `var folder: Folder?` 추가
+- [x] `Folder` 에 `@Relationship(deleteRule: .cascade, inverse: \Category.folder) var categories: [Category] = []` 추가
+- [x] `ModelContainer` 등록 모델 목록에 `Category.self` 도 명시
+- [x] `Sidebar` 의 주석 처리된 안쪽 `ForEach(folder.categories)` 복원 (`$` 없이 인스턴스로)
+- [x] `CategoryRow` 의 `@Binding var category` → `@Bindable` 또는 인스턴스로 전환
+- [x] 빌드 통과, 사이드바가 깨지지 않고 빈 상태로 떠야 함
 
 ## 자가 점검
 - 빌드 OK?
@@ -129,10 +129,10 @@ final class Category {
   2. `.cascade` 와 `.nullify` 중 "카테고리를 삭제했을 때 그 안의 일정" 은 어느 쪽이 자연스러울까?
 
 ## Claude 리뷰 체크리스트
-- [ ] `Category` 가 `@Model` 클래스이고 `folder: Folder?` 를 들고 있음
-- [ ] `@Relationship` 이 한쪽(Folder)에만 적혀 있고 deleteRule + inverse 둘 다 명시됨
-- [ ] `@Binding` 패턴이 class 모델에 맞게 정리됨 (`@Bindable` 사용 또는 인스턴스 직접 변경)
-- [ ] 빌드 통과
+- [x] `Category` 가 `@Model` 클래스이고 `folder: Folder?` 를 들고 있음
+- [x] `@Relationship` 이 한쪽(Folder)에만 적혀 있고 deleteRule + inverse 둘 다 명시됨
+- [x] `@Binding` 패턴이 class 모델에 맞게 정리됨 (`@Bindable` 사용 또는 인스턴스 직접 변경)
+- [x] 빌드 통과
 
 ## 회고
 > *(직접 채우는 영역)*

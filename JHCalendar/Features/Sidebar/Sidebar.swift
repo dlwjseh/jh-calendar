@@ -39,9 +39,9 @@ struct Sidebar: View {
                         Text(folder.name)
                             .font(.caption)
                             .foregroundStyle(.secondary)
-//                        ForEach(folder.categories) { $category in
-//                            CategoryRow(category: $category)
-//                        }
+                        ForEach(folder.categories) { category in
+                            CategoryRow(category: category)
+                        }
                     }
                     .padding(.leading, 20)
                 }
