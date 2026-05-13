@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct Sidebar: View {
+    @Environment(\.modelContext) private var modelContext
     @State private var isAddMenuPresented: Bool = false
     @Binding var isAddFolderPresented: Bool
     @Binding var isAddCategoryPresented: Bool
@@ -39,6 +40,12 @@ struct Sidebar: View {
                         Text(folder.name)
                             .font(.caption)
                             .foregroundStyle(.secondary)
+                            .contextMenu {
+                                Button("이름 변경") {}
+                                Button("삭제", role: .destructive) {
+                                    modelContext.delete(folder)
+                                }
+                            }
                         ForEach(folder.categories) { category in
                             CategoryRow(category: category)
                         }

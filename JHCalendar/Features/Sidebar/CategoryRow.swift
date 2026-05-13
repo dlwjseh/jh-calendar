@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct CategoryRow: View {
+    @Environment(\.modelContext) private var modelContext
     var category: Category
     
     var body: some View {
@@ -22,6 +23,11 @@ struct CategoryRow: View {
             }
             .buttonStyle(.plain)
             Text(category.name)
+        }
+        .contextMenu {
+            Button("삭제", role: .destructive) {
+                modelContext.delete(category)
+            }
         }
     }
 }
