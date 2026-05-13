@@ -9,10 +9,12 @@ struct AddCategoryDialog: View {
     let folders: [Folder]
     let columns: [GridItem] = Array(repeating: GridItem(.flexible(), spacing: 12), count: 4)
     
+    private var trimmedName: String {
+        name.trimmingCharacters(in: .whitespaces)
+    }
     private var isSaveEnabled: Bool {
-          selectedFolder != nil &&
-          !name.trimmingCharacters(in: .whitespaces).isEmpty
-      }
+        selectedFolder != nil && !trimmedName.isEmpty
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 25) {
@@ -99,7 +101,8 @@ struct AddCategoryDialog: View {
                 .clipShape(RoundedRectangle(cornerRadius: 6))
                 .keyboardShortcut(.cancelAction)
                 HoverButton {
-                    print("카테고리 저장: folder=\(selectedFolder?.name ?? "?"), name=\(name), color=\(selectedColor)")
+                    let category = Category(name: trimmedName, color: selectedColor, isChecked: true)
+                    selectedFolder?.categories.append(category)
                     withAnimation(.smooth(duration: 0.3)) {
                         isPresented = false
                     }
