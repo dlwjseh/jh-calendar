@@ -16,7 +16,7 @@
 - `FloatingToolbar` 의 `+` 버튼 → `eventDialog = .add`
 
 ## 단계 체크리스트
-- [ ] 01 - Event @Model + Category 관계
+- [x] 01 - Event @Model + Category 관계
 - [ ] 02 - AddEventDialog UI (Toggle · Mode enum)
 - [ ] 03 - FloatingToolbar `+` 연결 + 저장
 

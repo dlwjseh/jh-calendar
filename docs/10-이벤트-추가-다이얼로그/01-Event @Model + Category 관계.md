@@ -77,11 +77,11 @@ final class Category {
 - **시각 확인이 없는 단계라 "정말 됐는지" 불안할 수 있음** — 이 단계는 빌드 통과만 합격 기준. 데이터 검증은 03 단계에서.
 
 ## 직접 구현하기
-- [ ] `Event` `@Model` 작성 (`name`, `isAllDay`, `category`)
-- [ ] `Category` 에 `@Relationship(deleteRule: .nullify, inverse: \Event.category) var events: [Event] = []` 추가
-- [ ] `ModelContainer` 등록 목록에 `Event.self` 명시
-- [ ] (선택) `Features/Event/` 폴더 신설 + sync group 등록
-- [ ] 빌드 통과
+- [x] `Event` `@Model` 작성 (`name`, `isAllDay`, `category`)
+- [x] `Category` 에 `@Relationship(deleteRule: .nullify, inverse: \Event.category) var events: [Event] = []` 추가
+- [x] `ModelContainer` 등록 목록에 `Event.self` 명시
+- [x] (선택) `Features/Event/` 폴더 신설 + sync group 등록
+- [x] 빌드 통과
 
 ## 자가 점검
 - 빌드 OK?
@@ -91,10 +91,10 @@ final class Category {
   2. `Event` 의 `category` 가 Optional (`Category?`) 인 이유는 `.nullify` 와 어떻게 연결되나?
 
 ## Claude 리뷰 체크리스트
-- [ ] `Event` 가 `@Model final class` 이고 세 프로퍼티(name/isAllDay/category)가 정확히 존재
-- [ ] `@Relationship(deleteRule: .nullify, inverse: \Event.category)` 가 한쪽(Category)에만 선언됨
-- [ ] `ModelContainer` 에 `Event.self` 명시
-- [ ] 빌드 통과
+- [x] `Event` 가 `@Model final class` 이고 세 프로퍼티(name/isAllDay/category)가 정확히 존재
+- [x] `@Relationship(deleteRule: .nullify, inverse: \Event.category)` 가 한쪽(Category)에만 선언됨
+- [x] `ModelContainer` 에 `Event.self` 명시
+- [x] 빌드 통과
 
 ## 회고
 > *(직접 채우는 영역)*

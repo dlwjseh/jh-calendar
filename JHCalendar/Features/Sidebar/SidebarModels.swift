@@ -8,6 +8,9 @@ final class Category {
     var isChecked: Bool
     var folder: Folder?
     
+    @Relationship(deleteRule: .nullify, inverse: \Event.category)
+    var events: [Event] = []
+    
     init(name: String, color: Color, isChecked: Bool, folder: Folder? = nil) {
         self.name = name
         self.colorHex = color.toHex()

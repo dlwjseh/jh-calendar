@@ -8,6 +8,6 @@ struct JHCalendarApp: App {
             ContentView()
         }
         .windowStyle(.hiddenTitleBar)
-        .modelContainer(for: [Folder.self, Category.self])
+        .modelContainer(for: [Folder.self, Category.self, Event.self])
     }
 }
