@@ -11,7 +11,7 @@ struct CategoryRow: View {
                 }
             } label: {
                 RoundedRectangle(cornerRadius: 4)
-//                    .fill(category.color)
+                    .fill(category.color)
                     .frame(width: 16, height: 16)
                     .overlay {
                         Image(systemName: "checkmark")
@@ -26,6 +26,6 @@ struct CategoryRow: View {
     }
 }
 
-//#Preview {
-//    CategoryRow(category: Category(name: "Sample", color: .orange, isChecked: true))
-//}
+#Preview {
+    CategoryRow(category: Category(name: "Sample", color: .orange, isChecked: true))
+}

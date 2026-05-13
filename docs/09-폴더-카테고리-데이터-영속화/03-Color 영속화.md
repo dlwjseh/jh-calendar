@@ -96,11 +96,11 @@ extension Color {
 `CategoryColorPalette.all` 에 정의된 12색을 hex 로 한 번 굴려보고 다시 Color 로 복원했을 때 시각적으로 같아 보이는지 눈으로 확인. 안 같으면 색공간 변환에서 손실이 있다는 신호.
 
 ## 직접 구현하기
-- [ ] `ColorHex.swift` 작성 (`Color.toHex()`, `Color.init(hex:)`)
-- [ ] `Category` 에 `colorHex: String` 저장 + `var color: Color` computed 추가
-- [ ] `Category.init` 이 `Color` 를 받아 내부에서 hex 로 변환
-- [ ] `CategoryRow` / `AddCategoryDialog` 등 사용처가 여전히 `category.color` 를 자연스럽게 쓰는지 확인
-- [ ] 빌드 통과 + (다음 단계에서 실제 추가/저장하면 색이 살아 있는지 검증 가능)
+- [x] `ColorHex.swift` 작성 (`Color.toHex()`, `Color.init(hex:)`)
+- [x] `Category` 에 `colorHex: String` 저장 + `var color: Color` computed 추가
+- [x] `Category.init` 이 `Color` 를 받아 내부에서 hex 로 변환
+- [x] `CategoryRow` / `AddCategoryDialog` 등 사용처가 여전히 `category.color` 를 자연스럽게 쓰는지 확인
+- [x] 빌드 통과 + (다음 단계에서 실제 추가/저장하면 색이 살아 있는지 검증 가능)
 
 ## 자가 점검
 - `Color.red.toHex()` 의 결과를 `print` 해보고 `#FF0000` 근방이 나오는가?

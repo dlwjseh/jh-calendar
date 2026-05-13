@@ -4,14 +4,20 @@ import SwiftData
 @Model
 final class Category {
     var name: String
-//    var colorHex: String
+    var colorHex: String
     var isChecked: Bool
     var folder: Folder?
-    init(name: String, isChecked: Bool, folder: Folder? = nil) {
+    
+    init(name: String, color: Color, isChecked: Bool, folder: Folder? = nil) {
         self.name = name
-//        self.colorHex = colorHex
+        self.colorHex = color.toHex()
         self.isChecked = isChecked
         self.folder = folder
+    }
+    
+    var color: Color {
+        get { Color(hex: colorHex) }
+        set { colorHex = newValue.toHex() }
     }
 }
 
