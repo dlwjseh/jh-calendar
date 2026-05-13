@@ -2,6 +2,7 @@ import SwiftUI
 
 struct CategoryRow: View {
     @Environment(\.modelContext) private var modelContext
+    @Binding var categoryDialog: CategoryDialogMode?
     var category: Category
     
     var body: some View {
@@ -25,6 +26,9 @@ struct CategoryRow: View {
             Text(category.name)
         }
         .contextMenu {
+            Button("수정") {
+                categoryDialog = .edit(category)
+            }
             Button("삭제", role: .destructive) {
                 modelContext.delete(category)
             }
@@ -33,5 +37,5 @@ struct CategoryRow: View {
 }
 
 #Preview {
-    CategoryRow(category: Category(name: "Sample", color: .orange, isChecked: true))
+    CategoryRow(categoryDialog: .constant(nil), category: Category(name: "Sample", color: .orange, isChecked: true))
 }

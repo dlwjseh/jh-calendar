@@ -1,16 +1,29 @@
 import SwiftUI
 
+enum FolderDialogMode {
+    case add
+    case edit(Folder)
+}
+
 struct AddFolderDialog: View {
     @Environment(\.modelContext) private var modelContext
-    @Binding var isPresented: Bool
     @State private var name = ""
     @FocusState private var isNameFocused: Bool
+    let mode: FolderDialogMode
+    var onDismiss: () -> Void
     
     private var trimmedName: String {
         name.trimmingCharacters(in: .whitespaces)
     }
     private var isNameEmpty: Bool {
         trimmedName.isEmpty
+    }
+    
+    init(mode: FolderDialogMode, onDismiss: @escaping () -> Void) {
+        self.mode = mode
+        self.onDismiss = onDismiss
+        let initial = if case .edit(let folder) = mode { folder.name } else { "" }
+        _name = State(initialValue: initial)
     }
     
     var body: some View {
@@ -34,7 +47,7 @@ struct AddFolderDialog: View {
             HStack(spacing: 13) {
                 HoverButton {
                     withAnimation(.smooth(duration: 0.3)) {
-                        isPresented = false
+                        onDismiss()
                     }
                 } label: {
                     Text("취소")
@@ -46,11 +59,16 @@ struct AddFolderDialog: View {
                 .clipShape(RoundedRectangle(cornerRadius: 6))
                 .keyboardShortcut(.cancelAction)
                 HoverButton {
-                    let folder = Folder(name: trimmedName)
-                    modelContext.insert(folder)
+                    switch mode {
+                    case .add:
+                        let folder = Folder(name: trimmedName)
+                        modelContext.insert(folder)
+                    case .edit(let folder):
+                        folder.name = trimmedName
+                    }
                     
                     withAnimation(.smooth(duration: 0.3)) {
-                        isPresented = false
+                        onDismiss()
                     }
                 } label: {
                     Text("저장")

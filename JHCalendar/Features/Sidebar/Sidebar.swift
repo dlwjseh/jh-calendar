@@ -3,8 +3,8 @@ import SwiftUI
 struct Sidebar: View {
     @Environment(\.modelContext) private var modelContext
     @State private var isAddMenuPresented: Bool = false
-    @Binding var isAddFolderPresented: Bool
-    @Binding var isAddCategoryPresented: Bool
+    @Binding var folderDialog: FolderDialogMode?
+    @Binding var categoryDialog: CategoryDialogMode?
     var folders: [Folder]
     
     var body: some View {
@@ -26,8 +26,8 @@ struct Sidebar: View {
                 ) {
                     AddMenuPopover(
                         isAddMenuPresented: $isAddMenuPresented,
-                        isAddFolderPresented: $isAddFolderPresented,
-                        isAddCategoryPresented: $isAddCategoryPresented
+                        folderDialog: $folderDialog,
+                        categoryDialog: $categoryDialog
                     )
                 }
             }
@@ -41,13 +41,15 @@ struct Sidebar: View {
                             .font(.caption)
                             .foregroundStyle(.secondary)
                             .contextMenu {
-                                Button("이름 변경") {}
+                                Button("이름 변경") {
+                                    folderDialog = .edit(folder)
+                                }
                                 Button("삭제", role: .destructive) {
                                     modelContext.delete(folder)
                                 }
                             }
                         ForEach(folder.categories) { category in
-                            CategoryRow(category: category)
+                            CategoryRow(categoryDialog: $categoryDialog, category: category)
                         }
                     }
                     .padding(.leading, 20)

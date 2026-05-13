@@ -1,12 +1,18 @@
 import SwiftUI
 
+enum CategoryDialogMode {
+    case add
+    case edit(Category)
+}
+
 struct AddCategoryDialog: View {
-    @Binding var isPresented: Bool
     @State private var selectedFolder: Folder? = nil
     @State private var name = ""
     @State private var selectedColor: Color = CategoryColorPalette.all.first ?? .blue
-    
+    let mode: CategoryDialogMode
     let folders: [Folder]
+    var onDismiss: () -> Void
+    
     let columns: [GridItem] = Array(repeating: GridItem(.flexible(), spacing: 12), count: 4)
     
     private var trimmedName: String {
@@ -14,6 +20,17 @@ struct AddCategoryDialog: View {
     }
     private var isSaveEnabled: Bool {
         selectedFolder != nil && !trimmedName.isEmpty
+    }
+    
+    init(mode: CategoryDialogMode, folders: [Folder], onDismiss: @escaping () -> Void) {
+        self.mode = mode
+        self.folders = folders
+        self.onDismiss = onDismiss
+        if case .edit(let category) = mode {
+            _selectedFolder = State(initialValue: category.folder)
+            _name = State(initialValue: category.name)
+            _selectedColor = State(initialValue: category.color)
+        }
     }
     
     var body: some View {
@@ -89,7 +106,7 @@ struct AddCategoryDialog: View {
             HStack(spacing: 13) {
                 HoverButton {
                     withAnimation(.smooth(duration: 0.3)) {
-                        isPresented = false
+                        onDismiss()
                     }
                 } label: {
                     Text("취소")
@@ -101,10 +118,17 @@ struct AddCategoryDialog: View {
                 .clipShape(RoundedRectangle(cornerRadius: 6))
                 .keyboardShortcut(.cancelAction)
                 HoverButton {
-                    let category = Category(name: trimmedName, color: selectedColor, isChecked: true)
-                    selectedFolder?.categories.append(category)
+                    switch mode {
+                    case .add:
+                        let category = Category(name: trimmedName, color: selectedColor, isChecked: true)
+                        selectedFolder?.categories.append(category)
+                    case .edit(let category):
+                        category.name = trimmedName
+                        category.folder = selectedFolder
+                        category.color = selectedColor
+                    }
                     withAnimation(.smooth(duration: 0.3)) {
-                        isPresented = false
+                        onDismiss()
                     }
                 } label: {
                     Text("저장")
