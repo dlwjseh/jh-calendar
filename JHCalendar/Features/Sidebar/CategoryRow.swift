@@ -26,8 +26,11 @@ struct CategoryRow: View {
             Text(category.name)
         }
         .contextMenu {
+            Text("카테고리").font(.caption)
             Button("수정") {
-                categoryDialog = .edit(category)
+                withAnimation(.smooth(duration: 0.3)) {
+                    categoryDialog = .edit(category)
+                }
             }
             Button("삭제", role: .destructive) {
                 modelContext.delete(category)

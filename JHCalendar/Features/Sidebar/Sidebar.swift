@@ -41,8 +41,11 @@ struct Sidebar: View {
                             .font(.caption)
                             .foregroundStyle(.secondary)
                             .contextMenu {
+                                Text("폴더").font(.caption)
                                 Button("이름 변경") {
-                                    folderDialog = .edit(folder)
+                                    withAnimation(.smooth(duration: 0.3)) {
+                                        folderDialog = .edit(folder)
+                                    }
                                 }
                                 Button("삭제", role: .destructive) {
                                     modelContext.delete(folder)
