@@ -1,12 +1,16 @@
 import SwiftUI
 
 struct AddFolderDialog: View {
+    @Environment(\.modelContext) private var modelContext
     @Binding var isPresented: Bool
     @State private var name = ""
     @FocusState private var isNameFocused: Bool
     
+    private var trimmedName: String {
+        name.trimmingCharacters(in: .whitespaces)
+    }
     private var isNameEmpty: Bool {
-        name.trimmingCharacters(in: .whitespaces).isEmpty
+        trimmedName.isEmpty
     }
     
     var body: some View {
@@ -42,7 +46,9 @@ struct AddFolderDialog: View {
                 .clipShape(RoundedRectangle(cornerRadius: 6))
                 .keyboardShortcut(.cancelAction)
                 HoverButton {
-                    print("폴더 저장 : name=\(name)")
+                    let folder = Folder(name: trimmedName)
+                    modelContext.insert(folder)
+                    
                     withAnimation(.smooth(duration: 0.3)) {
                         isPresented = false
                     }
