@@ -111,7 +111,7 @@ final class Category {
 
 - **양방향 관계의 inverse 는 한 쪽에만** — Folder 쪽에 `inverse: \Category.folder` 한 번만 적으면 된다. 양쪽에 적으면 컴파일 에러.
 - **`Sidebar` 바깥쪽 폴더 ForEach 는 이미 1단계에서 정리됨** — 1단계에서 `var folders: [Folder]` + `ForEach(folders) { folder in ... }` 로 바꿔뒀다. 이번 단계에선 **안쪽 `ForEach(folder.categories)`** 만 주석 해제하면 됨. `Category` 도 class 라 `$` 없이 인스턴스로 넘긴다.
-- **빌드는 통과하지만 사이드바가 여전히 빈 상태** — 정상. 다음 단계 + 4단계까지 가야 시드 데이터가 들어온다.
+- **빌드는 통과하지만 사이드바가 여전히 빈 상태** — 정상. 시드를 두지 않기로 했으므로 4~5단계에서 `+` 버튼으로 직접 추가하기 전까지는 비어 있다.
 
 ## 직접 구현하기
 - [x] `Category` 를 `@Model final class` 로 전환 + `var folder: Folder?` 추가
