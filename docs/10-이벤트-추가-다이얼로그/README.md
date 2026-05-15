@@ -20,13 +20,15 @@
 - [x] 02 - AddEventDialog UI (Toggle · Mode enum)
 - [x] 03 - FloatingToolbar `+` 연결 + 저장
 - [x] 04 - 시간입력 오전/오후 토글 (focusable · onMoveCommand) — 커스텀 시간 입력기 1조각
+- [ ] 05 - 시(hour) 숫자 입력 (.onKeyPress · 12시제 클램프 버퍼)
 
-> 후속(별도 단계 예정): 시·분 입력 + `Event` 에 시각 필드 추가 + `BorderlessTimePicker` 데이터 바인딩. 현재 타임피커는 UI만(오전/오후), 아직 `Event` 에 저장 안 됨.
+> 후속(별도 단계 예정): 분 입력 + 칸 사이 ←/→ 이동 + `Event` 에 시각 필드 추가 + `BorderlessTimePicker` 데이터 바인딩. 현재 타임피커는 UI만, 아직 `Event` 에 저장 안 됨.
 
 ## 이 기능에서 학습할 Swift / SwiftUI 개념
 - **`Toggle`** — Bool 상태를 스위치/체크박스 UI 로 표현. macOS 기본 스타일과 `.switch` / `.checkbox` 스타일 차이.
 - **관계 deleteRule 의 선택 — `.nullify`** — 09 의 `.cascade` 와 대비. 카테고리를 지워도 이벤트 자체는 살려두는 정책.
 - **`.focusable()` + `.onMoveCommand`** (04) — 입력 컨트롤이 아닌 일반 뷰를 키보드 포커스 가능하게 만들고, 방향키를 가로채 상태 토글. 기본 `DatePicker` 대신 커스텀 시간 입력기를 직접 만드는 기반.
+- **`.onKeyPress` + `KeyPress.Result`** (05) — 포커스된 뷰에서 숫자 키를 받아(`.handled`/`.ignored`) 12시제 클램프 버퍼 로직으로 시 입력. JS `keydown`+`preventDefault` 대응.
 - (응용) SwiftData 양방향 관계 · `modelContext` 자동 dirty tracking · mode enum 다이얼로그 — 09 패턴을 새 모델에 그대로 재적용.
 
 ## 자바/스프링 비유 한 줄 매핑
