@@ -20,9 +20,14 @@ struct BorderlessTimePicker: View {
     @FocusState private var isMeridiemFocused: Bool
     @State private var hour: Int = 12
     @FocusState private var isHourFocused: Bool
+    @State private var minute: Int = 0
+    @FocusState private var isMinuteFocused: Bool
     
     private var hourFormat: String {
         String(format: "%02d", hour)
+    }
+    private var minuteFormat: String {
+        String(format: "%02d", minute)
     }
     
     var body: some View {
@@ -64,6 +69,20 @@ struct BorderlessTimePicker: View {
                 }
             
             Text(":")
+            
+            Text(minuteFormat)
+                .padding(.vertical, 2)
+                .focusable()
+                .focused($isMinuteFocused)
+                .onTapGesture { isMinuteFocused = true }
+                .onKeyPress { keyPress in
+                    if let digit = Int(keyPress.characters), (0...9).contains(digit) {
+                        let candidate = minute * 10 + digit
+                        minute = candidate < 60 ? candidate : digit
+                        return .handled
+                    }
+                    return .ignored
+                }
         }
     }
 }
