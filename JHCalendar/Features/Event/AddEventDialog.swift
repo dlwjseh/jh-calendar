@@ -6,6 +6,8 @@ enum EventDialogMode {
 }
 
 struct AddEventDialog: View {
+    @Environment(\.modelContext) private var modelContext
+    
     @State private var name = ""
     @State private var isAllDay = false
     @State private var selectedCategory: Category? = nil
@@ -109,7 +111,7 @@ struct AddEventDialog: View {
                               .padding()
                       }
                     
-//                    BorderlessTimePicker(date: $startDate)
+                    BorderlessTimePicker()
                 }
             }
             
@@ -130,9 +132,12 @@ struct AddEventDialog: View {
                 HoverButton {
                     switch mode {
                     case .add:
-                        print("add")
+                        let event = Event(name: trimmedName, isAllDay: isAllDay, category: selectedCategory)
+                        modelContext.insert(event)
                     case .edit(let event):
-                        print("edit", event)
+                        event.name = trimmedName
+                        event.isAllDay = isAllDay
+                        event.category = selectedCategory
                     }
                     withAnimation(.smooth(duration: 0.3)) {
                         onDismiss()
