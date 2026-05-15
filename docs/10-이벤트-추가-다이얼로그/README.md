@@ -21,6 +21,7 @@
 - [x] 03 - FloatingToolbar `+` 연결 + 저장
 - [x] 04 - 시간입력 오전/오후 토글 (focusable · onMoveCommand) — 커스텀 시간 입력기 1조각
 - [x] 05 - 시(hour) 숫자 입력 (.onKeyPress · 12시제 클램프 버퍼)
+- [ ] 06 - 분(minute) 숫자 입력 (05 패턴 재적용 · 0~59 클램프)
 
 > 후속(별도 단계 예정): 분 입력 + 칸 사이 ←/→ 이동 + `Event` 에 시각 필드 추가 + `BorderlessTimePicker` 데이터 바인딩. 현재 타임피커는 UI만, 아직 `Event` 에 저장 안 됨.
 
