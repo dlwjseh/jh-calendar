@@ -132,15 +132,15 @@ struct BorderlessTimePicker: View {
 - **저장은 이 단계 범위 아님** — `Event` 에 날짜 필드 없음 + `isSaveEnabled` 가 `false` 하드코딩(line 32). 그래서 "저장 후 확인" 이 아니라 **다이얼로그 안에서** 검증한다(아래 자가 점검). 영속화는 08 단계.
 
 ## 직접 구현하기
-- [ ] `BorderlessTimePicker`: `@State hour/minute/meridiem` 제거 → `@Binding var date: Date`
-- [ ] `displayHour` / `displayMinute` / `displayMeridiem` computed (24h→12h 변환표 적용)
-- [ ] `commit(hour12:minute:meridiem:)` — 12h→24h, 년월일 유지, `date` 대입 (단일 통로)
-- [ ] 시 `.onKeyPress` 클램프 → `commit(...)` 경유 (0이면 meridiem 뒤집어 전달)
-- [ ] 분 `.onKeyPress` 클램프(<60) → `commit(...)` 경유
-- [ ] 오전/오후 `.onMoveCommand` 토글 → `commit(...)` 경유
-- [ ] `AddEventDialog` line 114 → `BorderlessTimePicker(date: $startDate)`
-- [ ] `#Preview` 를 `@Previewable @State` 로 갱신
-- [ ] 빌드 통과
+- [x] `BorderlessTimePicker`: `@State hour/minute/meridiem` 제거 → `@Binding var date: Date`
+- [x] `displayHour` / `displayMinute` / `displayMeridiem` computed (24h→12h 변환표 적용)
+- [x] `commit(hour12:minute:meridiem:)` — 12h→24h, 년월일 유지, `date` 대입 (단일 통로)
+- [x] 시 `.onKeyPress` 클램프 → `commit(...)` 경유 (0이면 meridiem 뒤집어 전달)
+- [x] 분 `.onKeyPress` 클램프(<60) → `commit(...)` 경유
+- [x] 오전/오후 `.onMoveCommand` 토글 → `commit(...)` 경유
+- [x] `AddEventDialog` line 114 → `BorderlessTimePicker(date: $startDate)`
+- [ ] ~~`#Preview` 를 `@Previewable @State` 로 갱신~~ — 해당 파일에 `#Preview` 블록 없음 (N/A)
+- [x] 빌드 통과
 
 > 다 되면 "다 했어" 라고 알리면 리뷰할게.
 
@@ -157,14 +157,14 @@ struct BorderlessTimePicker: View {
 
 ## Claude 리뷰 체크리스트
 *(Claude 가 리뷰 시 사용)*
-- [ ] 내부 시/분/오전오후 `@State` 제거, `@Binding var date: Date` 단일 진실원본 (이중 상태 없음)
-- [ ] 표시값은 `date` 파생 computed, 변경은 `commit` 단일 통로로 `date` 갱신
-- [ ] 12/24 변환 정확 — 특히 오전 12=0시, 오후 12=12시 특수 케이스
-- [ ] 재조립 시 기존 년/월/일 보존 (`dateComponents([.year,.month,.day]...)` 복사 후 시·분 교체)
-- [ ] 05/06 클램프 규칙 그대로, "어디에 쓰는지"만 commit 경유로 변경
-- [ ] `AddEventDialog` 호출부 `(date: $startDate)`, `#Preview` `@Previewable @State`
-- [ ] `@Binding` 등 03/04/05 개념 재설명 없이 활용만 (dedup 원칙)
-- [ ] 빌드 통과
+- [x] 내부 시/분/오전오후 `@State` 제거, `@Binding var date: Date` 단일 진실원본 (이중 상태 없음)
+- [x] 표시값은 `date` 파생 computed, 변경은 `commit` 단일 통로로 `date` 갱신
+- [x] 12/24 변환 정확 — 특히 오전 12=0시, 오후 12=12시 특수 케이스
+- [x] 재조립 시 기존 년/월/일 보존 (`dateComponents([.year,.month,.day]...)` 복사 후 시·분 교체)
+- [x] 05/06 클램프 규칙 그대로, "어디에 쓰는지"만 commit 경유로 변경
+- [x] `AddEventDialog` 호출부 `(date: $startDate)` (`#Preview` 블록 없음 — N/A)
+- [x] `@Binding` 등 03/04/05 개념 재설명 없이 활용만 (dedup 원칙)
+- [x] 빌드 통과
 
 ## 회고
 - 막혔던 부분?

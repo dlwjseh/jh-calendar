@@ -22,7 +22,7 @@
 - [x] 04 - 시간입력 오전/오후 토글 (focusable · onMoveCommand) — 커스텀 시간 입력기 1조각
 - [x] 05 - 시(hour) 숫자 입력 (.onKeyPress · 12시제 클램프 버퍼)
 - [x] 06 - 분(minute) 숫자 입력 (05 패턴 재적용 · 0~59 클램프)
-- [ ] 07 - BorderlessTimePicker ↔ startDate @Binding 연동 (Calendar/DateComponents · 12↔24시)
+- [x] 07 - BorderlessTimePicker ↔ startDate @Binding 연동 (Calendar/DateComponents · 12↔24시)
 
 > 후속(별도 단계 예정): 08 `Event` 에 `startDate` 필드 추가 + 저장 + `isSaveEnabled` 정상화 / 칸 사이 ←/→ 이동(@FocusState enum 리팩터링). 07 까지는 타임피커가 `startDate` 와 연동되지만 아직 `Event` 에 영속화 안 됨.
 

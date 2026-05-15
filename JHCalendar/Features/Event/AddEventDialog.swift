@@ -111,7 +111,7 @@ struct AddEventDialog: View {
                               .padding()
                       }
                     
-                    BorderlessTimePicker()
+                    BorderlessTimePicker(date: $startDate)
                 }
             }
             
