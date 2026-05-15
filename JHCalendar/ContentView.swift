@@ -6,6 +6,7 @@ struct ContentView: View {
     @State private var isSidebarVisible = false
     @State private var folderDialog: FolderDialogMode? = nil
     @State private var categoryDialog: CategoryDialogMode? = nil
+    @State private var eventDialog: EventDialogMode? = nil
     
     var body: some View {
         ZStack {
@@ -20,26 +21,59 @@ struct ContentView: View {
                 ZStack(alignment: .topLeading) {
                     Color.clear
                     MonthlyCalendarView()
-                    FloatingToolbar(isSidebarVisible: $isSidebarVisible)
+                    FloatingToolbar(
+                        isSidebarVisible: $isSidebarVisible,
+                        eventDialog: $eventDialog
+                    )
                 }
             }
             .overlay(alignment: .topLeading) { TrafficLightHoverArea() }
             
             if let mode = folderDialog {
-                DialogBackdrop { folderDialog = nil }
-                    .transition(.opacity)
+                DialogBackdrop {
+                    withAnimation(.smooth(duration: 0.3)) {
+                        folderDialog = nil
+                    }
+                }.transition(.opacity)
                 AddFolderDialog(
                     mode: mode,
-                    onDismiss: { folderDialog = nil }
+                    onDismiss: {
+                        withAnimation(.smooth(duration: 0.3)) {
+                            folderDialog = nil
+                        }
+                    }
                 ).transition(.opacity.combined(with: .scale(scale: 0.96)))
             }
             if let mode = categoryDialog {
-                DialogBackdrop { categoryDialog = nil }
-                    .transition(.opacity)
+                DialogBackdrop {
+                    withAnimation(.smooth(duration: 0.3)) {
+                        categoryDialog = nil
+                    }
+                }.transition(.opacity)
                 AddCategoryDialog(
                     mode: mode,
                     folders: folders,
-                    onDismiss: { categoryDialog = nil }
+                    onDismiss: {
+                        withAnimation(.smooth(duration: 0.3)) {
+                            categoryDialog = nil
+                        }
+                    }
+                ).transition(.opacity.combined(with: .scale(scale: 0.96)))
+            }
+            if let mode = eventDialog {
+                DialogBackdrop {
+                    withAnimation(.smooth(duration: 0.3)) {
+                        eventDialog = nil
+                    }
+                }.transition(.opacity)
+                AddEventDialog(
+                    mode: mode,
+                    categories: folders.flatMap(\.categories),
+                    onDismiss: {
+                        withAnimation(.smooth(duration: 0.3)) {
+                            eventDialog = nil
+                        }
+                    }
                 ).transition(.opacity.combined(with: .scale(scale: 0.96)))
             }
         }

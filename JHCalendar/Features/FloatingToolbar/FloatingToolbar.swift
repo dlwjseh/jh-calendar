@@ -2,6 +2,7 @@ import SwiftUI
 
 struct FloatingToolbar: View {
     @Binding var isSidebarVisible: Bool
+    @Binding var eventDialog: EventDialogMode?
     
     var body: some View {
         HStack(spacing: 0) {
@@ -16,7 +17,9 @@ struct FloatingToolbar: View {
                     .frame(width: 15, height: 20)
             }
             HoverButton {
-                print("Plus 버튼 클릭")
+                withAnimation(.smooth(duration: 0.3)) {
+                    eventDialog = .add
+                }
             } label: {
                 Image(systemName: "plus")
                     .font(.system(size: 14, weight: .medium))
