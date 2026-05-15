@@ -17,9 +17,11 @@
 
 ## 단계 체크리스트
 - [x] 01 - Event @Model + Category 관계
-- [ ] 02 - AddEventDialog UI (Toggle · Mode enum)
-- [ ] 03 - FloatingToolbar `+` 연결 + 저장
-- [ ] 04 - 시간입력 오전/오후 토글 (focusable · onMoveCommand) — 커스텀 시간 입력기 1조각
+- [x] 02 - AddEventDialog UI (Toggle · Mode enum)
+- [x] 03 - FloatingToolbar `+` 연결 + 저장
+- [x] 04 - 시간입력 오전/오후 토글 (focusable · onMoveCommand) — 커스텀 시간 입력기 1조각
+
+> 후속(별도 단계 예정): 시·분 입력 + `Event` 에 시각 필드 추가 + `BorderlessTimePicker` 데이터 바인딩. 현재 타임피커는 UI만(오전/오후), 아직 `Event` 에 저장 안 됨.
 
 ## 이 기능에서 학습할 Swift / SwiftUI 개념
 - **`Toggle`** — Bool 상태를 스위치/체크박스 UI 로 표현. macOS 기본 스타일과 `.switch` / `.checkbox` 스타일 차이.
