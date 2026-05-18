@@ -17,7 +17,7 @@
   - 이벤트 클릭 → 편집 다이얼로그(`.edit`) 연결
 
 ## 단계 체크리스트
-- [ ] 01 - 이벤트 날짜 필드 영속화 (`startDate` / `endDate` + AddEventDialog 연동)
+- [x] 01 - 이벤트 날짜 필드 영속화 (`startDate` / `endDate` + AddEventDialog 연동) — *후속: `.edit` 진입 폼 프리필(날짜·name·isAllDay·category)은 `.edit` UI 연결 시점에 처리*
 - [ ] 02 - 표시 범위 이벤트 조회 (`@Query` + `#Predicate` 날짜 범위 + 정렬)
 - [ ] 03 - 날짜별 인덱스 만들기 (성능 핵심 — `[Date: [Event]]`)
 - [ ] 04 - 종일 이벤트 바 렌더링 (`DayCellView` 에 이벤트 전달)
