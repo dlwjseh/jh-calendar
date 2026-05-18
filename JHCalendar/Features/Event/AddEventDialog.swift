@@ -9,11 +9,10 @@ struct AddEventDialog: View {
     @Environment(\.modelContext) private var modelContext
     
     @State private var name = ""
-    @State private var isAllDay = false
+    @State private var isAllDay = true
     @State private var selectedCategory: Category? = nil
     @State private var startDate = Date()
-    @State private var showStartPicker = false
-    @State private var showStartTimePicker = false
+    @State private var endDate = Date()
     
     let mode: EventDialogMode
     let categories: [Category]
@@ -29,7 +28,8 @@ struct AddEventDialog: View {
         name.trimmingCharacters(in: .whitespaces)
     }
     private var isSaveEnabled: Bool {
-        false
+        selectedCategory != nil && !trimmedName.isEmpty
+        && endDate >= startDate
     }
     
     var body: some View {
@@ -88,30 +88,21 @@ struct AddEventDialog: View {
                         .font(.system(size: 12))
                         .foregroundStyle(.secondary)
                         .frame(width: 50, alignment: .leading)
-                    
-                    
-                    
-                    Button {
-                          showStartPicker.toggle()
-                      } label: {
-                          Text(startDate.formatted(
-                                Date.FormatStyle()
-                                    .year(.defaultDigits)
-                                    .month(.twoDigits)
-                                    .day(.twoDigits)
-                                    .locale(Locale(identifier: "ko_KR"))
-                            ))
-                      }
-                      .buttonStyle(.plain)
-                      .popover(isPresented: $showStartPicker, arrowEdge: .bottom) {
-                          DatePicker("", selection: $startDate, displayedComponents: .date)
-                              .datePickerStyle(.graphical)
-                              .labelsHidden()
-                              .environment(\.locale, Locale(identifier: "ko_KR"))
-                              .padding()
-                      }
-                    
-                    BorderlessTimePicker(date: $startDate)
+                    PopoverDatePicker(date: $startDate)
+                    if !isAllDay {
+                        BorderlessTimePicker(date: $startDate)
+                    }
+                }
+                
+                HStack(spacing: 5) {
+                    Text("종료")
+                        .font(.system(size: 12))
+                        .foregroundStyle(.secondary)
+                        .frame(width: 50, alignment: .leading)
+                    PopoverDatePicker(date: $endDate)
+                    if !isAllDay {
+                        BorderlessTimePicker(date: $endDate)
+                    }
                 }
             }
             
@@ -130,14 +121,22 @@ struct AddEventDialog: View {
                 .clipShape(RoundedRectangle(cornerRadius: 6))
                 .keyboardShortcut(.cancelAction)
                 HoverButton {
+                    if isAllDay {
+                        startDate = Calendar.current.startOfDay(for: startDate)
+                        endDate = Calendar.current.startOfDay(for: endDate)
+                    }
+                    
                     switch mode {
                     case .add:
-                        let event = Event(name: trimmedName, isAllDay: isAllDay, category: selectedCategory)
+                        let event = Event(name: trimmedName, isAllDay: isAllDay, category: selectedCategory,
+                                          startDate: startDate, endDate: endDate)
                         modelContext.insert(event)
                     case .edit(let event):
                         event.name = trimmedName
                         event.isAllDay = isAllDay
                         event.category = selectedCategory
+                        event.startDate = startDate
+                        event.endDate = endDate
                     }
                     withAnimation(.smooth(duration: 0.3)) {
                         onDismiss()
