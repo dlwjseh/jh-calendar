@@ -18,7 +18,7 @@
 
 ## 단계 체크리스트
 - [x] 01 - 이벤트 날짜 필드 영속화 (`startDate` / `endDate` + AddEventDialog 연동) — *후속: `.edit` 진입 폼 프리필(날짜·name·isAllDay·category)은 `.edit` UI 연결 시점에 처리*
-- [ ] 02 - 표시 범위 이벤트 조회 (`@Query` + `#Predicate` 날짜 범위 + 정렬)
+- [x] 02 - 표시 범위 이벤트 조회 — *predicate 대신 순수함수 `CalendarGrid.interval` + 계산 프로퍼티 메모리 필터 (SwiftData `DateInterval`/`@StateObject-init` 함정 회피). 런타임 확인은 추후.*
 - [ ] 03 - 날짜별 인덱스 만들기 (성능 핵심 — `[Date: [Event]]`)
 - [ ] 04 - 종일 이벤트 바 렌더링 (`DayCellView` 에 이벤트 전달)
 - [ ] 05 - 시간 지정 동그라미 + 정렬 + 오버플로우(+N)

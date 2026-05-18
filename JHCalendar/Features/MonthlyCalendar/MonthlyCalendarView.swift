@@ -1,7 +1,13 @@
 import SwiftUI
+import SwiftData
 
 struct MonthlyCalendarView: View {
     @StateObject private var store = CalendarStore()
+    @Query(sort: \Event.startDate) private var allEvents: [Event]
+    
+    private var events: [Event] {
+        allEvents.filter { store.gridInterval.contains($0.startDate) }
+    }
 
     private static let yearMonthFormatter: DateFormatter = {
         let f = DateFormatter()

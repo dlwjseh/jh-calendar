@@ -9,7 +9,12 @@ struct DayCell: Identifiable {
     let isInCurrentMonth: Bool
 }
 
-func makeDayCells(for referenceDate: Date) -> [DayCell] {
+struct CalendarGrid {
+    let cells: [DayCell]
+    let interval: DateInterval
+}
+
+func makeDayCells(for referenceDate: Date) -> CalendarGrid {
     let cal = Calendar.current
     
     let firstOfMonth: Date = cal.dateInterval(of: .month, for: referenceDate)!.start
@@ -33,5 +38,8 @@ func makeDayCells(for referenceDate: Date) -> [DayCell] {
         let inThisMonth = cal.isDate(date, equalTo: firstOfMonth, toGranularity: .month)
         cells.append(DayCell(date: date, day: day, weekday: weekday, isInCurrentMonth: inThisMonth))
     }
-    return cells
+    return CalendarGrid(
+        cells: cells,
+        interval: DateInterval(start: gridStart, end: cal.date(byAdding: .day, value: 1, to: cells.last!.date)!)
+    )
 }
