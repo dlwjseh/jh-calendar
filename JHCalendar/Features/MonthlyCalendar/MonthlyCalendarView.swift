@@ -7,7 +7,10 @@ struct MonthlyCalendarView: View {
     let calendar: Calendar = Calendar.current
     
     private var events: [Event] {
-        allEvents.filter { store.gridInterval.contains($0.startDate) }
+        let events = allEvents.filter { store.gridInterval.contains($0.startDate) }
+        return events.sorted { a,b in
+            (a.isAllDay ? 0 : 1, a.startDate) < (b.isAllDay ? 0 : 1, b.startDate)
+        }
     }
     private var eventsByDayIndex: [Date: [Event]] {
         eventsByDay(events, calendar: calendar)
