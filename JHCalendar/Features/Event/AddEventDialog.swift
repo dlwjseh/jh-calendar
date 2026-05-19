@@ -43,19 +43,18 @@ struct AddEventDialog: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             
             VStack(alignment: .leading, spacing: 19) {
-                HStack(spacing: 5) {
+                HStack(alignment: .top, spacing: 5) {
                     Text("카테고리")
                         .font(.system(size: 12))
                         .foregroundStyle(.secondary)
                         .frame(width: 50, alignment: .leading)
-                    
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 8) {
-                            ForEach(categories) { category in
-                                CategoryChip(selectedCategory: $selectedCategory, category: category)
-                            }
+
+                    FlowLayout(spacing: 8, lineSpacing: 8) {
+                        ForEach(categories) { category in
+                            CategoryChip(selectedCategory: $selectedCategory, category: category)
                         }
                     }
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 
                 HStack(spacing: 5) {
