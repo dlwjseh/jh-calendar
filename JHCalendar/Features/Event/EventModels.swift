@@ -9,6 +9,10 @@ final class Event {
     var startDate: Date
     var endDate: Date
     
+    var color: Color {
+        category?.color ?? .secondary
+    }
+    
     init(name: String, isAllDay: Bool, category: Category? = nil, startDate: Date, endDate: Date) {
         self.name = name
         self.isAllDay = isAllDay

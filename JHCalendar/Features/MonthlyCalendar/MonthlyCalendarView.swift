@@ -4,12 +4,13 @@ import SwiftData
 struct MonthlyCalendarView: View {
     @StateObject private var store = CalendarStore()
     @Query(sort: \Event.startDate) private var allEvents: [Event]
+    let calendar: Calendar = Calendar.current
     
     private var events: [Event] {
         allEvents.filter { store.gridInterval.contains($0.startDate) }
     }
     private var eventsByDayIndex: [Date: [Event]] {
-        eventsByDay(events)
+        eventsByDay(events, calendar: calendar)
     }
 
     private static let yearMonthFormatter: DateFormatter = {
@@ -55,7 +56,8 @@ struct MonthlyCalendarView: View {
                 ForEach(store.rows, id: \.first?.id) { row in
                     HStack(spacing: 0) {
                         ForEach(row) { cell in
-                            DayCellView(cell: cell)
+                            DayCellView(cell: cell,
+                                        events: eventsByDayIndex[calendar.startOfDay(for: cell.date)] ?? [])
                         }
                     }
                     .frame(maxHeight: .infinity)
