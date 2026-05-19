@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct DayCellView: View {
+    @State private var isHovered = false
+    
     let cell: DayCell
     let events: [Event]
     
@@ -65,9 +67,11 @@ struct DayCellView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .padding(.top, 6)
+        .background(.primary.opacity(isHovered ? 0.03 : 0))
         .overlay(
             Rectangle()
                 .stroke(Color.gray.opacity(0.2), lineWidth: 0.5)
         )
+        .onHover { isHovered = $0 }
     }
 }
