@@ -22,7 +22,7 @@
 - [x] 03 - 날짜별 인덱스 만들기 (성능 핵심 — `[Date: [Event]]`) — *순수함수 `eventsByDay` + `MonthlyCalendarView` 파생 프로퍼티. 멀티데이 확장 주석은 06 으로 보류.*
 - [x] 04 - 종일 이벤트 바 렌더링 (`DayCellView` 에 이벤트 전달) — *`Event.color` 계산 프로퍼티로 카테고리 색 DRY, `ForEach + if isAllDay` 패턴. 시간지정/오버플로우는 05.*
 - [x] 05 - 시간 지정 동그라미 + 정렬 + 오버플로우(+N) — *동그라미 대신 카테고리 색 시작시각 텍스트 + 이름. 정렬은 `(isAllDay?0:1, startDate)` 튜플 `<` 한 곳. 시작시각 표시는 스펙 외 확장(`.dateTime.hour().minute()`, 로케일 의존).*
-- [ ] 06 - 멀티 데이 로드맵 & 회고 (문서 전용, 코드 없음)
+- [x] 06 - 멀티 데이 로드맵 & 회고 (문서 전용, 코드 없음)
 
 ## 이 기능에서 학습할 Swift / SwiftUI 개념
 - SwiftData 모델 스키마 변경(필드 추가)과 lightweight migration
