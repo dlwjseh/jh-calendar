@@ -8,6 +8,9 @@ struct MonthlyCalendarView: View {
     private var events: [Event] {
         allEvents.filter { store.gridInterval.contains($0.startDate) }
     }
+    private var eventsByDayIndex: [Date: [Event]] {
+        eventsByDay(events)
+    }
 
     private static let yearMonthFormatter: DateFormatter = {
         let f = DateFormatter()
