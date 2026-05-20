@@ -2,11 +2,14 @@ import SwiftUI
 import SwiftData
 
 struct DayPopupDialog: View {
-    let date: Date
     @Query private var dayEvents: [Event]
+    @State private var isAddEventButtonHoverd = false
+    let date: Date
+    var onAddEvent: (Date) -> Void
     
-    init(date: Date) {
+    init(date: Date, onAddEvent: @escaping (Date) -> Void) {
         self.date = date
+        self.onAddEvent = onAddEvent
         let cal = Calendar.current
         let dayStart = cal.startOfDay(for: date)
         let dayEnd = cal.date(byAdding: .day, value: 1, to: dayStart)!
@@ -26,11 +29,27 @@ struct DayPopupDialog: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            Text(dayString)
-                .font(.system(size: 17, weight: .bold))
-                .foregroundStyle(.white)
-                .shadow(color: .black.opacity(0.6), radius: 6, x: 2, y: 4)
+        VStack(alignment: .leading, spacing: 15) {
+            HStack {
+                Text(dayString)
+                    .font(.system(size: 17, weight: .bold))
+                    .foregroundStyle(.white)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .shadow(color: .black.opacity(0.7), radius: 6, x: 2, y: 5)
+                Button {
+                    onAddEvent(date)
+                } label: {
+                    Image(systemName: "plus")
+                        .foregroundStyle(.white)
+                        .frame(width: 32, height: 32)
+                        .background(Circle().fill(Color(red: 37/255, green: 99/255, blue: 235/255)))
+                        .overlay(Circle().fill(.white.opacity(isAddEventButtonHoverd ? 0.08 : 0)))
+                }
+                .buttonStyle(.plain)
+                .pointerStyle(.link)
+                .onHover { isAddEventButtonHoverd = $0 }
+            }
+            .padding(.horizontal, 10)
             
             VStack(spacing: 7) {
                 if dayEvents.isEmpty {
@@ -57,11 +76,12 @@ struct DayPopupDialog: View {
                     }
                 }
             }
-            .frame(width: 340, alignment: .topLeading)
+            .frame(maxWidth: .infinity, alignment: .topLeading)
             .padding(.vertical, 20)
             .background(.white)
             .clipShape(RoundedRectangle(cornerRadius: 8))
             .shadow(color: .black.opacity(0.3), radius: 20, x: 2, y: 8)
         }
+        .frame(width: 340)
     }
 }

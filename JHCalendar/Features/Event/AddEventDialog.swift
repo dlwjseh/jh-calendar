@@ -1,7 +1,7 @@
 import SwiftUI
 
 enum EventDialogMode {
-    case add
+    case add(Date)
     case edit(Event)
 }
 
@@ -11,8 +11,8 @@ struct AddEventDialog: View {
     @State private var name = ""
     @State private var isAllDay = true
     @State private var selectedCategory: Category? = nil
-    @State private var startDate = Date()
-    @State private var endDate = Date()
+    @State private var startDate: Date
+    @State private var endDate: Date
     
     let mode: EventDialogMode
     let categories: [Category]
@@ -22,6 +22,15 @@ struct AddEventDialog: View {
         self.mode = mode
         self.categories = categories
         self.onDismiss = onDismiss
+        
+        switch mode {
+        case .add(let day):
+            _startDate = State(initialValue: day)
+            _endDate   = State(initialValue: day)
+        case .edit(let event):
+            _startDate = State(initialValue: event.startDate)
+            _endDate   = State(initialValue: event.endDate)
+        }
     }
     
     private var trimmedName: String {

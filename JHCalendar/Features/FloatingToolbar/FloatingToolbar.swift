@@ -18,7 +18,7 @@ struct FloatingToolbar: View {
             }
             HoverButton {
                 withAnimation(.smooth(duration: 0.3)) {
-                    eventDialog = .add
+                    eventDialog = .add(Date())
                 }
             } label: {
                 Image(systemName: "plus")

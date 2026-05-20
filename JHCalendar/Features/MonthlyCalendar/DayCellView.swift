@@ -75,6 +75,7 @@ struct DayCellView: View {
         )
         .onHover { isHovered = $0 }
         .contentShape(Rectangle())
+        .pointerStyle(.link)
         .onTapGesture { onSelectDay(cell.date) }
     }
 }

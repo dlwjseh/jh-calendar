@@ -21,7 +21,7 @@
 ## 단계 체크리스트
 - [x] 01 - 일 셀 호버 배경 — *`@State isHovered` + `.onHover`(체인 끝, 02 탭 영역과 일치) + `.background` 테두리 안쪽. 강조 0.03(은은).*
 - [x] 02 - 일 클릭 → 일 팝업 모달 (이벤트 목록) — *`onSelectDay` 클로저로 상태 끌어올리기 + `DayPopupDialog` `init` 에서 동적 `@Query` (`[dayStart, dayEnd)` 범위 `#Predicate`). 카드/헤더 레이아웃·종일 우측 표기·빈 상태 정렬은 사용자 취향 유지.*
-- [ ] 03 - 팝업 `＋` → 이벤트 추가 (그 날짜 프리필)
+- [x] 03 - 팝업 `＋` → 이벤트 추가 (그 날짜 프리필) — *`EventDialogMode.add(Date)` 로 날짜 동승, `AddEventDialog.init` 에서 `_startDate/_endDate = State(initialValue:)` 프리필, `DayPopupDialog → onAddEvent` 콜백을 `ContentView` 의 한 `withAnimation` 안에서 팝업 닫기+추가 다이얼로그 열기로 연결.*
 - [ ] 04 - 이벤트 클릭 → 수정 다이얼로그 (`.edit` 프리필 완성)
 
 ## 이 기능에서 학습할 Swift / SwiftUI 개념
