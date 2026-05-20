@@ -3,7 +3,7 @@
 ## 목표
 이벤트 추가/수정 다이얼로그(`AddEventDialog`)의 자잘한 UX 마감.
 
-1. **시작일이 종료일을 추월하면 종료일 자동 보정** (종일/시간지정에 따라 분기)
+1. **시작일이 종료일을 추월하면 종료일 자동 보정** (`+1h`, 단 일(day)이 바뀌지 않게 캡)
 2. **시·분 칸에서 ↑/↓ 화살표로 1씩 증감**
 3. **카테고리 칩 호버 효과 + 손모양 커서**
 4. **`.edit` 모드일 때 다이얼로그 타이틀 "이벤트 수정"**
@@ -34,7 +34,7 @@
 
 | 단계 | 수정 파일 | 핵심 modifier / 패턴 |
 |---|---|---|
-| 01 | `AddEventDialog.swift` | `.onChange(of: startDate)` + `isAllDay` 분기 |
+| 01 | `AddEventDialog.swift` | `.onChange(of: startDate)` + `+1h` & 같은 날 캡(`min`) |
 | 02 | `BorderlessTimePicker.swift` | 시·분 `Text` 에 `.onMoveCommand` 추가 |
 | 03 | `CategoryChip.swift` | `@State isHovered` + `.onHover` + `.pointerStyle(.link)` |
 | 04 | `AddEventDialog.swift` | 타이틀 텍스트를 `mode` 에서 계산 |
