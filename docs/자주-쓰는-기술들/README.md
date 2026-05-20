@@ -8,4 +8,5 @@
 
 - [옵셔널 다루기](옵셔널.md) — `T?`, `if let`, `guard let`, `??`, `?.`, `try?`, force unwrap
 - [Calendar 와 Date 다루기](Calendar-와-Date.md) — `Date` / `Calendar.current`, 컴포넌트 추출, 날짜 산술, `startOfDay`, `DateInterval`, 포맷팅
+- [그림자](그림자.md) — `.shadow(...)` 파라미터, 모디파이어 순서, 프로젝트의 두 가지 프리셋(가벼움/강함)
 - [Xcode 단축키](Xcode-단축키.md) — 빌드/실행, Preview, 네비게이션, 멀티커서, 디버깅 등 일상에서 자주 쓰는 키
