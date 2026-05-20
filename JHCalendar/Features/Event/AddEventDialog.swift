@@ -30,6 +30,9 @@ struct AddEventDialog: View {
         case .edit(let event):
             _startDate = State(initialValue: event.startDate)
             _endDate   = State(initialValue: event.endDate)
+            _name      = State(initialValue: event.name)
+            _isAllDay  = State(initialValue: event.isAllDay)
+            _selectedCategory = State(initialValue: event.category)
         }
     }
     

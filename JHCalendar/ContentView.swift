@@ -83,12 +83,20 @@ struct ContentView: View {
                         dayPopup = nil
                     }
                 }.transition(.opacity)
-                DayPopupDialog(date: day) {date in
+                DayPopupDialog(date: day,
+                               onAddEvent: { date in
                     withAnimation(.smooth(duration: 0.3)) {
                         dayPopup = nil
                         eventDialog = .add(date)
                     }
-                }.transition(.opacity.combined(with: .scale(scale: 0.96)))
+                },
+                               onSelectEvent: { event in
+                    withAnimation(.smooth(duration: 0.3)) {
+                        dayPopup = nil
+                        eventDialog = .edit(event)
+                    }
+                })
+                .transition(.opacity.combined(with: .scale(scale: 0.96)))
             }
         }
         .frame(minWidth: 900, minHeight: 600)
