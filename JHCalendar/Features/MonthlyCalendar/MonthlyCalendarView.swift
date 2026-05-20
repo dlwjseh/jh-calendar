@@ -2,6 +2,7 @@ import SwiftUI
 import SwiftData
 
 struct MonthlyCalendarView: View {
+    @Binding var dayPopup: Date?
     @StateObject private var store = CalendarStore()
     @Query(sort: \Event.startDate) private var allEvents: [Event]
     let calendar: Calendar = Calendar.current
@@ -60,7 +61,11 @@ struct MonthlyCalendarView: View {
                     HStack(spacing: 0) {
                         ForEach(row) { cell in
                             DayCellView(cell: cell,
-                                        events: eventsByDayIndex[calendar.startOfDay(for: cell.date)] ?? [])
+                                        events: eventsByDayIndex[calendar.startOfDay(for: cell.date)] ?? []) { date in
+                                withAnimation(.smooth(duration: 0.3)) {
+                                    dayPopup = date
+                                }
+                            }
                         }
                     }
                     .frame(maxHeight: .infinity)
@@ -72,5 +77,5 @@ struct MonthlyCalendarView: View {
 }
 
 #Preview {
-    MonthlyCalendarView()
+    MonthlyCalendarView(dayPopup: .constant(Date()))
 }

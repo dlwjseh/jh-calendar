@@ -7,6 +7,7 @@ struct ContentView: View {
     @State private var folderDialog: FolderDialogMode? = nil
     @State private var categoryDialog: CategoryDialogMode? = nil
     @State private var eventDialog: EventDialogMode? = nil
+    @State private var dayPopup: Date? = nil
     
     var body: some View {
         ZStack {
@@ -20,7 +21,7 @@ struct ContentView: View {
                     .clipped()
                 ZStack(alignment: .topLeading) {
                     Color.clear
-                    MonthlyCalendarView()
+                    MonthlyCalendarView(dayPopup: $dayPopup)
                     FloatingToolbar(
                         isSidebarVisible: $isSidebarVisible,
                         eventDialog: $eventDialog
@@ -75,6 +76,15 @@ struct ContentView: View {
                         }
                     }
                 ).transition(.opacity.combined(with: .scale(scale: 0.96)))
+            }
+            if let day = dayPopup {
+                DialogBackdrop {
+                    withAnimation(.smooth(duration: 0.3)) {
+                        dayPopup = nil
+                    }
+                }.transition(.opacity)
+                DayPopupDialog(date: day)
+                    .transition(.opacity.combined(with: .scale(scale: 0.96)))
             }
         }
         .frame(minWidth: 900, minHeight: 600)

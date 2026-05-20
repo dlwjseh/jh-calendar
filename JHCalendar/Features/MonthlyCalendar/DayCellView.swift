@@ -5,6 +5,7 @@ struct DayCellView: View {
     
     let cell: DayCell
     let events: [Event]
+    var onSelectDay: (Date) -> Void
     
     private let maxVisible = 3
     
@@ -73,5 +74,7 @@ struct DayCellView: View {
                 .stroke(Color.gray.opacity(0.2), lineWidth: 0.5)
         )
         .onHover { isHovered = $0 }
+        .contentShape(Rectangle())
+        .onTapGesture { onSelectDay(cell.date) }
     }
 }
