@@ -64,6 +64,12 @@ struct BorderlessTimePicker: View {
         }
     }
     
+    private func bump(_ component: Calendar.Component, by value: Int) {
+        if let next = cal.date(byAdding: component, value: value, to: date) {
+            date = next
+        }
+    }
+    
     var body: some View {
         HStack(spacing: 0) {
             Text(displayMeridiem.label)
@@ -101,6 +107,13 @@ struct BorderlessTimePicker: View {
                     }
                     return .ignored
                 }
+                .onMoveCommand { direction in
+                    switch direction {
+                    case .up: bump(.hour, by: 1)
+                    case .down: bump(.hour, by: -1)
+                    default: break
+                    }
+                }
             
             Text(":")
             
@@ -116,6 +129,13 @@ struct BorderlessTimePicker: View {
                         return .handled
                     }
                     return .ignored
+                }
+                .onMoveCommand { direction in
+                    switch direction {
+                    case .up: bump(.minute, by: 1)
+                    case .down: bump(.minute, by: -1)
+                    default: break
+                    }
                 }
         }
     }
