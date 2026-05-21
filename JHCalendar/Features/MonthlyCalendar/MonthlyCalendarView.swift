@@ -13,8 +13,8 @@ struct MonthlyCalendarView: View {
             (a.isAllDay ? 0 : 1, a.startDate) < (b.isAllDay ? 0 : 1, b.startDate)
         }
     }
-    private var eventsByDayIndex: [Date: [Event]] {
-        eventsByDay(events, calendar: calendar)
+    private var singleDayEventsByDayIndex: [Date: [Event]] {
+        eventsByDay(events.filter { !isMultiday($0) }, calendar: calendar)
     }
     private var multidaysByWeek: [Date: [Event]] {
         var result: [Date: [Event]] = [:]
@@ -68,7 +68,7 @@ struct MonthlyCalendarView: View {
             VStack(spacing: 0) {
                 ForEach(store.rows, id: \.first?.id) { row in
                     WeekRowView(row: row,
-                                eventsByDayIndex: eventsByDayIndex,
+                                eventsByDayIndex: singleDayEventsByDayIndex,
                                 weekMultidays: multidaysByWeek[calendar.startOfDay(for: row.first!.date)] ?? []) { date in
                         withAnimation(.smooth(duration: 0.3)) {
                             dayPopup = date
