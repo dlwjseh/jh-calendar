@@ -58,14 +58,9 @@ struct MonthlyCalendarView: View {
             // 일 그리드
             VStack(spacing: 0) {
                 ForEach(store.rows, id: \.first?.id) { row in
-                    HStack(spacing: 0) {
-                        ForEach(row) { cell in
-                            DayCellView(cell: cell,
-                                        events: eventsByDayIndex[calendar.startOfDay(for: cell.date)] ?? []) { date in
-                                withAnimation(.smooth(duration: 0.3)) {
-                                    dayPopup = date
-                                }
-                            }
+                    WeekRowView(row: row, eventsByDayIndex: eventsByDayIndex) { date in
+                        withAnimation(.smooth(duration: 0.3)) {
+                            dayPopup = date
                         }
                     }
                     .frame(maxHeight: .infinity)
