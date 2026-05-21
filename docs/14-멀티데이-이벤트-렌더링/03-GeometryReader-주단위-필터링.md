@@ -144,12 +144,12 @@ WeekRowView(row: row,
 다음 단계로 가기 전에 지워도 OK.
 
 ## 직접 구현하기
-- [ ] `isMultiday(_:)`, `multidayEvents(in:from:)` 를 `EventIndex.swift` 에 추가
-- [ ] `MonthlyCalendarView` 에 `multidaysByWeek` 파생 프로퍼티 추가
-- [ ] `WeekRowView` 에 `weekMultidays: [Event]` prop 추가
-- [ ] `WeekRowView` body 를 `GeometryReader` 로 감싸고 `rowWidth` 얻기
+- [x] `isMultiday(_:)`, `multidayEvents(in:from:)` 를 `EventIndex.swift` 에 추가
+- [x] `MonthlyCalendarView` 에 `multidaysByWeek` 파생 프로퍼티 추가
+- [x] `WeekRowView` 에 `weekMultidays: [Event]` prop 추가
+- [x] `WeekRowView` body 를 `GeometryReader` 로 감싸고 `rowWidth` 얻기
 - [ ] (선택) 디버그 overlay 로 측정값/필터 결과 확인
-- [ ] 시각: 단계 1~2 와 동일 (멀티데이는 아직 토막바 상태) + 모서리에 디버그 텍스트(선택)
+- [x] 시각: 단계 1~2 와 동일 (멀티데이는 아직 토막바 상태) + 모서리에 디버그 텍스트(선택)
 
 ## 자가 점검
 - 빌드 통과?
@@ -159,10 +159,13 @@ WeekRowView(row: row,
 - 퀴즈: `GeometryReader` 를 `HStack { ForEach }` 안쪽에 두면 어떻게 되나? (셀 너비 측정엔 어떤 차이?)
 
 ## Claude 리뷰 체크리스트
-- [ ] `isMultiday`, `multidayEvents(in:)` 순수 함수로 분리 (View 안에 박지 않음)
-- [ ] `multidaysByWeek` 의 키가 `week.start` 또는 `startOfDay` 로 정규화
-- [ ] `GeometryReader` 안에서 `rowWidth` 변수로 명시적 보관 (다음 단계 좌표 계산 준비)
-- [ ] 디버그 overlay 는 임시 — 다음 단계에서 실제 바로 대체
+- [x] `isMultiday`, `multidayEvents(in:)` 순수 함수로 분리 (View 안에 박지 않음)
+- [x] `multidaysByWeek` 의 키가 `week.start` 또는 `startOfDay` 로 정규화
+- [x] `GeometryReader` 안에서 `rowWidth` 변수로 명시적 보관 (다음 단계 좌표 계산 준비)
+- [x] 디버그 overlay 는 임시 — 다음 단계에서 실제 바로 대체
+
+## 리뷰 노트
+- 1차 제출에서 `dateInterval(of: .weekday, ...)` 오타 → `.weekOfYear` 로 수정. `.weekday` 는 "요일(1~7)" 컴포넌트라 주 인터벌이 안 나옴 — 동작이 조용히 비어버리는 함정.
 
 ## 회고
 - 막혔던 부분?

@@ -67,7 +67,7 @@ struct DayPopupDialog: View {
                 }
             }
             .frame(maxWidth: .infinity, alignment: .topLeading)
-            .padding(.vertical, 20)
+            .padding(.vertical, 15)
             .padding(.horizontal, 10)
             .background(.white)
             .clipShape(RoundedRectangle(cornerRadius: 8))

@@ -16,3 +16,17 @@ func eventsByDay(_ events: [Event], calendar: Calendar = .current) -> [Date: [Ev
     }
     return result
 }
+
+func isMultiday(_ event: Event, calendar cal: Calendar = .current) -> Bool {
+    cal.startOfDay(for: event.startDate) != cal.startOfDay(for: event.endDate)
+}
+
+func multidayEvents(in weekInterval: DateInterval,
+                    from events: [Event],
+                    calendar cal: Calendar = .current) -> [Event] {
+    events.filter { isMultiday($0, calendar: cal) }
+        .filter { event in
+            let eventInterval = DateInterval(start: event.startDate, end: event.endDate)
+            return weekInterval.intersects(eventInterval)
+        }
+}

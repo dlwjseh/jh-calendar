@@ -16,6 +16,15 @@ struct MonthlyCalendarView: View {
     private var eventsByDayIndex: [Date: [Event]] {
         eventsByDay(events, calendar: calendar)
     }
+    private var multidaysByWeek: [Date: [Event]] {
+        var result: [Date: [Event]] = [:]
+        for row in store.rows {
+            guard let firstCell = row.first,
+                  let week = calendar.dateInterval(of: .weekOfYear, for: firstCell.date) else { continue }
+            result[week.start] = multidayEvents(in: week, from: events, calendar: calendar)
+        }
+        return result
+    }
 
     private static let yearMonthFormatter: DateFormatter = {
         let f = DateFormatter()
@@ -58,7 +67,9 @@ struct MonthlyCalendarView: View {
             // 일 그리드
             VStack(spacing: 0) {
                 ForEach(store.rows, id: \.first?.id) { row in
-                    WeekRowView(row: row, eventsByDayIndex: eventsByDayIndex) { date in
+                    WeekRowView(row: row,
+                                eventsByDayIndex: eventsByDayIndex,
+                                weekMultidays: multidaysByWeek[calendar.startOfDay(for: row.first!.date)] ?? []) { date in
                         withAnimation(.smooth(duration: 0.3)) {
                             dayPopup = date
                         }
