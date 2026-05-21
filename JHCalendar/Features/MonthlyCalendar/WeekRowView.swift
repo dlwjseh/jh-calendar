@@ -34,10 +34,24 @@ struct WeekRowView: View {
                 ZStack(alignment: .topLeading) {
                     ForEach(weekMultidays) { event in
                         let f = barFrame(for: event, weekStart: weekStart, rowWidth: rowWidth)
-                        RoundedRectangle(cornerRadius: 3)
-                            .fill(event.color)
-                            .frame(width: f.width, height: 16)
-                            .offset(x: f.x, y: 24)
+                        HStack(spacing: 3) {
+                            if !event.isAllDay {
+                                Circle()
+                                    .fill(.white)
+                                    .padding(.top, 4)
+                                    .frame(width: 3)
+                                    .frame(maxHeight: .infinity, alignment: .top)
+                            }
+                            Text(event.name)
+                                .font(.system(size: 11))
+                                .lineLimit(1)
+                            Spacer(minLength: 0)
+                        }
+                        .foregroundStyle(.white)
+                        .padding(.horizontal, 6)
+                        .frame(width: f.width, height: 16, alignment: .leading)
+                        .background(RoundedRectangle(cornerRadius: 3).fill(event.color))
+                        .offset(x: f.x, y: 24)
                     }
                 }
             }
