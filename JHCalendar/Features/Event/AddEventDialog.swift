@@ -43,6 +43,12 @@ struct AddEventDialog: View {
         }
     }
     
+    private var title: String {
+        switch mode {
+        case .add:  "이벤트 추가"
+        case .edit: "이벤트 수정"
+        }
+    }
     private var trimmedName: String {
         name.trimmingCharacters(in: .whitespaces)
     }
@@ -53,9 +59,9 @@ struct AddEventDialog: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 25) {
-            HStack(spacing: 5) {
+            HStack(alignment: .top, spacing: 5) {
                 Image(systemName: "calendar.badge.plus")
-                Text("이벤트 추가")
+                Text(title)
             }
             .font(.system(size: 14, weight: .bold))
             .padding(.leading, 4)

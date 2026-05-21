@@ -15,6 +15,12 @@ struct AddCategoryDialog: View {
     
     let columns: [GridItem] = Array(repeating: GridItem(.flexible(), spacing: 12), count: 4)
     
+    private var title: String {
+        switch mode {
+        case .add:  "카테고리 추가"
+        case .edit: "카테고리 수정"
+        }
+    }
     private var trimmedName: String {
         name.trimmingCharacters(in: .whitespaces)
     }
@@ -37,13 +43,12 @@ struct AddCategoryDialog: View {
         VStack(alignment: .leading, spacing: 25) {
             HStack(spacing: 5) {
                 Image(systemName: "tag")
-                Text("카테고리 추가")
+                Text(title)
             }
             .font(.system(size: 14, weight: .bold))
-            .padding(.leading, 4)
             .frame(maxWidth: .infinity, alignment: .leading)
             
-            VStack(alignment: .leading, spacing: 19) {
+            VStack(alignment: .leading, spacing: 15) {
                 HStack(spacing: 0) {
                     Text("폴더")
                         .font(.system(size: 12))

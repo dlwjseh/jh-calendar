@@ -12,6 +12,12 @@ struct AddFolderDialog: View {
     let mode: FolderDialogMode
     var onDismiss: () -> Void
     
+    private var title: String {
+        switch mode {
+        case .add:  "폴더 추가"
+        case .edit: "폴더 수정"
+        }
+    }
     private var trimmedName: String {
         name.trimmingCharacters(in: .whitespaces)
     }
@@ -30,7 +36,7 @@ struct AddFolderDialog: View {
         VStack(spacing: 25) {
             HStack(spacing: 5) {
                 Image(systemName: "folder")
-                Text("폴더 추가")
+                Text(title)
             }
             .font(.system(size: 14, weight: .bold))
             .padding(.leading, 4)
