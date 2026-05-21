@@ -51,9 +51,9 @@ while day <= endKey {
 `cal.date(byAdding:value:to:)` 는 옵셔널을 반환한다. 그레고리력에서 +1일 실패는 거의 없지만, `!` 대신 `guard let next = ... else { break }` 로 풀어두면 안전.
 
 ## 직접 구현하기
-- [ ] `eventsByDay` 본문을 grouping 한 줄 → 직접 루프로 교체
-- [ ] 단일 일 이벤트도 (start == end) 정상 동작하는지 확인 (1회 append 로 끝)
-- [ ] 빌드 통과 후 앱 실행
+- [x] `eventsByDay` 본문을 grouping 한 줄 → 직접 루프로 교체
+- [x] 단일 일 이벤트도 (start == end) 정상 동작하는지 확인 (1회 append 로 끝)
+- [x] 빌드 통과 후 앱 실행
 
 ## 자가 점검
 - 빌드 통과?
