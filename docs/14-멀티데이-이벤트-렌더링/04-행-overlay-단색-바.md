@@ -88,11 +88,11 @@ GeometryReader { geo in
 지금은 "day 번호 텍스트 아래에 보이도록" 만 맞추면 됨.
 
 ## 직접 구현하기
-- [ ] `barFrame(for:weekStart:rowWidth:)` 함수 추가 (또는 인라인 계산)
-- [ ] `WeekRowView` body 의 `HStack` 에 `.overlay { ZStack { ForEach { Rect } } }` 추가
-- [ ] 멀티데이 한 개 만들어 보고, 시작 칸~끝 칸 가로질러 단색 바가 보이는지
-- [ ] 같은 주에 멀티데이 2~3개 만들어 보고, 세로로 겹쳐서 다 그려지는지 (lane 배치 X 라 겹침이 정상)
-- [ ] 셀 안 토막 바와 같이 보임 → 정상 (단계 05 에서 셀 토막을 끈다)
+- [x] `barFrame(for:weekStart:rowWidth:)` 함수 추가 (또는 인라인 계산)
+- [x] `WeekRowView` body 의 `HStack` 에 `.overlay { ZStack { ForEach { Rect } } }` 추가
+- [x] 멀티데이 한 개 만들어 보고, 시작 칸~끝 칸 가로질러 단색 바가 보이는지
+- [x] 같은 주에 멀티데이 2~3개 만들어 보고, 세로로 겹쳐서 다 그려지는지 (lane 배치 X 라 겹침이 정상)
+- [x] 셀 안 토막 바와 같이 보임 → 정상 (단계 05 에서 셀 토막을 끈다)
 
 ## 자가 점검
 - 빌드 통과?
