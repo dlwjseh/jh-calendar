@@ -18,6 +18,13 @@ struct AddEventDialog: View {
     let categories: [Category]
     var onDismiss: () -> Void
     
+    private static func sameDayOneHourLater(after date: Date) -> Date {
+        let cal = Calendar.current
+        let oneHourLater = cal.date(byAdding: .hour, value: 1, to: date) ?? date
+        let sameDayEnd = cal.date(bySettingHour: 23, minute: 59, second: 0, of: date) ?? date
+        return min(oneHourLater, sameDayEnd)
+    }
+    
     init(mode: EventDialogMode, categories: [Category], onDismiss: @escaping () -> Void) {
         self.mode = mode
         self.categories = categories
@@ -26,7 +33,7 @@ struct AddEventDialog: View {
         switch mode {
         case .add(let day):
             _startDate = State(initialValue: day)
-            _endDate   = State(initialValue: day)
+            _endDate   = State(initialValue: AddEventDialog.sameDayOneHourLater(after: day))
         case .edit(let event):
             _startDate = State(initialValue: event.startDate)
             _endDate   = State(initialValue: event.endDate)
@@ -171,5 +178,10 @@ struct AddEventDialog: View {
         .background(.background)
         .clipShape(.rect(cornerRadius: 12))
         .shadow(color: .black.opacity(0.3), radius: 20, y:8)
+        .onChange(of: startDate) { _, newStart in
+            if newStart > endDate {
+                endDate = AddEventDialog.sameDayOneHourLater(after: newStart)
+            }
+        }
     }
 }
