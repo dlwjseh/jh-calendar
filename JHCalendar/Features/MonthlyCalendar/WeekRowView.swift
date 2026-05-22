@@ -5,21 +5,27 @@ struct WeekRowView: View {
     let eventsByDayIndex: [Date: [Event]]
     let weekMultidays: [Event]
     let onSelectDay: (Date) -> Void
-    
+
     private let cal = Calendar.current
-    
+
     private func barFrame(for slice: (event: Event, interval: DateInterval),
                           weekStart: Date,
+                          weekInterval: DateInterval,
                           rowWidth: CGFloat) -> (x: CGFloat, width: CGFloat) {
         let cellWidth = rowWidth / 7
         let startKey = cal.startOfDay(for: slice.interval.start)
-        let endKey = cal.startOfDay(for: cal.date(byAdding: .second, value: -1, to: slice.interval.end) ?? slice.interval.end)
+        let endKey: Date
+        if slice.interval.end == weekInterval.end {
+            endKey = cal.startOfDay(for: cal.date(byAdding: .second, value: -1, to: slice.interval.end) ?? slice.interval.end)
+        } else {
+            endKey = cal.startOfDay(for: slice.interval.end)
+        }
         let startCol = cal.dateComponents([.day], from: weekStart, to: startKey).day ?? 0
         let dayCount = (cal.dateComponents([.day], from: startKey, to: endKey).day ?? 0) + 1
         return (x: CGFloat(startCol) * cellWidth,
                 width: CGFloat(dayCount) * cellWidth)
     }
-    
+
     private func slices(for events: [Event], in week: DateInterval) -> [(event: Event, interval: DateInterval)] {
         events.compactMap { e in
             let raw = DateInterval(start: e.startDate, end: e.endDate)
@@ -27,13 +33,13 @@ struct WeekRowView: View {
             return (e, inter)
         }
     }
-    
+
     var body: some View {
         GeometryReader { geo in
             let rowWidth = geo.size.width
             let weekStart = cal.startOfDay(for: row.first?.date ?? Date())
             let weekInterval = cal.dateInterval(of: .weekOfYear, for: row.first!.date)!
-            
+
             HStack(spacing: 0) {
                 ForEach(row) { cell in
                     DayCellView(cell: cell,
@@ -44,7 +50,7 @@ struct WeekRowView: View {
             .overlay(alignment: .topLeading) {
                 ZStack(alignment: .topLeading) {
                     ForEach(slices(for: weekMultidays, in: weekInterval), id: \.event.id) { slice in
-                        let f = barFrame(for: slice, weekStart: weekStart, rowWidth: rowWidth)
+                        let f = barFrame(for: slice, weekStart: weekStart, weekInterval: weekInterval, rowWidth: rowWidth)
                         HStack(spacing: 3) {
                             if !slice.event.isAllDay {
                                 Circle()
