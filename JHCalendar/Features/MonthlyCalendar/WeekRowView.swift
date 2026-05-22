@@ -42,6 +42,12 @@ struct WeekRowView: View {
         }
         return (lanes.max() ?? -1) + 1
     }
+    
+    private func cornerCaps(for slice: LanedSlice) -> (leading: Bool, trailing: Bool) {
+        let isFirst = cal.isDate(slice.interval.start, equalTo: slice.event.startDate, toGranularity: .day)
+        let isLast = cal.isDate(slice.interval.end, equalTo: slice.event.endDate, toGranularity: .day)
+        return (leading: isFirst, trailing: isLast)
+    }
 
     var body: some View {
         GeometryReader { geo in
@@ -63,6 +69,8 @@ struct WeekRowView: View {
                 ZStack(alignment: .topLeading) {
                     ForEach(laned, id: \.event.id) { l in
                         let f = barFrame(for: (l.event, l.interval), weekStart: weekStart, weekInterval: weekInterval, rowWidth: rowWidth)
+                        let caps = cornerCaps(for: l)
+                        
                         HStack(spacing: 3) {
                             if !l.event.isAllDay {
                                 Circle()
@@ -79,7 +87,15 @@ struct WeekRowView: View {
                         .foregroundStyle(.white)
                         .padding(.horizontal, 6)
                         .frame(width: f.width, height: 16, alignment: .leading)
-                        .background(RoundedRectangle(cornerRadius: 3).fill(l.event.color))
+                        .background(
+                            UnevenRoundedRectangle(
+                                topLeadingRadius:     caps.leading  ? 3 : 0,
+                                bottomLeadingRadius:  caps.leading  ? 3 : 0,
+                                bottomTrailingRadius: caps.trailing ? 3 : 0,
+                                topTrailingRadius:    caps.trailing ? 3 : 0
+                            )
+                            .fill(l.event.color)
+                        )
                         .offset(x: f.x, y: 24 + CGFloat(l.lane) * (16 + 2))
                     }
                 }
