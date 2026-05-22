@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct DayPopupEventRow: View {
+    @Environment(\.modelContext) private var modelContext
     @State private var isHovered = false
     let event: Event
     let date: Date
@@ -29,6 +30,11 @@ struct DayPopupEventRow: View {
         .background(.primary.opacity(isHovered ? 0.07 : 0))
         .clipShape(RoundedRectangle(cornerRadius: 6))
         .pointerStyle(.link)
+        .contextMenu {
+            Button("삭제", role: .destructive) {
+                modelContext.delete(event)
+            }
+        }
         .onHover{ isHovered = $0 }
         .onTapGesture { onClick(event) }
     }
