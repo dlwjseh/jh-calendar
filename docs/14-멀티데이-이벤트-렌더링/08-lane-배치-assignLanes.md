@@ -24,21 +24,23 @@ struct LanedSlice {
     let lane: Int
 }
 
-func assignLanes(_ slices: [(event: Event, interval: DateInterval)]) -> [LanedSlice] {
+func assignLanes(_ slices: [(event: Event, interval: DateInterval)],
+                 calendar cal: Calendar = .current) -> [LanedSlice] {
     let sorted = slices.sorted { $0.interval.start < $1.interval.start }
-    var laneEnds: [Date] = []           // index = lane, value = 그 lane 의 가장 마지막 end
+    var laneEndDays: [Date] = []        // index = lane, value = 그 lane 마지막 이벤트가 차지한 마지막 '날' (startOfDay)
     var result: [LanedSlice] = []
 
     for slice in sorted {
-        // 1) 빈 lane 찾기: laneEnds[i] <= slice.interval.start 인 가장 작은 i
+        let sliceStartDay = cal.startOfDay(for: slice.interval.start)
+        let sliceEndDay   = cal.startOfDay(for: slice.interval.end)
+        // 1) 빈 lane 찾기: 그 lane 의 마지막 '날' 이 새 슬라이스 시작 '날' 보다 strict 이전
         let lane: Int
-        if let i = laneEnds.firstIndex(where: { $0 <= slice.interval.start }) {
+        if let i = laneEndDays.firstIndex(where: { $0 < sliceStartDay }) {
             lane = i
-            laneEnds[i] = slice.interval.end           // 이 lane 의 end 갱신
+            laneEndDays[i] = sliceEndDay
         } else {
-            // 빈 lane 없음 → 새 lane 추가
-            lane = laneEnds.count
-            laneEnds.append(slice.interval.end)
+            lane = laneEndDays.count
+            laneEndDays.append(sliceEndDay)
         }
         result.append(LanedSlice(event: slice.event, interval: slice.interval, lane: lane))
     }
@@ -47,6 +49,18 @@ func assignLanes(_ slices: [(event: Event, interval: DateInterval)]) -> [LanedSl
 ```
 
 > Java 비유: `PriorityQueue<LaneEnd>` 로 가장 빨리 끝나는 lane 만 뽑는 변형도 가능 — O(N log N). 위 구현은 단순 배열 선형 탐색 O(N · L) 인데 한 주 안 멀티데이 수가 작으므로 충분히 빠르다.
+
+### 왜 시각이 아니라 '날' 단위 비교?
+
+멀티데이 바는 어차피 day 단위로 그려진다(`cellWidth × dayCount`). 그래서 "겹친다" 의 의미도 day 단위.
+
+게다가 `Event.endDate` 는 종일 이벤트가 저장될 때 `startOfDay` 로 정규화된다(`AddEventDialog.swift:150`). 즉 5/5~5/7 종일 이벤트의 `endDate == 5/7 00:00`. 5/7~5/14 종일 이벤트는 `startDate == 5/7 00:00`. 만약 시각 그대로 `laneEnds[i] <= slice.interval.start` 로 비교하면 `5/7 == 5/7` → 같은 lane 으로 잘못 배치되어 7일 칸에서 두 바가 시각적으로 겹친다.
+
+→ `startOfDay` 로 날짜만 추출한 뒤 `<` (strict) 로 비교해야 "다른 날에 끝나야만 같은 lane" 이라는 의도가 정확.
+
+같은 결의 함정 — `Event.endDate` 의 inclusive day convention 이 곳곳에서 새는 패턴:
+- [`fix(14-7)` DateInterval end 의미 분기](./07-주경계-토막.md)
+- [`feat(14-9)` 셀별 컴팩트 reserved — half-open 비교](./09-셀-내부-밀어내기.md)
 
 ### 왜 시작순 정렬?
 끝나는 시각이 빠른 lane 부터 빈 자리가 생긴다. 들어오는 구간을 시작순으로 보면, "그 시점에 끝난 lane" 들 중 어느 곳에든 넣을 수 있다 → 가장 위 lane(작은 번호)부터 채우면 시각적으로 빈 자리가 안 생긴다.
@@ -105,14 +119,16 @@ let laneCount = (laned.map(\.lane).max() ?? -1) + 1
 ## 자가 점검
 - 빌드 통과?
 - 같은 주에 멀티데이 A(월~수), B(화~목), C(목~금) → A=lane0, B=lane1, C=lane0 (또는 비슷한 합리적 배치) 인가?
-- A(월~수), B(목~금) 처럼 끝과 시작이 같은 날이지만 시작은 더 뒤 → 같은 lane?
+- A(월~수), B(목~금) 처럼 사이에 하루 비는 두 이벤트 → 같은 lane?
+- **A(수~목), B(목~금) 처럼 한 쪽 끝 날과 다른 쪽 시작 날이 같은 날** → **다른 lane** 으로 가야 한다 (위 "왜 날 단위?" 참고). 같은 lane 으로 가면 그 날 칸에서 두 바가 시각적으로 겹친다.
 - 퀴즈: `assignLanes` 가 **결정적**(같은 입력 → 같은 출력) 인가? 만약 입력 정렬이 불안정하면 어떻게 되는가?
 
 ## Claude 리뷰 체크리스트
-- [ ] `assignLanes` 가 순수 함수 (입력 → 출력만, View 모름)
-- [ ] 시작순 정렬 → 빈 lane 우선 배치 그리디
-- [ ] lane 인덱스가 0-based, 가장 위가 0
-- [ ] 빈 입력에서도 안전 (`laneEnds` 빈 채로 시작)
+- [x] `assignLanes` 가 순수 함수 (입력 → 출력만, View 모름)
+- [x] 시작순 정렬 → 빈 lane 우선 배치 그리디
+- [x] lane 인덱스가 0-based, 가장 위가 0
+- [x] 빈 입력에서도 안전 (빈 `laneEndDays` 로 시작)
+- [x] 비교가 **날 단위** (`startOfDay` 후 `<`) — 시각 단위 `<=` 함정 회피
 
 ## 회고
 - 막혔던 부분?

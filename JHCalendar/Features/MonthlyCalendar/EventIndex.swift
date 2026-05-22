@@ -6,21 +6,24 @@ struct LanedSlice {
     let lane: Int
 }
 
-func assignLanes(_ slices: [(event: Event, interval: DateInterval)]) -> [LanedSlice] {
+func assignLanes(_ slices: [(event: Event, interval: DateInterval)],
+                 calendar cal: Calendar = .current) -> [LanedSlice] {
     let sorted = slices.sorted { $0.interval.start < $1.interval.start }
-    var laneEnds: [Date] = []           // index = lane, value = 그 lane 의 가장 마지막 end
+    var laneEndDays: [Date] = []        // index = lane, value = 그 lane 의 마지막 이벤트가 차지한 마지막 '날' (startOfDay)
     var result: [LanedSlice] = []
 
     for slice in sorted {
-        // 1) 빈 lane 찾기: laneEnds[i] <= slice.interval.start 인 가장 작은 i
+        let sliceStartDay = cal.startOfDay(for: slice.interval.start)
+        let sliceEndDay   = cal.startOfDay(for: slice.interval.end)
+        // 1) 빈 lane 찾기: lane 의 마지막 '날' 이 새 슬라이스 시작 '날' 보다 strict 이전
         let lane: Int
-        if let i = laneEnds.firstIndex(where: { $0 <= slice.interval.start }) {
+        if let i = laneEndDays.firstIndex(where: { $0 < sliceStartDay }) {
             lane = i
-            laneEnds[i] = slice.interval.end           // 이 lane 의 end 갱신
+            laneEndDays[i] = sliceEndDay
         } else {
             // 빈 lane 없음 → 새 lane 추가
-            lane = laneEnds.count
-            laneEnds.append(slice.interval.end)
+            lane = laneEndDays.count
+            laneEndDays.append(sliceEndDay)
         }
         result.append(LanedSlice(event: slice.event, interval: slice.interval, lane: lane))
     }
