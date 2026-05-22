@@ -7,13 +7,13 @@
 - **종일 멀티데이**: 카테고리 색으로 채운 바, 안에 이벤트명
 - **시간지정 멀티데이**: 같은 바에 작은 `clock` 아이콘 prepend
 - **시작/끝 셀**: 좌/우 모서리 둥글기. 중간은 평평 (한 흐름 인상)
-- **클릭**: 기존 `.edit(Event)` 다이얼로그로 진입
+- **일 팝업**: 그 날에 걸쳐있는 멀티데이도 목록에 포함 (시간은 시작일에만)
 
 ## 의존 관계
 - 사전 필요:
   - `05-월간-달력-UI` — `MonthlyCalendarView`, `DayCellView`, `CalendarStore.rows`
   - `11-달력-이벤트-표시` — `eventsByDay`, `DayCellView(events:)`, `+N` 오버플로우
-  - `12-일-팝업`, `13-이벤트-다이얼로그-마무리` — `.edit(Event)` 진입 패턴
+  - `12-일-팝업` — `DayPopupDialog` 동적 `@Query` 패턴
 - 이후 영향:
   - 멀티데이 이벤트의 **드래그 이동/리사이즈** (장기 후보)
   - 주(week) 뷰 / 일(day) 뷰 분리 시 같은 행 컨테이너 패턴 재사용
@@ -30,7 +30,7 @@
 - [x] 09 - 셀 내부 컨텐츠 밀어내기 (셀별 lane 갯수만큼)
 - [x] 10 - `+N` 오버플로우 합산
 - [x] 11 - 좌/우 끝 모서리 캡
-- [ ] 12 - 멀티데이 바 클릭 → `.edit` 진입
+- [ ] 12 - 일 팝업에 걸쳐있는 멀티데이 포함
 
 ## 이 기능에서 학습할 Swift / SwiftUI 개념
 
@@ -66,7 +66,7 @@ DayCellView         WeekRowView ──┘
    │                  │  (07) DateInterval.intersection 으로 주 토막
    │                  │  (08) assignLanes(events:) → [(event, lane)]
    │                  ▼
-   │              .overlay { 멀티데이 바들 }  ← (04) 단색 → (06) 텍스트+아이콘 → (11) 캡 → (12) 클릭
+   │              .overlay { 멀티데이 바들 }  ← (04) 단색 → (06) 텍스트+아이콘 → (11) 캡
    │                  │
    └─ (09) lane 갯수만큼 셀 상단 reserved space
         (10) +N 합산 = 멀티데이 lane + 단일 일 - capacity
