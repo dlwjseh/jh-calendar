@@ -33,6 +33,15 @@ struct WeekRowView: View {
             return (e, inter)
         }
     }
+    
+    private func laneCount(for date: Date, laned: [LanedSlice]) -> Int {
+        let dayStart = cal.startOfDay(for: date)
+        let nextDayStart = cal.date(byAdding: .day, value: 1, to: dayStart)!
+        let lanes = laned.compactMap { l in
+            (l.interval.start < nextDayStart && l.interval.end > dayStart) ? l.lane : nil
+        }
+        return (lanes.max() ?? -1) + 1
+    }
 
     var body: some View {
         GeometryReader { geo in
@@ -46,6 +55,7 @@ struct WeekRowView: View {
                 ForEach(row) { cell in
                     DayCellView(cell: cell,
                                 events: eventsByDayIndex[cal.startOfDay(for: cell.date)] ?? [],
+                                multidayLaneCount: laneCount(for: cell.date, laned: laned),
                                 onSelectDay: onSelectDay)
                 }
             }

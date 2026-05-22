@@ -5,8 +5,11 @@ struct DayCellView: View {
     
     let cell: DayCell
     let events: [Event]
+    let multidayLaneCount: Int
     var onSelectDay: (Date) -> Void
     
+    private let multidayBarHeight: CGFloat = 16
+    private let multidayBarGap: CGFloat = 2
     private let maxVisible = 3
     
     private var textColor: Color {
@@ -18,12 +21,18 @@ struct DayCellView: View {
         }
     }
     
+    private var reservedTop: CGFloat {
+        CGFloat(multidayLaneCount) * (multidayBarHeight + multidayBarGap)
+    }
+    
     var body: some View {
         VStack(spacing: 0) {
             Text("\(cell.day)")
                 .font(.system(size: 12))
                 .foregroundStyle(textColor)
                 .padding(.bottom, 4)
+            
+            Spacer().frame(height: reservedTop)
             
             VStack(alignment: .leading, spacing: 2) {
                 ForEach(events.prefix(maxVisible)) { e in
