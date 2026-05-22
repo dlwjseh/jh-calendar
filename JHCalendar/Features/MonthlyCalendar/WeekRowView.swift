@@ -39,6 +39,8 @@ struct WeekRowView: View {
             let rowWidth = geo.size.width
             let weekStart = cal.startOfDay(for: row.first?.date ?? Date())
             let weekInterval = cal.dateInterval(of: .weekOfYear, for: row.first!.date)!
+            let slices = slices(for: weekMultidays, in: weekInterval)
+            let laned = assignLanes(slices)
 
             HStack(spacing: 0) {
                 ForEach(row) { cell in
@@ -49,17 +51,17 @@ struct WeekRowView: View {
             }
             .overlay(alignment: .topLeading) {
                 ZStack(alignment: .topLeading) {
-                    ForEach(slices(for: weekMultidays, in: weekInterval), id: \.event.id) { slice in
-                        let f = barFrame(for: slice, weekStart: weekStart, weekInterval: weekInterval, rowWidth: rowWidth)
+                    ForEach(laned, id: \.event.id) { l in
+                        let f = barFrame(for: (l.event, l.interval), weekStart: weekStart, weekInterval: weekInterval, rowWidth: rowWidth)
                         HStack(spacing: 3) {
-                            if !slice.event.isAllDay {
+                            if !l.event.isAllDay {
                                 Circle()
                                     .fill(.white)
                                     .padding(.top, 4)
                                     .frame(width: 3)
                                     .frame(maxHeight: .infinity, alignment: .top)
                             }
-                            Text(slice.event.name)
+                            Text(l.event.name)
                                 .font(.system(size: 11))
                                 .lineLimit(1)
                             Spacer(minLength: 0)
@@ -67,8 +69,8 @@ struct WeekRowView: View {
                         .foregroundStyle(.white)
                         .padding(.horizontal, 6)
                         .frame(width: f.width, height: 16, alignment: .leading)
-                        .background(RoundedRectangle(cornerRadius: 3).fill(slice.event.color))
-                        .offset(x: f.x, y: 24)
+                        .background(RoundedRectangle(cornerRadius: 3).fill(l.event.color))
+                        .offset(x: f.x, y: 24 + CGFloat(l.lane) * (16 + 2))
                     }
                 }
             }

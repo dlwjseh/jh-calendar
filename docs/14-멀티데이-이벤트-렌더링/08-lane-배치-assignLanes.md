@@ -96,11 +96,11 @@ let laneCount = (laned.map(\.lane).max() ?? -1) + 1
 - 이 값을 09 단계에서 자식 셀에 prop 으로 또는 환경값으로 전달.
 
 ## 직접 구현하기
-- [ ] `LanedSlice` 구조체 + `assignLanes(_:)` 함수 추가
-- [ ] `WeekRowView` 의 `ForEach` 를 `laned` 기준으로 교체
-- [ ] `.offset(y: ...)` 에 lane 인덱스 반영
-- [ ] 같은 주에 멀티데이 2~3개 시작·끝이 겹치게 만들어 보고, **세로로 단** 이 나뉘는지 확인
-- [ ] 안 겹치는 두 멀티데이는 같은 lane 0 에 들어가 깔끔하게 일렬로 늘어서는지
+- [x] `LanedSlice` 구조체 + `assignLanes(_:)` 함수 추가
+- [x] `WeekRowView` 의 `ForEach` 를 `laned` 기준으로 교체
+- [x] `.offset(y: ...)` 에 lane 인덱스 반영
+- [x] 같은 주에 멀티데이 2~3개 시작·끝이 겹치게 만들어 보고, **세로로 단** 이 나뉘는지 확인
+- [x] 안 겹치는 두 멀티데이는 같은 lane 0 에 들어가 깔끔하게 일렬로 늘어서는지
 
 ## 자가 점검
 - 빌드 통과?
