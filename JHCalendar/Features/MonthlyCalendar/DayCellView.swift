@@ -10,7 +10,17 @@ struct DayCellView: View {
     
     private let multidayBarHeight: CGFloat = 16
     private let multidayBarGap: CGFloat = 2
+    
     private let maxVisible = 3
+    private var singleDayBudget: Int {
+        max(0, maxVisible - multidayLaneCount)
+    }
+    private var visibleSingleDays: [Event] {
+        Array(events.prefix(singleDayBudget))
+    }
+    private var hiddenSingleDayCount: Int {
+        max(0, events.count - singleDayBudget)
+    }
     
     private var textColor: Color {
         if !cell.isInCurrentMonth { return .secondary }
@@ -35,7 +45,7 @@ struct DayCellView: View {
             Spacer().frame(height: reservedTop)
             
             VStack(alignment: .leading, spacing: 2) {
-                ForEach(events.prefix(maxVisible)) { e in
+                ForEach(visibleSingleDays) { e in
                     if e.isAllDay {
                         Text(e.name)
                             .font(.system(size: 11))
@@ -62,10 +72,10 @@ struct DayCellView: View {
                     }
                 }
                 
-                if events.count > maxVisible {
+                if hiddenSingleDayCount > 0 {
                     HStack(spacing: 1) {
                         Text("+")
-                        Text("\(events.count - maxVisible)")
+                        Text("\(hiddenSingleDayCount)")
                     }
                     .foregroundStyle(.secondary)
                     .font(.system(size: 10, weight: .semibold))
