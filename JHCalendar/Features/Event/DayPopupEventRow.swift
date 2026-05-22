@@ -3,7 +3,12 @@ import SwiftUI
 struct DayPopupEventRow: View {
     @State private var isHovered = false
     let event: Event
+    let date: Date
     var onClick: (Event) -> Void
+    
+    private var showsTime: Bool {
+        !event.isAllDay && Calendar.current.isDate(event.startDate, inSameDayAs: date)
+    }
     
     var body: some View {
         HStack(spacing: 10) {
@@ -13,7 +18,7 @@ struct DayPopupEventRow: View {
             Text(event.name)
                 .foregroundStyle(.primary)
                 .frame(maxWidth: .infinity, alignment: .leading)
-            if !event.isAllDay {
+            if showsTime {
                 Text(event.startDate, format: .dateTime.hour().minute())
                     .foregroundStyle(.secondary)
                     .font(.system(size: 10))

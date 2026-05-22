@@ -18,7 +18,7 @@ struct DayPopupDialog: View {
         let dayEnd = cal.date(byAdding: .day, value: 1, to: dayStart)!
         _dayEvents = Query(
             filter: #Predicate<Event> { event in
-                event.startDate >= dayStart && event.startDate < dayEnd
+                event.startDate < dayEnd && event.endDate >= dayStart
             },
             sort: \Event.startDate
         )
@@ -62,7 +62,7 @@ struct DayPopupDialog: View {
                         .padding(.horizontal, 25)
                 } else {
                     ForEach(dayEvents) { event in
-                        DayPopupEventRow(event: event, onClick: onSelectEvent)
+                        DayPopupEventRow(event: event, date: date, onClick: onSelectEvent)
                     }
                 }
             }
