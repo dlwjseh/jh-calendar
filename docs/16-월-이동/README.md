@@ -22,6 +22,7 @@
 - `.transition(.asymmetric(insertion:removal:))` — 들어오는 효과와 나가는 효과를 분리. (15-3 "조금 더" 에만 언급됐던 것을 본격 사용.)
 - `.id(value)` — view 에 explicit identity 부여. value 가 바뀌면 SwiftUI 가 "다른 view" 로 보고 기존 제거 + 새 view 삽입 → transition 트리거하는 트릭.
 - **SwiftUI state batching 함정 + 회피** — 같은 트랜잭션 안 여러 `@Published` 변경이 한 render 패스로 묶이는 동작 때문에 transition 의 leaving view 가 stale modifier 를 잡는 문제. `DispatchQueue.main.async` 로 다음 runloop tick 까지 두 번째 변경을 미뤄 두 render 패스로 쪼개기. (JS 의 `setTimeout(fn, 0)` 패턴.)
+- **`.clipped()` × `.transition` layering** — 같은 modifier 체인에 두면 clip 박스가 transition 의 offset 과 함께 끌려가서 의미를 잃음. clip 은 transition 의 view 보다 명백히 바깥쪽 stable parent 에 둬야 함. (CSS 의 `overflow:hidden` 을 transition 요소 자체가 아닌 부모에 줘야 하는 결과 같은 원리.)
 
 **다시 쓰는 개념** (링크):
 - `ObservableObject`, `@StateObject`, `@Published` → [07-03](../07-사이드바-토글-다듬기/03-CalendarStore%20도입%20-%20ObservableObject.md)
