@@ -97,6 +97,7 @@ struct WeekRowView: View {
                             .fill(l.event.color)
                         )
                         .offset(x: f.x, y: 24 + CGFloat(l.lane) * (16 + 2))
+                        .transition(.opacity)
                     }
                 }
             }

@@ -56,6 +56,7 @@ struct DayCellView: View {
                             .background(e.color)
                             .clipShape(RoundedRectangle(cornerRadius: 3))
                             .padding(.horizontal, 7).padding(.vertical, 1)
+                            .transition(.opacity)
                     } else {
                         HStack(spacing: 5) {
                             Text(e.startDate, format: .dateTime.hour().minute())
@@ -69,6 +70,7 @@ struct DayCellView: View {
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal, 7).padding(.vertical, 1)
+                        .transition(.opacity)
                     }
                 }
                 

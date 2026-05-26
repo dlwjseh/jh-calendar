@@ -77,6 +77,7 @@ struct MonthlyCalendarView: View {
                     .frame(maxHeight: .infinity)
                 }
             }
+            .animation(.smooth(duration: 0.25), value: allEvents)
         }
         .padding(.top, 70)
     }

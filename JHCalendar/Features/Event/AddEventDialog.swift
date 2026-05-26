@@ -133,8 +133,8 @@ struct AddEventDialog: View {
             HStack(spacing: 13) {
                 if case .edit(let event) = mode {
                     HoverButton {
-                        modelContext.delete(event)
-                        withAnimation(.smooth(duration: 0.3)) {
+                        withAnimation(.smooth(duration: 0.25)) {
+                            modelContext.delete(event)
                             onDismiss()
                         }
                     } label: {

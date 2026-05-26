@@ -32,10 +32,13 @@ struct DayPopupEventRow: View {
         .pointerStyle(.link)
         .contextMenu {
             Button("삭제", role: .destructive) {
-                modelContext.delete(event)
+                withAnimation(.smooth(duration: 0.25)) {
+                    modelContext.delete(event)
+                }
             }
         }
         .onHover{ isHovered = $0 }
         .onTapGesture { onClick(event) }
+        .transition(.opacity)
     }
 }

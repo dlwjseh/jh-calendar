@@ -72,6 +72,7 @@ struct DayPopupDialog: View {
             .background(.white)
             .clipShape(RoundedRectangle(cornerRadius: 8))
             .shadow(color: .black.opacity(0.3), radius: 20, x: 2, y: 8)
+            .animation(.smooth(duration: 0.25), value: dayEvents)
         }
         .frame(width: 340)
     }
