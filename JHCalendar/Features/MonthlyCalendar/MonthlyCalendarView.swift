@@ -44,11 +44,10 @@ struct MonthlyCalendarView: View {
     private let weekdayLabels = ["일", "월", "화", "수", "목", "금", "토"]
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        VStack(spacing: 0) {
             // 년월 헤더
             Text(Self.yearMonthFormatter.string(from: store.referenceDate))
-                .font(.title)
-                .padding(.leading, 50)
+                .font(.system(size: 24, weight: .bold))
             
             // 요일 헤더
             HStack(spacing: 0) {
@@ -79,7 +78,7 @@ struct MonthlyCalendarView: View {
             }
             .animation(.smooth(duration: 0.25), value: allEvents)
         }
-        .padding(.top, 70)
+        .padding(.top, 35)
     }
 }
 
