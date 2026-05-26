@@ -25,6 +25,15 @@ struct MonthlyCalendarView: View {
         }
         return result
     }
+    
+    private var slide: AnyTransition {
+        switch store.direction {
+        case .forward:
+                .asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading))
+        case .backward:
+                .asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .trailing))
+        }
+    }
 
     private static let yearMonthFormatter: DateFormatter = {
         let f = DateFormatter()
@@ -94,7 +103,10 @@ struct MonthlyCalendarView: View {
                     .frame(maxHeight: .infinity)
                 }
             }
+            .id(store.referenceDate)
             .animation(.smooth(duration: 0.25), value: allEvents)
+            .transition(slide)
+            .clipped()
         }
         .padding(.top, 35)
     }
