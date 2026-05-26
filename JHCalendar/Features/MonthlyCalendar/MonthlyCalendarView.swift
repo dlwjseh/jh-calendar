@@ -46,8 +46,26 @@ struct MonthlyCalendarView: View {
     var body: some View {
         VStack(spacing: 0) {
             // 년월 헤더
-            Text(Self.yearMonthFormatter.string(from: store.referenceDate))
-                .font(.system(size: 24, weight: .bold))
+            HStack(spacing: 18) {
+                HoverButton {
+                    store.prevMonth()
+                } label: {
+                    Image(systemName: "chevron.left")
+                        .font(.system(size: 15, weight: .semibold))
+                        .foregroundStyle(.secondary)
+                }
+                
+                Text(Self.yearMonthFormatter.string(from: store.referenceDate))
+                    .font(.system(size: 24, weight: .bold))
+                
+                HoverButton {
+                    store.nextMonth()
+                } label: {
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 15, weight: .semibold))
+                        .foregroundStyle(.secondary)
+                }
+            }
             
             // 요일 헤더
             HStack(spacing: 0) {

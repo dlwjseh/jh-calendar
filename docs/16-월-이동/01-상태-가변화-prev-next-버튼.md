@@ -92,11 +92,11 @@ HStack(spacing: 20) {
 - 호버 효과 원하면 기존 `HoverButton` 으로 대체 가능. 어느 쪽이든 일관성만 유지.
 
 ## 직접 구현하기
-- [ ] `CalendarStore`: `let → @Published private(set) var` (referenceDate, gridInterval)
-- [ ] init 의 grid 계산을 `rebuild(for:)` 로 추출, init 에서 호출
-- [ ] `prevMonth()`, `nextMonth()` 메서드 추가
-- [ ] 헤더를 `HStack` 으로 감싸고 < > 버튼 좌우 배치
-- [ ] 버튼 클릭 시 월 이동 — 그리드 + 이벤트 즉시 갱신되는지 확인 (애니메이션은 아직 X)
+- [x] `CalendarStore`: `let → @Published private(set) var` (referenceDate, gridInterval)
+- [x] init 의 grid 계산을 `rebuild(for:)` 로 추출, init 에서 호출
+- [x] `prevMonth()`, `nextMonth()` 메서드 추가
+- [x] 헤더를 `HStack` 으로 감싸고 < > 버튼 좌우 배치
+- [x] 버튼 클릭 시 월 이동 — 그리드 + 이벤트 즉시 갱신되는지 확인 (애니메이션은 아직 X)
 
 ## 자가 점검
 - 빌드 통과?
