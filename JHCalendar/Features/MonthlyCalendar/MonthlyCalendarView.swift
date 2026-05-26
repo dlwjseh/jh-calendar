@@ -106,9 +106,9 @@ struct MonthlyCalendarView: View {
             .id(store.referenceDate)
             .animation(.smooth(duration: 0.25), value: allEvents)
             .transition(slide)
-            .clipped()
         }
         .padding(.top, 35)
+        .clipped()
     }
 }
 
