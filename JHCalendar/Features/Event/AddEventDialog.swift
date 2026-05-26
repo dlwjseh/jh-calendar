@@ -58,7 +58,7 @@ struct AddEventDialog: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 25) {
+        VStack(alignment: .leading, spacing: 30) {
             HStack(alignment: .top, spacing: 5) {
                 Image(systemName: "calendar.badge.plus")
                 Text(title)
@@ -131,15 +131,35 @@ struct AddEventDialog: View {
             }
             
             HStack(spacing: 13) {
+                if case .edit(let event) = mode {
+                    HoverButton {
+                        modelContext.delete(event)
+                        withAnimation(.smooth(duration: 0.3)) {
+                            onDismiss()
+                        }
+                    } label: {
+                        HStack (spacing: 4) { Image(systemName: "trash"); Text("삭제") }
+                            .font(.system(size: 12))
+                            .foregroundStyle(.white)
+                            .padding(.vertical, 3)
+                            .padding(.horizontal, 5)
+                    }
+                    .background(Color.red.opacity(0.8))
+                    .clipShape(RoundedRectangle(cornerRadius: 6))
+                }
+                
+                Spacer()
+                
                 HoverButton {
                     withAnimation(.smooth(duration: 0.3)) {
                         onDismiss()
                     }
                 } label: {
-                    Text("취소")
+                    HStack (spacing: 4) { Image(systemName: "xmark.circle"); Text("취소") }
+                        .font(.system(size: 12))
                         .foregroundStyle(.primary)
-                        .padding(.vertical, 4)
-                        .padding(.horizontal, 7)
+                        .padding(.vertical, 3)
+                        .padding(.horizontal, 5)
                 }
                 .background(Color.gray.opacity(0.2))
                 .clipShape(RoundedRectangle(cornerRadius: 6))
@@ -166,10 +186,11 @@ struct AddEventDialog: View {
                         onDismiss()
                     }
                 } label: {
-                    Text("저장")
+                    HStack (spacing: 4) { Image(systemName: "checkmark"); Text("저장") }
+                        .font(.system(size: 12))
                         .foregroundStyle(.white)
-                        .padding(.vertical, 4)
-                        .padding(.horizontal, 7)
+                        .padding(.vertical, 3)
+                        .padding(.horizontal, 5)
                 }
                 .disabled(!isSaveEnabled)
                 .background(Color.accentColor.opacity(isSaveEnabled ? 1 : 0.4))
