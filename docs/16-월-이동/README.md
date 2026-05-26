@@ -21,6 +21,7 @@
 - `let → @Published var` 전환 — 같은 `ObservableObject` 안에서 불변 property 를 reactive 한 가변 state 로 승격. (Vue 의 `const x = ref(...)` 에서 `x.value` 를 mutate 가능하게 만드는 결.)
 - `.transition(.asymmetric(insertion:removal:))` — 들어오는 효과와 나가는 효과를 분리. (15-3 "조금 더" 에만 언급됐던 것을 본격 사용.)
 - `.id(value)` — view 에 explicit identity 부여. value 가 바뀌면 SwiftUI 가 "다른 view" 로 보고 기존 제거 + 새 view 삽입 → transition 트리거하는 트릭.
+- **SwiftUI state batching 함정 + 회피** — 같은 트랜잭션 안 여러 `@Published` 변경이 한 render 패스로 묶이는 동작 때문에 transition 의 leaving view 가 stale modifier 를 잡는 문제. `DispatchQueue.main.async` 로 다음 runloop tick 까지 두 번째 변경을 미뤄 두 render 패스로 쪼개기. (JS 의 `setTimeout(fn, 0)` 패턴.)
 
 **다시 쓰는 개념** (링크):
 - `ObservableObject`, `@StateObject`, `@Published` → [07-03](../07-사이드바-토글-다듬기/03-CalendarStore%20도입%20-%20ObservableObject.md)
