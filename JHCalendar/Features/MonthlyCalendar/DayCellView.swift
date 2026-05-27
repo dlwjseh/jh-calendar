@@ -23,6 +23,7 @@ struct DayCellView: View {
     }
     
     private var textColor: Color {
+        if isToday { return .white }
         if !cell.isInCurrentMonth { return .secondary }
         switch cell.weekday {
             case 1:  return .red
@@ -35,11 +36,21 @@ struct DayCellView: View {
         CGFloat(multidayLaneCount) * (multidayBarHeight + multidayBarGap)
     }
     
+    private var isToday: Bool {
+        Calendar.current.isDateInToday(cell.date)
+    }
+    
     var body: some View {
         VStack(spacing: 0) {
             Text("\(cell.day)")
-                .font(.system(size: 12))
+                .font(.system(size: 11))
                 .foregroundStyle(textColor)
+                .frame(width: 21, height: 21)
+                .background {
+                    if isToday {
+                        Circle().fill(.red)
+                    }
+                }
                 .padding(.bottom, 4)
             
             Spacer().frame(height: reservedTop)

@@ -12,7 +12,7 @@
 - 이후 영향: 없음 (leaf)
 
 ## 단계 체크리스트
-- [ ] 01 - 오늘 셀 강조 (DayCellView)
+- [x] 01 - 오늘 셀 강조 (DayCellView)
 - [ ] 02 - "오늘" 버튼 (FloatingToolbar + CalendarStore.today)
 
 ## 이 기능에서 학습할 Swift / SwiftUI 개념
