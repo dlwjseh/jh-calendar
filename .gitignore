@@ -30,3 +30,6 @@ Carthage/Build/
 
 # Claude Code 로컬 메모리 — repo 에 올릴 필요 없음
 .claude/
+
+# API keys / local config
+Secrets.xcconfig

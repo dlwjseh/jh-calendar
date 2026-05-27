@@ -128,13 +128,16 @@ find ~/Library/Developer/Xcode/DerivedData -name "Info.plist" -path "*JHCalendar
 - 다음 단계 들어가기 전에 이 임시 print 는 **지운다** (혹은 검증용 함수로 옮긴다).
 
 ## 직접 구현하기
-- [ ] `.gitignore` 에 `Secrets.xcconfig` 추가, commit
-- [ ] `Secrets.xcconfig` 파일 만들고 키 한 줄 작성
-- [ ] PROJECT Info → Configurations 에서 Debug/Release 둘 다 `Secrets` 로 지정
-- [ ] Info.plist 또는 Build Settings 의 `INFOPLIST_KEY_HOLIDAY_API_KEY` 에 `$(HOLIDAY_API_KEY)` 주입
-- [ ] `xcodebuild ... build` 통과
-- [ ] 임시 print 로 키가 런타임에서 조회되는지 확인 (확인 후 print 제거)
-- [ ] `git status` 로 `Secrets.xcconfig` 가 untracked 인지 다시 확인 (커밋되면 안 됨)
+- [x] `.gitignore` 에 `Secrets.xcconfig` 추가, commit
+- [x] `Secrets.xcconfig` 파일 만들고 키 한 줄 작성
+- [x] PROJECT Info → Configurations 에서 Debug/Release 둘 다 `Secrets` 로 지정
+- [x] Info.plist 또는 Build Settings 의 `INFOPLIST_KEY_HOLIDAY_API_KEY` 에 `$(HOLIDAY_API_KEY)` 주입
+- [x] `xcodebuild ... build` 통과
+- [x] (02 단계에서 `Secrets` enum 으로 키 조회 단일화 + 검증 — 임시 print 단계는 건너뜀)
+- [x] `git status` 로 `Secrets.xcconfig` 가 ignored 인지 다시 확인 (커밋되면 안 됨)
+
+## 진행 중 발견한 함정
+- **Xcode 가 `Secrets.xcconfig` 를 Target Membership 에 자동 포함** → `Copy Bundle Resources` 빌드 페이즈에 들어가 앱 번들에 평문 복사되는 사고. File Inspector 의 Target Membership 을 직접 해제해야 함. xcconfig 는 빌드 입력일 뿐 리소스가 아니다.
 
 ## 자가 점검
 - 빌드 통과?

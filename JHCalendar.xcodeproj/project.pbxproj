@@ -16,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		692EB2162FC6907100BBBABE /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		D1D1D1D1D1D1D1D1D1D1D1D1 /* JHCalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JHCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2D2D2D2D2D2D2D2D2D2D2D2 /* JHCalendarApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JHCalendarApp.swift; sourceTree = "<group>"; };
 		D3D3D3D3D3D3D3D3D3D3D3D3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -47,6 +48,7 @@
 		C1C1C1C1C1C1C1C1C1C1C1C1 = {
 			isa = PBXGroup;
 			children = (
+				692EB2162FC6907100BBBABE /* Secrets.xcconfig */,
 				C3C3C3C3C3C3C3C3C3C3C3C3 /* JHCalendar */,
 				C2C2C2C2C2C2C2C2C2C2C2C2 /* Products */,
 			);
@@ -190,6 +192,7 @@
 /* Begin XCBuildConfiguration section */
 		A4A4A4A4A4A4A4A4A4A4A4A4 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 692EB2162FC6907100BBBABE /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -255,6 +258,7 @@
 		};
 		A5A5A5A5A5A5A5A5A5A5A5A5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 692EB2162FC6907100BBBABE /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -312,6 +316,7 @@
 		};
 		A7A7A7A7A7A7A7A7A7A7A7A7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 692EB2162FC6907100BBBABE /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -325,13 +330,14 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = JHCalendar;
+				INFOPLIST_KEY_HOLIDAY_API_KEY = "$(HOLIDAY_API_KEY)";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jh.JHCalendar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -341,6 +347,7 @@
 		};
 		A8A8A8A8A8A8A8A8A8A8A8A8 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 692EB2162FC6907100BBBABE /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -354,13 +361,14 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = JHCalendar;
+				INFOPLIST_KEY_HOLIDAY_API_KEY = "$(HOLIDAY_API_KEY)";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jh.JHCalendar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

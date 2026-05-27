@@ -13,7 +13,7 @@
 - 이후 영향: 음력 표기, 사용자 커스텀 캘린더(반차/생일 등) 도 동일 패턴으로 확장 가능
 
 ## 단계 체크리스트
-- [ ] 01 - API 키 보관 (xcconfig + Info.plist)
+- [x] 01 - API 키 보관 (xcconfig + Info.plist)
 - [ ] 02 - 공휴일 API 호출 + JSON 디코딩 (PoC)
 - [ ] 03 - HolidayStore + 연 단위 캐싱
 - [ ] 04 - 달력 셀에 공휴일 표시
