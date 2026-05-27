@@ -126,23 +126,26 @@ comp.queryItems = [
 let url = comp.url!
 ```
 
-- 문자열 연결로 만들면 인코딩 사고가 잦다 (`+`, `=`, `&` 등). `URLQueryItem` 은 자동 percent-encoding.
-- **함정 ③**: 공공데이터포털 키는 보통 **이미 인코딩된** 문자열을 준다. 그걸 `URLQueryItem(value:)` 에 그대로 넣으면 **이중 인코딩** 이 일어나 인증 실패. → 받은 키를 한 번 **디코딩해서** 넣거나, 직접 query 문자열 조립.
+- 문자열 연결로 만들면 인코딩 사고가 잦다 (`+`, `=`, `&` 등). `URLQueryItem` 은 자동 percent-encoding 을 해 주지만 **모든 문자를 다 인코딩하지는 않는다.**
+- **함정 ③** (실제로 부딪힘): `URLQueryItem(value:)` 는 RFC 3986 의 query value 에서 합법인 문자 (`+`, `/` 등) 를 **그대로 둔다**. 그런데 HTTP 서버는 query value 의 **`+` 를 공백으로 디코딩** 함. 사용자 키가 base64 (`+`, `/`) 면 401 인증 실패 발생.
+- **부수 함정**: 키가 base64url 본 (`-`, `_`) 이라도, 디코딩 후 raw base64 (`+`, `/`, `=`) 가 됐다면 같은 문제. 본 프로젝트는 01 단계에서 보관용으로 base64url 인코딩을 한 번 더 씌웠으므로, 런타임에 디코딩하면 다시 raw base64 가 되어 이 함정에 부딪힘.
 
-이 함정을 어떻게 다룰지 두 선택지:
-
-**A. 디코딩 본 사용**: `Encoding 본` 을 `removingPercentEncoding` 해서 `URLQueryItem` 에 넣기.
+**우회 — `percentEncodedQueryItems` + 명시적 인코딩**:
 ```swift
-let raw = Secrets.holidayApiKey.removingPercentEncoding ?? Secrets.holidayApiKey
-URLQueryItem(name: "ServiceKey", value: raw)
+let allowed = CharacterSet.urlQueryAllowed.subtracting(.init(charactersIn: "+/="))
+let encodedKey = Secrets.holidayApiKey.addingPercentEncoding(withAllowedCharacters: allowed) ?? ""
+
+var comp = URLComponents(string: "https://...")!
+comp.percentEncodedQueryItems = [
+    URLQueryItem(name: "solYear", value: "\(year)"),
+    URLQueryItem(name: "numOfRows", value: "100"),
+    URLQueryItem(name: "_type", value: "json"),
+    URLQueryItem(name: "ServiceKey", value: encodedKey)
+]
 ```
 
-**B. `percentEncodedQuery` 직접 조립**: `URLComponents.percentEncodedQuery` 에 직접 문자열 박기 — 자동 인코딩 우회.
-```swift
-comp.percentEncodedQuery = "solYear=2026&numOfRows=100&_type=json&ServiceKey=\(Secrets.holidayApiKey)"
-```
-
-> 권장: **A**. 두 본 (Encoding/Decoding) 중 어느 본을 받았든 `removingPercentEncoding` 한 번 통과시키면 깨끗한 원문. 이중 인코딩 회피.
+- `addingPercentEncoding(withAllowedCharacters:)` — **allowed 에 없는 문자는 인코딩**. `.urlQueryAllowed` 에서 `+/=` 만 빼서 그 셋만 강제 인코딩.
+- `percentEncodedQueryItems` setter — 받은 값을 **재인코딩하지 않고 그대로** query 에 박음. `.queryItems` 였으면 또 한 번 자동 인코딩이 일어나 `%` 가 다시 `%25` 가 되는 이중 인코딩 사고.
 
 ## 구현 가이드
 
@@ -208,13 +211,33 @@ guard !Secrets.holidayApiKey.isEmpty else { throw HolidayAPIError.missingApiKey 
 - 01 단계에서 fatalError 까지 쓸 수도 있지만, 운영 시 다른 화면이 살아있을 수도 있으므로 throws 가 더 부드러움.
 
 ## 직접 구현하기
-- [ ] `JHCalendar/Features/Holiday/` 폴더 생성 (sync group 으로 인식됨)
-- [ ] `HolidayAPI.swift` 안에 `HolidayDTO`, `HolidayResponse`, `HolidayAPIError`, `fetchHolidays(year:)` 작성
-- [ ] `Secrets` enum (Bundle 조회 + isEmpty 가드) 작성 — 01 단계에서 안 만들었으면 여기서
-- [ ] `ContentView` (또는 임시 View) 에 `.task { ... }` 로 한 번 호출, print 확인
-- [ ] 빌드 + 실행 → 콘솔에 공휴일 목록 (10건 내외) 출력
-- [ ] 실패 케이스 한 번 일부러 만들어 보기 — 키 한 글자 망가뜨려 인증 실패 → 어떤 에러가 어떻게 잡히는지 관찰
-- [ ] PoC 확인 후 `.task` 임시 코드 제거 (다음 단계에서 정식 위치로 옮길 것)
+- [x] `JHCalendar/Features/Holiday/` 폴더 생성 (sync group 으로 인식됨)
+- [x] `HolidayAPI.swift` 안에 `HolidayDTO`, `HolidayResponse`, `HolidayAPIError`, `fetchHolidays(year:)` 작성
+- [x] `Secrets` enum (Bundle 조회 + isEmpty 가드) 작성 — 01 단계에서 안 만들었으면 여기서
+- [x] `ContentView` (또는 임시 View) 에 `.task { ... }` 로 한 번 호출, print 확인
+- [x] 빌드 + 실행 → 콘솔에 공휴일 목록 (10건 내외) 출력
+- [ ] (선택) 실패 케이스 한 번 일부러 만들어 보기 — 키 한 글자 망가뜨려 인증 실패 → 어떤 에러가 어떻게 잡히는지 관찰
+- [x] PoC 확인 후 `.task` 임시 코드 제거 (다음 단계에서 정식 위치로 옮길 것)
+
+## 진행 중 발견한 함정
+
+### 함정 A — App Sandbox 가 outgoing network 차단
+`URLError -1003 "A server with the specified hostname could not be found"` + `Resolved 0 endpoints` — DNS 자체가 풀리지 않는 것처럼 보이지만, 실제로는 **App Sandbox 가 outgoing network 권한 없이 네트워크 호출을 막은 것**.
+
+- **진단**: `_NSURLErrorNWPathKey=satisfied (Path is satisfied)` — 네트워크 경로는 살아있는데 endpoint 0개. Sandbox 차단의 시그니처.
+- **우회**: `JHCalendar.entitlements` 에 추가:
+  ```xml
+  <key>com.apple.security.network.client</key>
+  <true/>
+  ```
+
+> macOS Sandboxed 앱이 외부 HTTPS 호출하려면 반드시 필요한 entitlement. 기본 Xcode 템플릿엔 없음.
+
+### 함정 B — `URLQueryItem` 의 자동 인코딩이 `+/=` 를 다루지 않음
+HTTP 401 인증 실패. URL 보면 키가 들어가 있지만 `+`, `/` 가 그대로. 서버가 `+` 를 공백으로 해석하니 키가 깨진 채 전달됨.
+
+- **진단**: `URLError` 가 아닌 `HolidayAPIError.http(status: 401)` 로 잡힘. 즉 네트워크/디코딩이 아니라 서버가 의도적으로 401 응답.
+- **우회**: 위 "URLComponents 로 쿼리 안전 조립" 섹션의 `percentEncodedQueryItems` + `addingPercentEncoding` 패턴.
 
 ## 자가 점검
 - 빌드 + 실행 OK?

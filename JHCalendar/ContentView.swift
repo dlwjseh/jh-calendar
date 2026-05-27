@@ -103,6 +103,15 @@ struct ContentView: View {
         }
         .frame(minWidth: 900, minHeight: 600)
         .ignoresSafeArea()
+        .task {
+            do {
+                let items = try await fetchHoliday(year: 2026)
+                print("✅ \(items.count) 건")
+                items.prefix(5).forEach { print($0) }
+            } catch {
+                print("❌", error)
+            }
+        }
     }
 }
 
