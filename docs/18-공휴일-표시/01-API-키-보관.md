@@ -137,7 +137,56 @@ find ~/Library/Developer/Xcode/DerivedData -name "Info.plist" -path "*JHCalendar
 - [x] `git status` 로 `Secrets.xcconfig` 가 ignored 인지 다시 확인 (커밋되면 안 됨)
 
 ## 진행 중 발견한 함정
-- **Xcode 가 `Secrets.xcconfig` 를 Target Membership 에 자동 포함** → `Copy Bundle Resources` 빌드 페이즈에 들어가 앱 번들에 평문 복사되는 사고. File Inspector 의 Target Membership 을 직접 해제해야 함. xcconfig 는 빌드 입력일 뿐 리소스가 아니다.
+
+> 이 단계의 학습 목표 자체는 단순한데, 이번 키 (base64 형태) 와 macOS 빌드 시스템 (Sandbox 강화) 때문에 4개 함정이 연쇄로 터졌다. 각 함정의 진단/우회를 기록해 둔다.
+
+### 함정 ① — Target Membership 자동 포함
+Xcode 가 새 파일 추가 시 기본으로 타깃 멤버십을 켜서 `Secrets.xcconfig` 가 `Copy Bundle Resources` 빌드 페이즈에 들어감 → 앱 번들에 평문 복사되는 사고.
+
+- **진단**: `pbxproj` 의 `... in Resources` 라인 + `Resources phase` 안에 xcconfig 참조.
+- **우회**: File Inspector (`⌥⌘1`) → **Target Membership** 의 `JHCalendar` 체크 해제. xcconfig 는 빌드 입력이지 리소스가 아니다.
+
+### 함정 ② — xcconfig 의 `//` 주석 처리로 base64 키 잘림
+xcconfig 는 C 스타일 `//` 주석을 지원. **공공데이터포털 키는 base64 라 `/` 가 흔히 들어가고**, 우연히 `//` 가 연달아 나오면 그 뒤가 주석으로 잘림.
+
+- **진단**: `xcodebuild -showBuildSettings | grep HOLIDAY` 의 평가 길이가 원본보다 짧음.
+- **시도 1**: Encoding 본 ↔ Decoding 본 교체 — 둘 다 `//` 있어 실패.
+- **시도 2**: `SLASH = /` 변수 트릭 (`${SLASH}${SLASH}`) — xcconfig 단계에선 동작하지만 다음 단계에서 다시 잘림 (함정 ③).
+- **최종 우회**: **base64url 인코딩**. 알파벳이 `A-Z, a-z, 0-9, -, _` 만이라 `/` 가 아예 없음. xcconfig 의 `//` 함정도, Info.plist 의 cpp 함정도 둘 다 무관. 런타임에 `Data(base64Encoded:)` 디코딩.
+
+> 키 인코딩 (터미널에서 한 번):
+> ```bash
+> printf '%s' '본인의_Decoding본_키' | base64 | tr '+/' '-_' | tr -d '='
+> ```
+
+### 함정 ③ — `INFOPLIST_KEY_*` 화이트리스트 (커스텀 키 무시)
+Apple 의 `GENERATE_INFOPLIST_FILE = YES` 시스템은 **알려진 표준 plist 키** (`CFBundleDisplayName`, `LSApplicationCategoryType` 등) 만 자동 생성 plist 에 박는다. `INFOPLIST_KEY_HOLIDAY_API_KEY` 같은 커스텀 키는 build setting 으로는 평가되지만 plist 에 박히지 않음.
+
+- **진단**: `xcodebuild -showBuildSettings` 는 정상 값을 보여주는데 `plutil -p` 의 plist 에는 그 키가 없음.
+- **우회**: **Run Script Build Phase 로 ProcessInfoPlistFile 이후 plist 에 직접 키 추가**. `PlistBuddy` 가 `${TARGET_BUILD_DIR}/${INFOPLIST_PATH}` 에 한 줄 박는 스크립트.
+  ```bash
+  PLIST="${TARGET_BUILD_DIR}/${INFOPLIST_PATH}"
+  /usr/libexec/PlistBuddy -c "Delete :HOLIDAY_API_KEY_B64" "$PLIST" 2>/dev/null || true
+  /usr/libexec/PlistBuddy -c "Add :HOLIDAY_API_KEY_B64 string ${HOLIDAY_API_KEY_B64}" "$PLIST"
+  ```
+
+### 함정 ④ — Xcode user script sandboxing (`Operation not permitted`)
+Xcode 14+ 부터 Run Script Build Phase 가 sandbox 안에서 돔. `outputPaths` 에 등록 안 된 파일은 쓰기 불가 → 우리 PlistBuddy 가 plist 에 못 씀.
+
+- **진단**: 빌드 로그에 `File Doesn't Exist, Will Create: ... Info.plist [Operation not permitted]`.
+- **시도 1**: `outputPaths` 에 plist 등록 → `Multiple commands produce ... Info.plist` 충돌 (ProcessInfoPlistFile 와).
+- **최종 우회**: **Target Build Settings 에 `ENABLE_USER_SCRIPT_SANDBOXING = NO`** 추가. Apple 권장은 sandbox 유지지만, plist 가 다른 단계 output 이라 충돌 불가피.
+
+### 정리 — 최종 설정 형태
+- `Secrets.xcconfig`: `HOLIDAY_API_KEY_B64 = <base64url 본>` (한 줄)
+- `pbxproj`:
+  - `INFOPLIST_KEY_HOLIDAY_API_KEY*` 항목 **없음** (Apple 의 자동 plist 시스템 미사용)
+  - Target buildPhases 마지막에 PBXShellScriptBuildPhase 추가 (Inject HOLIDAY_API_KEY_B64 into Info.plist)
+  - Target buildSettings 에 `ENABLE_USER_SCRIPT_SANDBOXING = NO`
+- `Secrets.swift`: Bundle 에서 `HOLIDAY_API_KEY_B64` 읽고 base64url 디코딩 후 반환
+- `.gitignore`: `Secrets.xcconfig`
+
+> **교훈** — Apple 의 빌드 시스템은 표준 use-case 밖으로 한 발짝만 나가도 4중 우회가 필요할 수 있다. "xcconfig + Info.plist 변수 주입" 은 평문 ASCII 키에는 잘 동작하지만, 특수문자 (`/`, `+`, `=`) 가 섞인 키에는 base64url + Run Script 우회가 정석.
 
 ## 자가 점검
 - 빌드 통과?

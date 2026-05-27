@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		692EB21F2FC6B8AF00BBBABE /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692EB21E2FC6B8AE00BBBABE /* Secrets.swift */; };
 		E2E2E2E2E2E2E2E2E2E2E2E2 /* JHCalendarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D2D2D2D2D2D2D2D2D2D2D2 /* JHCalendarApp.swift */; };
 		E3E3E3E3E3E3E3E3E3E3E3E3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D3D3D3D3D3D3D3D3D3D3D3 /* ContentView.swift */; };
 		E4E4E4E4E4E4E4E4E4E4E4E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4D4D4D4D4D4D4D4D4D4D4D4 /* Assets.xcassets */; };
@@ -17,6 +18,7 @@
 
 /* Begin PBXFileReference section */
 		692EB2162FC6907100BBBABE /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
+		692EB21E2FC6B8AE00BBBABE /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		D1D1D1D1D1D1D1D1D1D1D1D1 /* JHCalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JHCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2D2D2D2D2D2D2D2D2D2D2D2 /* JHCalendarApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JHCalendarApp.swift; sourceTree = "<group>"; };
 		D3D3D3D3D3D3D3D3D3D3D3D3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -29,6 +31,7 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		690C949A2FADA37A00C335BD /* Sidebar */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Sidebar; sourceTree = "<group>"; };
+		692EB2182FC6B40800BBBABE /* Holiday */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Holiday; sourceTree = "<group>"; };
 		694B4D4E2FAC85B9006371CB /* FloatingToolbar */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = FloatingToolbar; sourceTree = "<group>"; };
 		69CE3B642FB190D800B7CF9E /* MonthlyCalendar */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = MonthlyCalendar; sourceTree = "<group>"; };
 		69FF21332FB45BDC00A7B9E8 /* Event */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Event; sourceTree = "<group>"; };
@@ -65,6 +68,7 @@
 		C3C3C3C3C3C3C3C3C3C3C3C3 /* JHCalendar */ = {
 			isa = PBXGroup;
 			children = (
+				692EB21E2FC6B8AE00BBBABE /* Secrets.swift */,
 				D2D2D2D2D2D2D2D2D2D2D2D2 /* JHCalendarApp.swift */,
 				D3D3D3D3D3D3D3D3D3D3D3D3 /* ContentView.swift */,
 				F5F5F5F5F5F5F5F5F5F5F5F5 /* Features */,
@@ -86,6 +90,7 @@
 		F5F5F5F5F5F5F5F5F5F5F5F5 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				692EB2182FC6B40800BBBABE /* Holiday */,
 				69FF21332FB45BDC00A7B9E8 /* Event */,
 				69CE3B642FB190D800B7CF9E /* MonthlyCalendar */,
 				690C949A2FADA37A00C335BD /* Sidebar */,
@@ -114,6 +119,7 @@
 				B1B1B1B1B1B1B1B1B1B1B1B1 /* Sources */,
 				B2B2B2B2B2B2B2B2B2B2B2B2 /* Frameworks */,
 				B3B3B3B3B3B3B3B3B3B3B3B3 /* Resources */,
+				B4B4B4B4B4B4B4B4B4B4B4B4 /* Inject HOLIDAY_API_KEY_B64 into Info.plist */,
 			);
 			buildRules = (
 			);
@@ -121,6 +127,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				690C949A2FADA37A00C335BD /* Sidebar */,
+				692EB2182FC6B40800BBBABE /* Holiday */,
 				694B4D4E2FAC85B9006371CB /* FloatingToolbar */,
 				69CE3B642FB190D800B7CF9E /* MonthlyCalendar */,
 				69FF21332FB45BDC00A7B9E8 /* Event */,
@@ -175,12 +182,35 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		B4B4B4B4B4B4B4B4B4B4B4B4 /* Inject HOLIDAY_API_KEY_B64 into Info.plist */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Inject HOLIDAY_API_KEY_B64 into Info.plist";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "PLIST=\"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}\"\nif [ -z \"${HOLIDAY_API_KEY_B64}\" ]; then\n  echo \"error: HOLIDAY_API_KEY_B64 not set — check Secrets.xcconfig\" >&2\n  exit 1\nfi\n/usr/libexec/PlistBuddy -c \"Delete :HOLIDAY_API_KEY_B64\" \"$PLIST\" 2>/dev/null || true\n/usr/libexec/PlistBuddy -c \"Add :HOLIDAY_API_KEY_B64 string ${HOLIDAY_API_KEY_B64}\" \"$PLIST\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		B1B1B1B1B1B1B1B1B1B1B1B1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				E3E3E3E3E3E3E3E3E3E3E3E3 /* ContentView.swift in Sources */,
+				692EB21F2FC6B8AF00BBBABE /* Secrets.swift in Sources */,
 				E2E2E2E2E2E2E2E2E2E2E2E2 /* JHCalendarApp.swift in Sources */,
 				F1F1F1F1F1F1F1F1F1F1F1F1 /* TrafficLightController.swift in Sources */,
 				F2F2F2F2F2F2F2F2F2F2F2F2 /* TrafficLightHoverArea.swift in Sources */,
@@ -328,9 +358,9 @@
 				DEVELOPMENT_ASSET_PATHS = "\"JHCalendar/Preview Content\"";
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = JHCalendar;
-				INFOPLIST_KEY_HOLIDAY_API_KEY = "$(HOLIDAY_API_KEY)";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -359,9 +389,9 @@
 				DEVELOPMENT_ASSET_PATHS = "\"JHCalendar/Preview Content\"";
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = JHCalendar;
-				INFOPLIST_KEY_HOLIDAY_API_KEY = "$(HOLIDAY_API_KEY)";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
