@@ -46,13 +46,20 @@
 - **호출 단위**: 연도 + (선택)월 — 본 프로젝트는 **연 단위** 로 한 번에 받아 캐싱
 
 ## 캐싱 전략
-- **저장소**: `UserDefaults` (key: `holidays.YYYY`, value: `Data` — Codable JSON)
-- **갱신**: 매 앱 실행 시 표시 중인 달의 연도가 캐시에 없으면 fetch → 디스크 + 메모리에 저장
-- **임시공휴일 갱신 (선택 — 본 단계 범위 X)**: 현재 연도는 N일 지나면 stale 로 보고 재요청 같은 정책. 본 18 단계에서는 다루지 않음.
+- **저장소**: `UserDefaults` (key: `holidays.YYYY`, value: `Data` — `HolidayCacheEntry { holidays, cachedAt }` 의 Codable JSON)
+- **갱신**:
+  - 매 앱 실행 시 표시 중인 달의 연도가 캐시에 없으면 fetch → 디스크 + 메모리에 저장
+  - 같은 세션 안에서는 `loadedYears: Set<Int>` 가드로 중복 호출 방지
+- **TTL**:
+  - **현재 연도**: 7일. `cachedAt + 7일` 지나면 stale → 다음 앱 실행 시 재요청. 임시공휴일 (정부가 연중에 지정) 반영용.
+  - **과거 연도**: 영구. 사후 변경되는 일이 사실상 없음.
+  - **미래 연도**: 영구. 사용자가 거기까지 갈 일이 드물고 임시공휴일 추가 가능성도 낮다는 단순화 가정.
+- **stale fallback**: 네트워크 실패 + stale 캐시 존재 → stale 데이터라도 화면에 띄움 (오프라인일 때 "비어보이는" 것보다 나음).
 - **이유**:
   - 공휴일은 거의 변하지 않는 데이터 → SwiftData 까지 갈 필요 X
   - 사용자가 수정하지 않음 → 단순 캐시면 충분
-  - 학습 가치: `UserDefaults + Codable` 조합은 macOS/iOS 에서 매우 자주 쓰임
+  - 임시공휴일 대비는 필요 → TTL 한 줄로 해결
+  - 학습 가치: `UserDefaults + Codable` 조합 + `Date` + `TimeInterval` 기반 TTL 패턴은 macOS/iOS 에서 매우 자주 쓰임
 
 ## 동작 규칙
 - 공휴일 셀의 **일 숫자는 빨강** (일요일과 동일)
