@@ -4,6 +4,7 @@ import SwiftData
 struct MonthlyCalendarView: View {
     @Binding var dayPopup: Date?
     @EnvironmentObject private var store: CalendarStore
+    @EnvironmentObject private var holidayStore: HolidayStore
     @Query(sort: \Event.startDate) private var allEvents: [Event]
     let calendar: Calendar = Calendar.current
     
@@ -109,6 +110,11 @@ struct MonthlyCalendarView: View {
         }
         .padding(.top, 35)
         .clipped()
+        .task(id: calendar.component(.year, from: store.referenceDate)) {
+            let year = Calendar.current.component(.year, from: store.referenceDate)
+            await holidayStore.load(year: year)
+            print("holidays byDay.count =", holidayStore.byDay.count)
+        }
     }
 }
 

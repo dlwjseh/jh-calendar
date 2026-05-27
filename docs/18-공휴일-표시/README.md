@@ -15,7 +15,7 @@
 ## 단계 체크리스트
 - [x] 01 - API 키 보관 (xcconfig + Info.plist)
 - [x] 02 - 공휴일 API 호출 + JSON 디코딩 (PoC)
-- [ ] 03 - HolidayStore + 연 단위 캐싱
+- [x] 03 - HolidayStore + 연 단위 캐싱
 - [ ] 04 - 달력 셀에 공휴일 표시
 - [ ] 05 - 일 팝업 / 이벤트 다이얼로그 read-only 처리
 

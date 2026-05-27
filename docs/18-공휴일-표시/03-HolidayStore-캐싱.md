@@ -316,17 +316,17 @@ static let currentYearTTL: TimeInterval = 60  // 1분
 - 한 건짜리 연도 (`item` 이 객체 1개로 옴) → 거의 안 일어나지만 안전 위해 디코더에 single-or-array 처리를 더 깔 수도. **본 단계 생략**, 부딪히면 그때 보강.
 
 ## 직접 구현하기
-- [ ] `Holiday` struct 정의 (Codable, Identifiable, Hashable)
-- [ ] `HolidayDTO.asHoliday` 변환 (`locdate` Int → Date)
-- [ ] `HolidayCacheEntry` (holidays + cachedAt) 정의
-- [ ] `HolidayCachePolicy.isStale(...)` — 현재 연도만 7일 TTL
-- [ ] `HolidayStore` 작성 (`@MainActor`, `byDay`, `loadedYears`, `load`, 캐시 R/W, merge, stale fallback)
-- [ ] `JHCalendarApp` 에서 `@StateObject` + `.environmentObject(...)`
-- [ ] `MonthlyCalendarView` 에 `@EnvironmentObject` + `.task(id:)`
-- [ ] 첫 실행 — 네트워크 호출 발생, byDay 채워짐 (콘솔로 확인)
-- [ ] 앱 재시작 (즉시) — UserDefaults 에서 캐시 읽기 (네트워크 호출 0회)
-- [ ] TTL 검증 — 임시로 TTL=60초로 줄여, 1분 후 재실행 시 네트워크 다시 호출되는지 확인 → 7일로 복원
-- [ ] 월 이동으로 연도 경계 넘기기 — 새 연도 캐시 미스 → 네트워크 호출
+- [x] `Holiday` struct 정의 (Codable, Identifiable, Hashable)
+- [x] `HolidayDTO.asHoliday` 변환 (`locdate` Int → Date)
+- [x] `HolidayCacheEntry` (holidays + cachedAt) 정의
+- [x] `HolidayCachePolicy.isStale(...)` — 현재 연도만 7일 TTL
+- [x] `HolidayStore` 작성 (`@MainActor`, `byDay`, `loadedYears`, `load`, 캐시 R/W, merge, stale fallback)
+- [x] `JHCalendarApp` 에서 `@StateObject` + `.environmentObject(...)`
+- [x] `MonthlyCalendarView` 에 `@EnvironmentObject` + `.task(id:)`
+- [x] 첫 실행 — 네트워크 호출 발생, byDay 채워짐 (콘솔로 확인)
+- [x] 앱 재시작 (즉시) — UserDefaults 에서 캐시 읽기 (네트워크 호출 0회)
+- [x] TTL 검증 — 임시로 TTL=60초로 줄여, 1분 후 재실행 시 네트워크 다시 호출되는지 확인 → 7일로 복원
+- [x] 월 이동으로 연도 경계 넘기기 — 새 연도 캐시 미스 → 네트워크 호출
 
 ## 자가 점검
 - 빌드 + 실행 OK?
