@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct FloatingToolbar: View {
+    @EnvironmentObject private var store: CalendarStore
     @Binding var isSidebarVisible: Bool
     @Binding var eventDialog: EventDialogMode?
     
@@ -12,9 +13,19 @@ struct FloatingToolbar: View {
                 }
             } label: {
                 Image(systemName: "rectangle.leadinghalf.inset.filled")
+                    .help("사이드바 open/close")
                     .font(.system(size: 14, weight: .medium))
                     .foregroundStyle(.primary)
                     .frame(width: 15, height: 20)
+            }
+            HoverButton {
+                store.today()
+            } label: {
+                Image(systemName: "scope")
+                    .help("오늘")
+                    .font(.system(size: 14, weight: .medium))
+                    .foregroundStyle(.primary)
+                    .frame(height: 20)
             }
             HoverButton {
                 withAnimation(.smooth(duration: 0.3)) {
@@ -22,6 +33,7 @@ struct FloatingToolbar: View {
                 }
             } label: {
                 Image(systemName: "plus")
+                    .help("이벤트 등록")
                     .font(.system(size: 14, weight: .medium))
                     .foregroundStyle(.primary)
                     .frame(width: 20, height: 20)

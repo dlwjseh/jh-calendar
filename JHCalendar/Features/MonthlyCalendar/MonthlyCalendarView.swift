@@ -3,7 +3,7 @@ import SwiftData
 
 struct MonthlyCalendarView: View {
     @Binding var dayPopup: Date?
-    @StateObject private var store = CalendarStore()
+    @EnvironmentObject private var store: CalendarStore
     @Query(sort: \Event.startDate) private var allEvents: [Event]
     let calendar: Calendar = Calendar.current
     

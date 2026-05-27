@@ -3,6 +3,7 @@ import SwiftData
 
 struct ContentView: View {
     @Query private var folders: [Folder]
+    @StateObject private var calendarStore = CalendarStore()
     @State private var isSidebarVisible = false
     @State private var folderDialog: FolderDialogMode? = nil
     @State private var categoryDialog: CategoryDialogMode? = nil
@@ -27,6 +28,7 @@ struct ContentView: View {
                         eventDialog: $eventDialog
                     )
                 }
+                .environmentObject(calendarStore)
             }
             .overlay(alignment: .topLeading) { TrafficLightHoverArea() }
             

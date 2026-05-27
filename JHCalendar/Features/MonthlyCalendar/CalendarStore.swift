@@ -33,6 +33,24 @@ final class CalendarStore: ObservableObject {
             }
         }
     }
+    func today() {
+        let now = Date()
+        let cal = Calendar.current
+        
+        // 이미 같은 달이면 아무것도 안 함
+        if cal.isDate(now, equalTo: referenceDate, toGranularity: .month) {
+            return
+        }
+        
+        direction = (referenceDate > now) ? .backward : .forward
+        
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            withAnimation(.smooth(duration: 0.3)) {
+                self.rebuild(for: now)
+            }
+        }
+    }
     
     private func rebuild(for date: Date) {
         let grid = makeDayCells(for: date)
