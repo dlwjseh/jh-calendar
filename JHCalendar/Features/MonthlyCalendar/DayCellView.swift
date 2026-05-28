@@ -61,7 +61,7 @@ struct DayCellView: View {
             if let holiday {
                 Text(holiday.name)
                     .font(.system(size: 10))
-                    .foregroundStyle(Color(red: 255/255, green: 99/255, blue: 71/255))
+                    .foregroundStyle(Color.holiday)
                     .lineLimit(1)
                     .padding(.horizontal, 10)
                     .padding(.bottom, 2)

@@ -1,4 +1,4 @@
-import Foundation
+import SwiftUI
 
 struct Holiday: Identifiable, Hashable, Codable {
     let id: UUID
@@ -26,4 +26,8 @@ extension HolidayDTO {
         guard let date = Calendar.current.date(from: comps) else { return nil }
         return Holiday(date: Calendar.current.startOfDay(for: date), name: dateName)
     }
+}
+
+extension Color {
+    static let holiday = Color(red: 255/255, green: 99/255, blue: 71/255)
 }

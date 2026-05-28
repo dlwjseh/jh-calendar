@@ -123,12 +123,14 @@ VStack(spacing: 0) {
 - 공휴일 행에 컨텍스트 메뉴 (우클릭) 떠도 메뉴 자체가 없거나 빈 메뉴.
 
 ## 직접 구현하기
-- [ ] `HolidayPopupRow.swift` 신규 작성
-- [ ] `DayPopupDialog` 에 `@EnvironmentObject var holidayStore` + `holiday` computed
-- [ ] body 에 `if let holiday { HolidayPopupRow(holiday: holiday) }` 삽입
-- [ ] 빈 상태 메시지 조건에 `&& holiday == nil` 추가
-- [ ] 빌드 + 5개 시각 케이스 확인 (위 5번 항목)
-- [ ] README.md 의 단계 체크리스트 + 마스터 인덱스 상태 갱신
+- [x] `HolidayPopupRow.swift` 신규 작성
+- [x] `DayPopupDialog` 에 `@EnvironmentObject var holidayStore` + `holiday` computed
+- [x] body 에 `if let holiday { HolidayPopupRow(holiday: holiday) }` 삽입
+- [x] 빈 상태 메시지 조건에 `&& holiday == nil` 추가
+- [x] 빌드 + 5개 시각 케이스 확인 (위 5번 항목)
+- [x] README.md 의 단계 체크리스트 + 마스터 인덱스 상태 갱신
+
+> 구현 메모: 우측 "공휴일" 회색 라벨은 의도적으로 생략(셀과 동일한 토마토색만으로 구분). 색은 `Color.holiday` 상수(`HolidayModels.swift`)로 추출해 셀/팝업 공유.
 
 ## 자가 점검
 - 빌드 + 실행 OK?

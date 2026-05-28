@@ -3,6 +3,7 @@ import SwiftData
 
 struct DayPopupDialog: View {
     @Query private var dayEvents: [Event]
+    @EnvironmentObject private var holidayStore: HolidayStore
     @State private var isAddEventButtonHovered = false
     let date: Date
     var onAddEvent: (Date) -> Void
@@ -30,6 +31,9 @@ struct DayPopupDialog: View {
         f.dateFormat = "M월 d일 (E)"
         return f.string(from: date)
     }
+    private var holiday: Holiday? {
+        holidayStore.byDay[Calendar.current.startOfDay(for: date)]
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 15) {
@@ -55,12 +59,15 @@ struct DayPopupDialog: View {
             .padding(.horizontal, 10)
             
             VStack(spacing: 0) {
-                if dayEvents.isEmpty {
+                if dayEvents.isEmpty && holiday == nil {
                     Text("이날의 일정이 없습니다.")
                         .foregroundStyle(.secondary)
                         .font(.system(size: 11))
                         .padding(.horizontal, 25)
                 } else {
+                    if let holiday {
+                        HolidayPopupRow(holiday: holiday)
+                    }
                     ForEach(dayEvents) { event in
                         DayPopupEventRow(event: event, date: date, onClick: onSelectEvent)
                     }
