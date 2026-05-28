@@ -13,6 +13,7 @@ struct AddEventDialog: View {
     @State private var selectedCategory: Category? = nil
     @State private var startDate: Date
     @State private var endDate: Date
+    @State private var recurrence: RecurrenceRule
     @State private var isAddMenuPresented = false
     @State private var showRecurrence = false
     
@@ -36,12 +37,15 @@ struct AddEventDialog: View {
         case .add(let day):
             _startDate = State(initialValue: day)
             _endDate   = State(initialValue: AddEventDialog.sameDayOneHourLater(after: day))
+            _recurrence = State(initialValue: .none)
         case .edit(let event):
             _startDate = State(initialValue: event.startDate)
             _endDate   = State(initialValue: event.endDate)
             _name      = State(initialValue: event.name)
             _isAllDay  = State(initialValue: event.isAllDay)
             _selectedCategory = State(initialValue: event.category)
+            _recurrence = State(initialValue: event.recurrence)
+            _showRecurrence = State(initialValue: event.recurrence != .none)
         }
     }
     
@@ -57,6 +61,21 @@ struct AddEventDialog: View {
     private var isSaveEnabled: Bool {
         selectedCategory != nil && !trimmedName.isEmpty
         && endDate >= startDate
+    }
+    
+    private func label(for rule: RecurrenceRule) -> String {
+        let cal = Calendar.current
+        switch rule {
+        case .none:    return "반복 안 함"
+        case .daily:   return "매일"
+        case .weekly:
+            let f = DateFormatter()
+            f.locale = Locale(identifier: "ko_KR")
+            f.dateFormat = "'매주' EEE'요일'"
+            return f.string(from: startDate)
+        case .monthly: return "매월 \(cal.component(.day, from: startDate))일"
+        case .yearly:  return "매년 \(cal.component(.month, from: startDate))월 \(cal.component(.day, from: startDate))일"
+        }
     }
     
     var body: some View {
@@ -116,13 +135,25 @@ struct AddEventDialog: View {
                 if showRecurrence {
                     HStack(spacing: 5) {
                         fieldLabel("반복")
-                        VStack(alignment: .leading, spacing: 8) {
-                            Button {
-                                withAnimation(.smooth(duration: 0.25)) { showRecurrence = false }
-                            } label: { Image(systemName: "xmark") }
-                                .buttonStyle(.plain)
-                            Text("반복 설정 (다음 단계)").foregroundStyle(.secondary)
+                        Menu {
+                            ForEach(RecurrenceRule.allCases, id: \.self) { rule in
+                                Button(label(for: rule)) { recurrence = rule }
+                            }
+                        } label: {
+                            HStack(spacing: 4) {
+                                Text(label(for: recurrence))
+                                Image(systemName: "chevron.up.chevron.down")
+                                    .font(.system(size: 9))
+                                    .foregroundStyle(.secondary)
+                            }
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 8)
+                            .background(.background, in: RoundedRectangle(cornerRadius: 6))
+                            .overlay(RoundedRectangle(cornerRadius: 6).stroke(.gray.opacity(0.3), lineWidth: 1))
                         }
+                        .menuStyle(.borderlessButton)
+                        .menuIndicator(.hidden)
+                        .fixedSize()
                     }
                     .transition(.opacity.combined(with: .move(edge: .top)))
                 }
@@ -205,7 +236,7 @@ struct AddEventDialog: View {
                     switch mode {
                     case .add:
                         let event = Event(name: trimmedName, isAllDay: isAllDay, category: selectedCategory,
-                                          startDate: startDate, endDate: endDate)
+                                          startDate: startDate, endDate: endDate, recurrence: recurrence)
                         modelContext.insert(event)
                     case .edit(let event):
                         event.name = trimmedName
@@ -213,6 +244,7 @@ struct AddEventDialog: View {
                         event.category = selectedCategory
                         event.startDate = startDate
                         event.endDate = endDate
+                        event.recurrence = recurrence
                     }
                     withAnimation(.smooth(duration: 0.3)) {
                         onDismiss()
