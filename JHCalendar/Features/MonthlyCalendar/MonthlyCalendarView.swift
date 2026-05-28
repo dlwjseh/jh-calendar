@@ -96,7 +96,8 @@ struct MonthlyCalendarView: View {
                 ForEach(store.rows, id: \.first?.id) { row in
                     WeekRowView(row: row,
                                 eventsByDayIndex: singleDayEventsByDayIndex,
-                                weekMultidays: multidaysByWeek[calendar.startOfDay(for: row.first!.date)] ?? []) { date in
+                                weekMultidays: multidaysByWeek[calendar.startOfDay(for: row.first!.date)] ?? [],
+                                holidaysByDay: holidayStore.byDay) { date in
                         withAnimation(.smooth(duration: 0.3)) {
                             dayPopup = date
                         }

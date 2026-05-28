@@ -4,6 +4,7 @@ struct WeekRowView: View {
     let row: [DayCell]
     let eventsByDayIndex: [Date: [Event]]
     let weekMultidays: [Event]
+    let holidaysByDay: [Date: Holiday]
     let onSelectDay: (Date) -> Void
 
     private let cal = Calendar.current
@@ -62,6 +63,7 @@ struct WeekRowView: View {
                     DayCellView(cell: cell,
                                 events: eventsByDayIndex[cal.startOfDay(for: cell.date)] ?? [],
                                 multidayLaneCount: laneCount(for: cell.date, laned: laned),
+                                holiday: holidaysByDay[cell.date],
                                 onSelectDay: onSelectDay)
                 }
             }

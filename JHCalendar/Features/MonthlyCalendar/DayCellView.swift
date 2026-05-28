@@ -6,14 +6,18 @@ struct DayCellView: View {
     let cell: DayCell
     let events: [Event]
     let multidayLaneCount: Int
+    let holiday: Holiday?
     var onSelectDay: (Date) -> Void
     
     private let multidayBarHeight: CGFloat = 16
     private let multidayBarGap: CGFloat = 2
-    
     private let maxVisible = 3
+    
+    private var isHoliday: Bool { holiday != nil }
+    private var holidayLaneCount: Int { isHoliday ? 1 : 0 }
+    
     private var singleDayBudget: Int {
-        max(0, maxVisible - multidayLaneCount)
+        max(0, maxVisible - multidayLaneCount - holidayLaneCount)
     }
     private var visibleSingleDays: [Event] {
         Array(events.prefix(singleDayBudget))
@@ -25,6 +29,7 @@ struct DayCellView: View {
     private var textColor: Color {
         if isToday { return .white }
         if !cell.isInCurrentMonth { return .secondary }
+        if isHoliday { return .red }
         switch cell.weekday {
             case 1:  return .red
             case 7:  return .blue
@@ -52,6 +57,16 @@ struct DayCellView: View {
                     }
                 }
                 .padding(.bottom, 4)
+            
+            if let holiday {
+                Text(holiday.name)
+                    .font(.system(size: 10))
+                    .foregroundStyle(Color(red: 255/255, green: 99/255, blue: 71/255))
+                    .lineLimit(1)
+                    .padding(.horizontal, 10)
+                    .padding(.bottom, 2)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
             
             Spacer().frame(height: reservedTop)
             
