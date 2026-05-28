@@ -18,7 +18,7 @@
 
 ## 단계 체크리스트
 - [x] 01 - 확장형 다이얼로그 뼈대 (+추가 → 말풍선 → 섹션 reveal)
-- [ ] 02 - 반복 규칙 데이터 모델 (`RecurrenceRule` enum + SwiftData)
+- [x] 02 - 반복 규칙 데이터 모델 (`RecurrenceRule` enum + SwiftData)
 - [ ] 03 - 반복 피커 + 저장 연결
 - [ ] 04 - 반복 펼치기(expansion) 엔진 + 렌더링
 
