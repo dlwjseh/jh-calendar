@@ -13,6 +13,8 @@ struct AddEventDialog: View {
     @State private var selectedCategory: Category? = nil
     @State private var startDate: Date
     @State private var endDate: Date
+    @State private var isAddMenuPresented = false
+    @State private var showRecurrence = false
     
     let mode: EventDialogMode
     let categories: [Category]
@@ -69,11 +71,7 @@ struct AddEventDialog: View {
             
             VStack(alignment: .leading, spacing: 19) {
                 HStack(alignment: .top, spacing: 5) {
-                    Text("카테고리")
-                        .font(.system(size: 12))
-                        .foregroundStyle(.secondary)
-                        .frame(width: 50, alignment: .leading)
-
+                    fieldLabel("카테고리")
                     FlowLayout(spacing: 8, lineSpacing: 8) {
                         ForEach(categories) { category in
                             CategoryChip(selectedCategory: $selectedCategory, category: category)
@@ -83,11 +81,7 @@ struct AddEventDialog: View {
                 }
                 
                 HStack(spacing: 5) {
-                    Text("이벤트명")
-                        .font(.system(size: 12))
-                        .foregroundStyle(.secondary)
-                        .frame(width: 50, alignment: .leading)
-                    
+                    fieldLabel("이벤트명")
                     TextField("이벤트명", text: $name)
                         .textFieldStyle(.plain)
                         .padding(.horizontal, 15)
@@ -97,21 +91,14 @@ struct AddEventDialog: View {
                 }
                 
                 HStack(spacing: 5) {
-                    Text("종일")
-                        .font(.system(size: 12))
-                        .foregroundStyle(.secondary)
-                        .frame(width: 50, alignment: .leading)
-                    
+                    fieldLabel("종일")
                     Toggle("종일", isOn: $isAllDay)
                         .toggleStyle(.switch)
                         .labelsHidden()
                 }
                 
                 HStack(spacing: 5) {
-                    Text("시작")
-                        .font(.system(size: 12))
-                        .foregroundStyle(.secondary)
-                        .frame(width: 50, alignment: .leading)
+                    fieldLabel("시작")
                     PopoverDatePicker(date: $startDate)
                     if !isAllDay {
                         BorderlessTimePicker(date: $startDate)
@@ -119,14 +106,59 @@ struct AddEventDialog: View {
                 }
                 
                 HStack(spacing: 5) {
-                    Text("종료")
-                        .font(.system(size: 12))
-                        .foregroundStyle(.secondary)
-                        .frame(width: 50, alignment: .leading)
+                    fieldLabel("종료")
                     PopoverDatePicker(date: $endDate)
                     if !isAllDay {
                         BorderlessTimePicker(date: $endDate)
                     }
+                }
+                
+                if showRecurrence {
+                    HStack(spacing: 5) {
+                        fieldLabel("반복")
+                        VStack(alignment: .leading, spacing: 8) {
+                            Button {
+                                withAnimation(.smooth(duration: 0.25)) { showRecurrence = false }
+                            } label: { Image(systemName: "xmark") }
+                                .buttonStyle(.plain)
+                            Text("반복 설정 (다음 단계)").foregroundStyle(.secondary)
+                        }
+                    }
+                    .transition(.opacity.combined(with: .move(edge: .top)))
+                }
+                
+                HoverButton {
+                    isAddMenuPresented.toggle()
+                } label: {
+                    HStack(spacing: 3) {
+                        Image(systemName: "plus")
+                        Text("추가")
+                    }
+                }
+                .padding(4)
+                .font(.system(size: 11))
+                .foregroundStyle(.secondary)
+                .overlay(Capsule().strokeBorder(.secondary, lineWidth: 1))
+                .contentShape(Capsule())
+                .popover(isPresented: $isAddMenuPresented, arrowEdge: .trailing) {
+                    VStack(alignment: .leading, spacing: 4) {
+                        HoverButton {
+                            isAddMenuPresented = false
+                            withAnimation(.smooth(duration: 0.3)) {
+                                showRecurrence = true
+                            }
+                        } label: {
+                            HStack(spacing: 3) {
+                                Image(systemName: "repeat")
+                                Text("반복")
+                            }
+                            .font(.system(size: 12))
+                            .frame(minWidth: 55, alignment: .leading)
+                        }
+                        .disabled(showRecurrence)
+                    }
+                    .padding(.vertical, 6)
+                    .padding(.horizontal, 4)
                 }
             }
             
@@ -210,5 +242,12 @@ struct AddEventDialog: View {
                 endDate = AddEventDialog.sameDayOneHourLater(after: newStart)
             }
         }
+    }
+    
+    private func fieldLabel(_ title: String) -> some View {
+        Text(title)
+            .font(.system(size: 12))
+            .foregroundStyle(.secondary)
+            .frame(width: 50, alignment: .leading)
     }
 }
