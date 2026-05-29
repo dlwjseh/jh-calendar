@@ -1,12 +1,21 @@
 import SwiftUI
+#if canImport(AppKit)
 import AppKit
+#elseif canImport(UIKit)
+import UIKit
+#endif
 
 extension Color {
     func toHex() -> String {
+        #if canImport(AppKit)
         let nsColor = NSColor(self).usingColorSpace(.sRGB)
         let r: CGFloat = nsColor?.redComponent ?? 0
         let g: CGFloat = nsColor?.greenComponent ?? 0
         let b: CGFloat = nsColor?.blueComponent ?? 0
+        #elseif canImport(UIKit)
+        var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+        UIColor(self).getRed(&r, green: &g, blue: &b, alpha: &a)
+        #endif
         return String(format: "#%02X%02X%02X", Int(round(r * 255)), Int(round(g * 255)), Int(round(b * 255)))
     }
     

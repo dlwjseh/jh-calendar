@@ -179,18 +179,27 @@ Claude 는 다음 순서로 수행한다:
 
 ## 디렉토리 구조
 
+> 코드는 **재사용 계층(`Shared/`)** 과 **플랫폼 UI 계층(`Views/`)** 으로 나뉜다. iOS 포팅 대비 분리 — 배경/이력은 루트 `iOS-리팩토링-정리.md` 참고.
+
 ```
 JH-CALENDAR/
 ├── CLAUDE.md                          ← 본 파일
+├── iOS-리팩토링-정리.md               ← Shared/Views 분리 리팩토링 기록
 ├── JHCalendar.xcodeproj/
 ├── JHCalendar/                        ← 실제 소스
-│   ├── JHCalendarApp.swift            ← 앱 진입점
-│   ├── ContentView.swift              ← 루트 뷰 조합 (작게 유지)
-│   ├── Features/                      ← 기능별 모듈
-│   │   ├── TitleBar/
-│   │   │   ├── TrafficLightHoverArea.swift   (호버 영역 + onHover 상태)
-│   │   │   └── TrafficLightController.swift  (AppKit 트래픽라이트 제어)
-│   │   └── <FeatureName>/             ← 새 기능은 이 아래에 폴더 신설
+│   ├── JHCalendarApp.swift            ← 앱 진입점 (macOS 셸, 루트 수동 등록)
+│   ├── ContentView.swift              ← 루트 뷰 조합 (작게 유지, 루트 수동 등록)
+│   ├── Secrets.swift                  ← 설정 (루트 수동 등록)
+│   ├── Shared/                        ← ★ 플랫폼 무관·iOS 재사용 (sync group, 재귀 포함)
+│   │   ├── Models/                    EventModels / SidebarModels / HolidayModels
+│   │   ├── Stores/                    CalendarStore / HolidayStore
+│   │   ├── Logic/                     CalendarMath / EventIndex / RecurrenceExpander / LunarDate
+│   │   ├── Networking/                HolidayAPI / HolidayCache
+│   │   └── Util/                      ColorHex
+│   ├── Views/                         ← macOS 전용 UI 계층 (구 Features)
+│   │   ├── TitleBar/                  구식 수동 등록 (TrafficLightController/HoverArea)
+│   │   ├── Sidebar/  Event/  MonthlyCalendar/  Holiday/  FloatingToolbar/   ← 각각 sync group
+│   │   └── <FeatureName>/             ← 새 기능 View 는 이 아래에 폴더 신설
 │   ├── Assets.xcassets/
 │   ├── JHCalendar.entitlements
 │   └── Preview Content/
@@ -204,12 +213,20 @@ JH-CALENDAR/
 
 ### 새 기능을 추가할 때
 
-- `JHCalendar/Features/<FeatureName>/` 폴더를 새로 만들고 그 안에 Swift 파일을 둔다.
-- **기존 폴더에 파일 추가** — `Sidebar` / `FloatingToolbar` / `MonthlyCalendar` 폴더는 `PBXFileSystemSynchronizedRootGroup` 으로 등록돼 있어 폴더에 파일을 두면 **자동 인식**. pbxproj 편집 불필요. (구식 `TitleBar` 폴더만 수동 등록 필요.)
-- **새 폴더를 만드는 경우** — sync group 으로 등록하는 게 권장. `project.pbxproj` 의 `PBXFileSystemSynchronizedRootGroup section` 에 새 항목 추가 + 부모 그룹 children 에 참조 추가. 그러면 이후 파일 추가가 자유로움.
-- 구식 방식 (PBXFileReference + PBXBuildFile + 그룹 children + PBXSourcesBuildPhase 4곳 수동 편집) 은 `TitleBar` 같은 기존 구식 폴더에 파일을 추가할 때만 필요.
+먼저 코드를 **두 계층으로 나눠서** 둔다 (iOS 포팅 대비):
+
+- **모델 / Store / 순수 로직 / 네트워킹** → `JHCalendar/Shared/<Models|Stores|Logic|Networking|Util>/`
+  - ★ **`Shared/` 안에는 플랫폼 전용 코드 금지** — `import AppKit`/`import UIKit`/`NSColor`/`windowStyle`/`onHover` 등 X. `Foundation` / `SwiftUI`(크로스플랫폼) / `SwiftData` 만 허용.
+  - 이 경계만 지키면 iOS 포팅이 "새로 짜기"가 아니라 "기존 로직 위에 UI만 얹기"가 된다.
+- **View (화면/UI)** → `JHCalendar/Views/<FeatureName>/`
+
+pbxproj 등록:
+- **`Shared/` 아래에 파일/하위폴더 추가** — `Shared` 가 sync root 라 **재귀로 자동 인식**. 편집 불필요.
+- **기존 `Views/<Feature>/` 에 파일 추가** — `Sidebar`/`Event`/`MonthlyCalendar`/`Holiday`/`FloatingToolbar` 는 각각 `PBXFileSystemSynchronizedRootGroup` 이라 **자동 인식**. 편집 불필요. (구식 `Views/TitleBar` 폴더만 수동 등록 필요.)
+- **새 `Views/<NewFeature>/` 폴더를 만드는 경우** — sync group 으로 등록 권장. `project.pbxproj` 의 `PBXFileSystemSynchronizedRootGroup section` 에 항목 추가 + 부모 그룹 children + 타겟 `fileSystemSynchronizedGroups` 에 참조 추가.
+- 구식 방식 (PBXFileReference + PBXBuildFile + 그룹 children + PBXSourcesBuildPhase 4곳 수동 편집) 은 `Views/TitleBar` 같은 기존 구식 폴더에 파일을 추가할 때만 필요.
 - 등록 후 `xcodebuild -project JHCalendar.xcodeproj -scheme JHCalendar -configuration Debug build` 로 빌드 통과 확인.
-- **루트 `ContentView` 는 가능한 작게 유지** — 컴포넌트 조합만 하고, 상태/AppKit 호출은 각 Feature 안으로.
+- **루트 `ContentView` 는 가능한 작게 유지** — 컴포넌트 조합만 하고, 상태/AppKit 호출은 각 View 안으로.
 
 ---
 
