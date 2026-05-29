@@ -75,6 +75,9 @@ struct AddEventDialog: View {
             return f.string(from: startDate)
         case .monthly: return "매월 \(cal.component(.day, from: startDate))일"
         case .yearly:  return "매년 \(cal.component(.month, from: startDate))월 \(cal.component(.day, from: startDate))일"
+        case .yearlyLunar:
+            guard let comp = LunarDate.components(from: startDate) else { return "-" }
+            return "매년 음력 \(comp.month)월 \(comp.day)일"
         }
     }
     

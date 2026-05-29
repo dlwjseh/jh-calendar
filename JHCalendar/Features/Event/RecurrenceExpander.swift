@@ -65,6 +65,9 @@ enum RecurrenceExpander {
                 result.append(cal.startOfDay(for: date))
             }
             return result
+        case .yearlyLunar:
+            // TODO 음력반복 구현
+            return result
         }
     }
 

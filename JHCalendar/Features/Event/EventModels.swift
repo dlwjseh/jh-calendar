@@ -27,5 +27,5 @@ final class Event {
 
 // 반복
 enum RecurrenceRule: String, Codable, CaseIterable {
-    case none, daily, weekly, monthly, yearly
+    case none, daily, weekly, monthly, yearly, yearlyLunar
 }
