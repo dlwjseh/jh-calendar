@@ -19,7 +19,7 @@ struct DayPopupDialog: View {
         let dayEnd = cal.date(byAdding: .day, value: 1, to: dayStart)!
         _dayEvents = Query(
             filter: #Predicate<Event> { event in
-                event.startDate < dayEnd && event.endDate >= dayStart
+                event.startDate <= dayEnd
             },
             sort: \Event.startDate
         )
@@ -33,6 +33,18 @@ struct DayPopupDialog: View {
     }
     private var holiday: Holiday? {
         holidayStore.byDay[Calendar.current.startOfDay(for: date)]
+    }
+    private var visibleEvents: [Event] {
+        let cal = Calendar.current
+        return dayEvents.filter { event in
+            if event.recurrence == .none {
+                let dayStart = cal.startOfDay(for: date)
+                let dayEnd = cal.date(byAdding: .day, value: 1, to: dayStart)!
+                return event.startDate < dayEnd && event.endDate >= dayStart
+            } else {
+                return RecurrenceExpander.occurs(event, on: date)
+            }
+        }
     }
     
     var body: some View {
@@ -59,7 +71,7 @@ struct DayPopupDialog: View {
             .padding(.horizontal, 10)
             
             VStack(spacing: 0) {
-                if dayEvents.isEmpty && holiday == nil {
+                if visibleEvents.isEmpty && holiday == nil {
                     Text("이날의 일정이 없습니다.")
                         .foregroundStyle(.secondary)
                         .font(.system(size: 11))
@@ -68,7 +80,7 @@ struct DayPopupDialog: View {
                     if let holiday {
                         HolidayPopupRow(holiday: holiday)
                     }
-                    ForEach(dayEvents) { event in
+                    ForEach(visibleEvents) { event in
                         DayPopupEventRow(event: event, date: date, onClick: onSelectEvent)
                     }
                 }
@@ -79,7 +91,7 @@ struct DayPopupDialog: View {
             .background(.white)
             .clipShape(RoundedRectangle(cornerRadius: 8))
             .shadow(color: .black.opacity(0.3), radius: 20, x: 2, y: 8)
-            .animation(.smooth(duration: 0.25), value: dayEvents)
+            .animation(.smooth(duration: 0.25), value: visibleEvents)
         }
         .frame(width: 340)
     }

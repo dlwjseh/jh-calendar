@@ -15,7 +15,16 @@ struct MonthlyCalendarView: View {
         }
     }
     private var singleDayEventsByDayIndex: [Date: [Event]] {
-        eventsByDay(events.filter { !isMultiday($0) }, calendar: calendar)
+        var result: [Date: [Event]] = [:]
+        let source = allEvents.filter { !isMultiday($0) }.sorted { a,b in
+            (a.isAllDay ? 0 : 1, a.startDate) < (b.isAllDay ? 0 : 1, b.startDate)
+        }
+        for event in source {
+            for date in RecurrenceExpander.occurrences(of: event, in: store.gridInterval) {
+                result[date, default: []].append(event)
+            }
+        }
+        return result
     }
     private var multidaysByWeek: [Date: [Event]] {
         var result: [Date: [Event]] = [:]
