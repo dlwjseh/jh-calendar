@@ -31,6 +31,9 @@ struct DayPopupDialog: View {
         f.dateFormat = "M월 d일 (E)"
         return f.string(from: date)
     }
+    private var lunarString: String {
+        LunarDate.shortLabel(from: date)
+    }
     private var holiday: Holiday? {
         holidayStore.byDay[Calendar.current.startOfDay(for: date)]
     }
@@ -51,11 +54,16 @@ struct DayPopupDialog: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 15) {
             HStack {
-                Text(dayString)
-                    .font(.system(size: 17, weight: .bold))
-                    .foregroundStyle(.white)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .shadow(color: .black.opacity(0.7), radius: 6, x: 2, y: 5)
+                HStack(alignment: .lastTextBaseline, spacing: 5) {
+                    Text(dayString)
+                        .font(.system(size: 17, weight: .bold))
+                    Text(lunarString)
+                        .font(.system(size: 11, weight: .bold))
+                        .padding(.bottom, 2)
+                }
+                .foregroundStyle(.white)
+                .shadow(color: .black.opacity(0.7), radius: 6, x: 2, y: 5)
+                .frame(maxWidth: .infinity, alignment: .leading)
                 Button {
                     onAddEvent(date)
                 } label: {
