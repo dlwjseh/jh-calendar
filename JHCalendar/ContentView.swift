@@ -4,7 +4,7 @@ import SwiftData
 struct ContentView: View {
     @Query private var folders: [Folder]
     @StateObject private var calendarStore = CalendarStore()
-    @State private var isSidebarVisible = false
+    @State private var isSidebarVisible = UserDefaults.standard.bool(forKey: "isSidebarVisible")
     @State private var folderDialog: FolderDialogMode? = nil
     @State private var categoryDialog: CategoryDialogMode? = nil
     @State private var eventDialog: EventDialogMode? = nil
@@ -103,6 +103,9 @@ struct ContentView: View {
         }
         .frame(minWidth: 900, minHeight: 600)
         .ignoresSafeArea()
+        .onChange(of: isSidebarVisible) { _, newValue in
+            UserDefaults.standard.set(newValue, forKey: "isSidebarVisible")
+        }
     }
 }
 

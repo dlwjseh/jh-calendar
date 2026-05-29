@@ -37,12 +37,13 @@ struct DayPopupDialog: View {
     private var visibleEvents: [Event] {
         let cal = Calendar.current
         return dayEvents.filter { event in
+            let checkedCategory = event.category?.isChecked ?? true
             if event.recurrence == .none {
                 let dayStart = cal.startOfDay(for: date)
                 let dayEnd = cal.date(byAdding: .day, value: 1, to: dayStart)!
-                return event.startDate < dayEnd && event.endDate >= dayStart
+                return event.startDate < dayEnd && event.endDate >= dayStart && checkedCategory
             } else {
-                return RecurrenceExpander.occurs(event, on: date)
+                return RecurrenceExpander.occurs(event, on: date) && checkedCategory
             }
         }
     }

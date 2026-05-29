@@ -8,15 +8,18 @@ struct MonthlyCalendarView: View {
     @Query(sort: \Event.startDate) private var allEvents: [Event]
     let calendar: Calendar = Calendar.current
     
+    private var shownEvents: [Event] {
+        allEvents.filter { $0.category?.isChecked ?? true }
+    }
     private var events: [Event] {
-        let events = allEvents.filter { store.gridInterval.contains($0.startDate) }
+        let events = shownEvents.filter { store.gridInterval.contains($0.startDate) }
         return events.sorted { a,b in
             (a.isAllDay ? 0 : 1, a.startDate) < (b.isAllDay ? 0 : 1, b.startDate)
         }
     }
     private var singleDayEventsByDayIndex: [Date: [Event]] {
         var result: [Date: [Event]] = [:]
-        let source = allEvents.filter { !isMultiday($0) }.sorted { a,b in
+        let source = shownEvents.filter { !isMultiday($0) }.sorted { a,b in
             (a.isAllDay ? 0 : 1, a.startDate) < (b.isAllDay ? 0 : 1, b.startDate)
         }
         for event in source {
@@ -115,7 +118,7 @@ struct MonthlyCalendarView: View {
                 }
             }
             .id(store.referenceDate)
-            .animation(.smooth(duration: 0.25), value: allEvents)
+            .animation(.smooth(duration: 0.25), value: shownEvents)
             .transition(slide)
         }
         .padding(.top, 35)

@@ -17,7 +17,7 @@ struct CategoryRow: View {
                     .frame(width: 16, height: 16)
                     .overlay {
                         Image(systemName: "checkmark")
-                            .font(.system(size: 12, weight: .bold))
+                            .font(.system(size: 10, weight: .bold))
                             .foregroundStyle(.white)
                             .opacity(category.isChecked ? 1 : 0.2)
                     }
