@@ -66,7 +66,19 @@ enum RecurrenceExpander {
             }
             return result
         case .yearlyLunar:
-            // TODO 음력반복 구현
+            let lunarCal = LunarDate.calendar
+            let month = lunarCal.component(.month, from: event.startDate)
+            let dom   = lunarCal.component(.day,   from: event.startDate)
+            var comps = DateComponents()
+            comps.month = month
+            comps.day   = dom
+            
+            let floor = max(start, lunarCal.startOfDay(for: interval.start))
+            let from = lunarCal.date(byAdding: .day, value: -1, to: floor)!
+            lunarCal.enumerateDates(startingAfter: from, matching: comps, matchingPolicy: .strict) { date, _, stop in
+                guard let date, date <= interval.end else { stop = true; return }
+                result.append(lunarCal.startOfDay(for: date))
+            }
             return result
         }
     }
