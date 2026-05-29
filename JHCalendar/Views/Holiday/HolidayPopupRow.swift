@@ -1,15 +1,16 @@
 import SwiftUI
 
 struct HolidayPopupRow: View {
+    @Environment(\.calendarTheme) private var theme
     let holiday: Holiday
     
     var body: some View {
         HStack(spacing: 10) {
             Circle()
-                .fill(Color.holiday)
+                .fill(theme.holiday)
                 .frame(width: 9, height: 9)
             Text(holiday.name)
-                .foregroundStyle(Color.holiday)
+                .foregroundStyle(theme.holiday)
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
         .padding(.vertical, 9)

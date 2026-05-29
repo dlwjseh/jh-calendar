@@ -2,6 +2,7 @@ import SwiftUI
 
 struct DayCellView: View {
     @State private var isHovered = false
+    @Environment(\.calendarTheme) private var theme
     
     let cell: DayCell
     let events: [Event]
@@ -27,13 +28,13 @@ struct DayCellView: View {
     }
     
     private var textColor: Color {
-        if isToday { return .white }
-        if !cell.isInCurrentMonth { return .secondary }
-        if isHoliday { return .red }
+        if isToday { return theme.todayText }
+        if !cell.isInCurrentMonth { return theme.subtleText }
+        if isHoliday { return theme.sunday }
         switch cell.weekday {
-            case 1:  return .red
-            case 7:  return .blue
-            default: return .primary
+        case 1:  return theme.sunday
+        case 7:  return theme.saturday
+        default: return theme.weekdayText
         }
     }
     
@@ -53,7 +54,7 @@ struct DayCellView: View {
                 .frame(width: 21, height: 21)
                 .background {
                     if isToday {
-                        Circle().fill(.red)
+                        Circle().fill(theme.todayFill)
                     }
                 }
                 .padding(.bottom, 4)
@@ -61,7 +62,7 @@ struct DayCellView: View {
             if let holiday {
                 Text(holiday.name)
                     .font(.system(size: 10))
-                    .foregroundStyle(Color.holiday)
+                    .foregroundStyle(theme.holiday)
                     .lineLimit(1)
                     .padding(.horizontal, 10)
                     .padding(.bottom, 2)
@@ -92,7 +93,7 @@ struct DayCellView: View {
                             Text(e.name)
                                 .font(.system(size: 11))
                                 .lineLimit(1)
-                                .foregroundStyle(.primary)
+                                .foregroundStyle(theme.weekdayText)
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal, 7).padding(.vertical, 1)
@@ -105,7 +106,7 @@ struct DayCellView: View {
                         Text("+")
                         Text("\(hiddenSingleDayCount)")
                     }
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(theme.subtleText)
                     .font(.system(size: 10, weight: .semibold))
                     .padding(.leading, 11)
                 }
@@ -118,7 +119,7 @@ struct DayCellView: View {
         .background(.primary.opacity(isHovered ? 0.03 : 0))
         .overlay(
             Rectangle()
-                .stroke(Color.gray.opacity(0.2), lineWidth: 0.5)
+                .stroke(theme.gridLine, lineWidth: 0.5)
         )
         .onHover { isHovered = $0 }
         .contentShape(Rectangle())

@@ -6,6 +6,7 @@ enum CategoryDialogMode {
 }
 
 struct AddCategoryDialog: View {
+    @Environment(\.calendarTheme) private var theme
     @State private var selectedFolder: Folder? = nil
     @State private var name = ""
     @State private var selectedColor: Color = CategoryColorPalette.all.first ?? .blue
@@ -142,7 +143,7 @@ struct AddCategoryDialog: View {
                         .padding(.horizontal, 7)
                 }
                 .disabled(!isSaveEnabled)
-                .background(Color.accentColor.opacity(isSaveEnabled ? 1 : 0.4))
+                .background(theme.accent.opacity(isSaveEnabled ? 1 : 0.4))
                 .clipShape(RoundedRectangle(cornerRadius: 6))
                 .keyboardShortcut(.defaultAction)
             }

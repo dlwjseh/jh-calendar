@@ -7,6 +7,7 @@ enum EventDialogMode {
 
 struct AddEventDialog: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.calendarTheme) private var theme
     
     @State private var name = ""
     @State private var isAllDay = true
@@ -260,7 +261,7 @@ struct AddEventDialog: View {
                         .padding(.horizontal, 5)
                 }
                 .disabled(!isSaveEnabled)
-                .background(Color.accentColor.opacity(isSaveEnabled ? 1 : 0.4))
+                .background(theme.accent.opacity(isSaveEnabled ? 1 : 0.4))
                 .clipShape(RoundedRectangle(cornerRadius: 6))
                 .keyboardShortcut(.defaultAction)
             }

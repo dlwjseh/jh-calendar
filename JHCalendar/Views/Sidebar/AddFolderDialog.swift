@@ -7,6 +7,7 @@ enum FolderDialogMode {
 
 struct AddFolderDialog: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.calendarTheme) private var theme
     @State private var name = ""
     @FocusState private var isNameFocused: Bool
     let mode: FolderDialogMode
@@ -83,7 +84,7 @@ struct AddFolderDialog: View {
                         .padding(.horizontal, 7)
                 }
                 .disabled(isNameEmpty)
-                .background(Color.accentColor.opacity(isNameEmpty ? 0.4 : 1))
+                .background(theme.accent.opacity(isNameEmpty ? 0.4 : 1))
                 .clipShape(RoundedRectangle(cornerRadius: 6))
                 .keyboardShortcut(.defaultAction)
             }

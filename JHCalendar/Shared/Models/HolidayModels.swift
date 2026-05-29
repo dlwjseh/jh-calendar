@@ -27,7 +27,3 @@ extension HolidayDTO {
         return Holiday(date: Calendar.current.startOfDay(for: date), name: dateName)
     }
 }
-
-extension Color {
-    static let holiday = Color(red: 255/255, green: 99/255, blue: 71/255)
-}

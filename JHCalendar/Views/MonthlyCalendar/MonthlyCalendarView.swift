@@ -5,6 +5,7 @@ struct MonthlyCalendarView: View {
     @Binding var dayPopup: Date?
     @EnvironmentObject private var store: CalendarStore
     @EnvironmentObject private var holidayStore: HolidayStore
+    @Environment(\.calendarTheme) private var theme
     @Query(sort: \Event.startDate) private var allEvents: [Event]
     let calendar: Calendar = Calendar.current
     
@@ -57,9 +58,9 @@ struct MonthlyCalendarView: View {
     
     private func headerColor(at i: Int) -> Color {
         switch i {
-            case 0:  return .red
-            case 6:  return .blue
-            default: return .secondary
+        case 0:  return theme.sunday
+        case 6:  return theme.saturday
+        default: return theme.subtleText
         }
     }
     

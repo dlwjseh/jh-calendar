@@ -66,9 +66,9 @@ extension EnvironmentValues {
 - `private struct ...Key`로 키 타입은 외부에 숨기고, 공개 표면은 `\.calendarTheme` 키패스만.
 
 ## 직접 구현하기
-- [ ] `ThemeEnvironment.swift` 에 `EnvironmentKey` + `EnvironmentValues` 확장
-- [ ] 앱 루트에 `.environment(\.calendarTheme, .classic)` 주입
-- [ ] 임시 뷰에서 `@Environment(\.calendarTheme)` 읽혀지는지 확인
+- [x] `ThemeEnvironment.swift` 에 `EnvironmentKey` + `EnvironmentValues` 확장
+- [x] 앱 루트에 `.environment(\.calendarTheme, .classic)` 주입
+- [x] 임시 뷰에서 `@Environment(\.calendarTheme)` 읽혀지는지 확인
 
 > 다 되면 "이렇게 했어" 라고 알리면 리뷰.
 
@@ -79,9 +79,9 @@ extension EnvironmentValues {
 
 ## Claude 리뷰 체크리스트
 *(Claude 가 리뷰 시 사용)*
-- [ ] `defaultValue = .classic` 설정됨
-- [ ] 주입이 최상위 한 곳
-- [ ] 키 타입은 `private`, 공개 표면은 키패스만
+- [x] `defaultValue = .classic` 설정됨
+- [x] 주입이 최상위 한 곳
+- [x] 키 타입은 `private`, 공개 표면은 키패스만
 
 ## 회고
 - 막혔던 부분?

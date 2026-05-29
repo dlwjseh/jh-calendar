@@ -4,6 +4,7 @@ import SwiftData
 struct DayPopupDialog: View {
     @Query private var dayEvents: [Event]
     @EnvironmentObject private var holidayStore: HolidayStore
+    @Environment(\.calendarTheme) private var theme
     @State private var isAddEventButtonHovered = false
     let date: Date
     var onAddEvent: (Date) -> Void
@@ -70,7 +71,7 @@ struct DayPopupDialog: View {
                     Image(systemName: "plus")
                         .foregroundStyle(.white)
                         .frame(width: 32, height: 32)
-                        .background(Circle().fill(Color(red: 37/255, green: 99/255, blue: 235/255)))
+                        .background(Circle().fill(theme.accent))
                         .overlay(Circle().fill(.white.opacity(isAddEventButtonHovered ? 0.08 : 0)))
                 }
                 .buttonStyle(.plain)
@@ -97,7 +98,7 @@ struct DayPopupDialog: View {
             .frame(maxWidth: .infinity, alignment: .topLeading)
             .padding(.vertical, 15)
             .padding(.horizontal, 10)
-            .background(.white)
+            .background(.background)
             .clipShape(RoundedRectangle(cornerRadius: 8))
             .shadow(color: .black.opacity(0.3), radius: 20, x: 2, y: 8)
             .animation(.smooth(duration: 0.25), value: visibleEvents)

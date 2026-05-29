@@ -2,9 +2,10 @@ import SwiftUI
 
 struct FloatingToolbar: View {
     @EnvironmentObject private var store: CalendarStore
+    @AppStorage("selectedThemeId") private var themeId = "classic"
     @Binding var isSidebarVisible: Bool
     @Binding var eventDialog: EventDialogMode?
-    
+
     var body: some View {
         HStack(spacing: 0) {
             HoverButton {
@@ -37,6 +38,17 @@ struct FloatingToolbar: View {
                     .font(.system(size: 14, weight: .medium))
                     .foregroundStyle(.primary)
                     .frame(width: 20, height: 20)
+            }
+            HoverButton {
+                withAnimation(.smooth) {
+                    themeId = (themeId == "dark") ? "classic" : "dark"
+                }
+            } label: {
+                Image(systemName: themeId == "dark" ? "sun.max" : "moon")
+                    .help("테마 전환 (라이트/다크)")
+                    .font(.system(size: 14, weight: .medium))
+                    .foregroundStyle(.primary)
+                    .frame(width: 18, height: 20)
             }
         }
         .padding(.horizontal, 11)
